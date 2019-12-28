@@ -1,4 +1,4 @@
-package id.shobrun.stikieventorganizer.ui.notifications
+package id.shobrun.stikieventorganizer.ui.invitations
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import id.shobrun.stikieventorganizer.R
 
-class NotificationsFragment : Fragment() {
+class InvitationsFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var invitationsViewModel: InvitationsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(this, Observer {
+        invitationsViewModel =
+                ViewModelProviders.of(this).get(InvitationsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_invitations, container, false)
+        val textView: TextView = root.findViewById(R.id.text_home)
+        invitationsViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

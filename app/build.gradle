@@ -112,7 +112,7 @@ dependencies {
      * Room
      */
     implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
+//    kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
@@ -138,7 +138,8 @@ dependencies {
 
 
     testImplementation "org.mockito:mockito-inline:$mockito"
-    testImplementation "org.mockito:mockito-core:$mockito" // For instrumentation tests on Android devices and emulators
+    testImplementation "org.mockito:mockito-core:$mockito"
+    // For instrumentation tests on Android devices and emulators
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion"
 
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"

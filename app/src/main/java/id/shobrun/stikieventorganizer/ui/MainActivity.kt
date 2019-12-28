@@ -1,4 +1,4 @@
-package id.shobrun.stikieventorganizer
+package id.shobrun.stikieventorganizer.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import id.shobrun.stikieventorganizer.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +20,11 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
+            R.id.navigation_invitations,
+            R.id.navigation_events,
+            R.id.navigation_participants,
+            R.id.navigation_profile
+        ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
