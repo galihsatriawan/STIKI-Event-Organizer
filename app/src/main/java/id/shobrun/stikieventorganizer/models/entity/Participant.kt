@@ -8,6 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class Participant (
     @PrimaryKey
     var participant_id : Int,
+    var participant_name : String,
     var participant_email : String,
     var user_id : Int?,
     var user_username : String?,

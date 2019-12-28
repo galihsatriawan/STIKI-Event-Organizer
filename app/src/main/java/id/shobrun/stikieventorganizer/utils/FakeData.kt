@@ -1,0 +1,39 @@
+package id.shobrun.stikieventorganizer.utils
+
+import id.shobrun.stikieventorganizer.models.entity.*
+
+object FakeData{
+    fun fakeEvent() = Event(1,2,"galih","galih@gmail.com",
+                                    "galih","Event","2019/10/19 3:29","gg.gg/maps",
+                                            "085604044550", EventStatus.COMING_SOON.toString())
+
+    fun fakeEvents() = listOf<Event>(
+        fakeEvent(),
+        fakeEvent(),
+        fakeEvent(),
+        fakeEvent()
+    )
+
+    fun fakeInvitation() = Invitation(1,2,"galih@gmail.com",1,null,InvitationStatus.WAITING_FOR_COMING.toString())
+
+    fun fakeInvitations() = listOf<Invitation>(
+        fakeInvitation(),
+        fakeInvitation(),
+        fakeInvitation()
+    )
+
+    fun fakeParticipant() = Participant(2,"steven@gmail.com","steven",2,"galih","galih@gmail.com","08999","Malang")
+
+    fun fakeParticipants() = listOf<Participant>(
+        fakeParticipant(),
+        fakeParticipant(),
+        fakeParticipant(),
+        fakeParticipant(),
+        fakeParticipant(),
+        fakeParticipant(),
+        fakeParticipant()
+    )
+
+    fun fakeUser() = User(2,"galih","galih@gmail.com","galih","085604044550","Malang","test",true)
+
+}

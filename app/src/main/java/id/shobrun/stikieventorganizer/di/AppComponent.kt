@@ -1,0 +1,27 @@
+package id.shobrun.stikieventorganizer.di
+
+import android.app.Application
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
+import id.shobrun.stikieventorganizer.SEOApplication
+import javax.inject.Singleton
+
+
+@Singleton
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        FragmentBuildersModule::class,
+        ViewModelsFactoryModule::class
+    ]
+)
+interface AppComponent : AndroidInjector<SEOApplication>{
+    @Component.Builder
+    interface Builder{
+        @BindsInstance
+        fun application (app:Application) : Builder
+        fun build() : AppComponent
+    }
+}
