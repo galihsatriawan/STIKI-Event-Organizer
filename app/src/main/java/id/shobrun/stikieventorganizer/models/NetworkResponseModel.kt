@@ -1,0 +1,3 @@
+package id.shobrun.stikieventorganizer.models
+
+interface NetworkResponseModel
