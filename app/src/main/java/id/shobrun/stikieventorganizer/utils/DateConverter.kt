@@ -1,4 +1,4 @@
-package id.shobrun.footballleague.utils
+package id.shobrun.stikieventorganizer.utils
 
 import androidx.room.TypeConverter
 import java.util.*

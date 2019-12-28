@@ -1,4 +1,4 @@
-package id.shobrun.footballleague.extensions
+package id.shobrun.stikieventorganizer.extensions
 
 import android.view.View
 

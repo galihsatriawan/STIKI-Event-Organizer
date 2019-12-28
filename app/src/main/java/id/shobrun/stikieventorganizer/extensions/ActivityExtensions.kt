@@ -1,8 +1,8 @@
-package id.shobrun.footballleague.extensions
+package id.shobrun.stikieventorganizer.extensions
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import id.shobrun.footballleague.R
+import id.shobrun.stikieventorganizer.R
 
 fun AppCompatActivity.simpleToolbarWithHome(toolbar: Toolbar, title_: String = "") {
     setSupportActionBar(toolbar)

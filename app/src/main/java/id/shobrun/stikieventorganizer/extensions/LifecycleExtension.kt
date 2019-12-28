@@ -1,4 +1,4 @@
-package id.shobrun.footballleague.extensions
+package id.shobrun.stikieventorganizer.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

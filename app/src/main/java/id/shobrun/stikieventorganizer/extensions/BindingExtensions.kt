@@ -1,9 +1,10 @@
-package id.shobrun.footballleague.extensions
+package id.shobrun.stikieventorganizer.extensions
 
 import android.view.View
-import id.shobrun.footballleague.R
-import id.shobrun.footballleague.models.Resource
-import id.shobrun.footballleague.models.Status
+import id.shobrun.stikieventorganizer.R
+import id.shobrun.stikieventorganizer.models.Resource
+import id.shobrun.stikieventorganizer.models.Status
+
 import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 

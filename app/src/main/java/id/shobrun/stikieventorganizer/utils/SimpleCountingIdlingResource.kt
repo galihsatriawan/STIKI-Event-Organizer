@@ -1,4 +1,4 @@
-package id.shobrun.footballleague.utils
+package id.shobrun.stikieventorganizer.utils
 
 import androidx.test.espresso.IdlingResource
 import java.util.concurrent.atomic.AtomicInteger
