@@ -1,6 +1,7 @@
 package id.shobrun.stikieventorganizer.models.entity
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
@@ -12,5 +13,7 @@ data class Invitation(
     var participant_email : String,
     var event_id : Int,
     var arrived_time : String?,
-    var status : String?
+    var status : String?,
+    @Embedded
+    var event: Event
 ):Parcelable

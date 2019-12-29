@@ -15,6 +15,9 @@ data class Event(
     var event_description : String,
     var event_date : String,
     var event_location : String?,
+    var event_map_location : String?,
+    var event_latitude : Double?,
+    var event_longitude : Double?,
     var event_cp : String?,
     var event_status : String
 ):Parcelable

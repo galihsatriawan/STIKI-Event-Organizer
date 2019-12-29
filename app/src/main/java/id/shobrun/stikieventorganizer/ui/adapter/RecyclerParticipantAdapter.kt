@@ -25,7 +25,7 @@ class RecyclerParticipantAdapter(private var items : List<Participant>) :
     }
     class ParticipantViewHolder(private val binding: ItemParticipantBinding ) :
         RecyclerView.ViewHolder(binding.root) {
-        val viewModel = ParticipantViewModel()
+        private val viewModel = ParticipantViewModel()
 
         fun bind(participant: Participant){
             with(binding){
