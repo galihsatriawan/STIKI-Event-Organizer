@@ -1,10 +1,13 @@
 package id.shobrun.stikieventorganizer.models.entity
 
 import android.os.Parcelable
+import androidx.room.Entity
 import androidx.room.PrimaryKey
+import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_EVENT
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Entity(tableName = TABLE_EVENT)
 data class Event(
     @PrimaryKey
     var event_id : Int,
