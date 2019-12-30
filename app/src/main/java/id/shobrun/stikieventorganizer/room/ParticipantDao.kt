@@ -13,7 +13,7 @@ interface ParticipantDao {
      * CRUD Room
      */
     @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE $ID_PARTICIPANT = :id")
-    fun getDetailParticipant(id : Int) : LiveData<Invitation>
+    fun getDetailParticipant(id : Int) : LiveData<Participant>
 
     @Query("SELECT * FROM $TABLE_PARTICIPANT")
     fun getMyParticipants() : LiveData<List<Participant>>

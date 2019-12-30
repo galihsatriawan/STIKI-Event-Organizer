@@ -4,8 +4,11 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import id.shobrun.stikieventorganizer.di.invitation.list.InvitationFragmentModule
 import id.shobrun.stikieventorganizer.di.invitation.list.InvitationFragmentViewModelModule
-import id.shobrun.stikieventorganizer.di.participant.ParticipantFragmentModule
-import id.shobrun.stikieventorganizer.di.participant.ParticipantFragmentViewModelModule
+import id.shobrun.stikieventorganizer.di.participant.ParticipantNetworkModule
+import id.shobrun.stikieventorganizer.di.participant.ParticipantPersistenceModule
+import id.shobrun.stikieventorganizer.di.participant.ParticipantRepositoryModule
+import id.shobrun.stikieventorganizer.di.participant.list.ParticipantFragmentModule
+import id.shobrun.stikieventorganizer.di.participant.list.ParticipantFragmentViewModelModule
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.MyParticipantsFragment
 
@@ -14,7 +17,10 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector(
         modules = [
             ParticipantFragmentModule::class,
-            ParticipantFragmentViewModelModule::class
+            ParticipantFragmentViewModelModule::class,
+            ParticipantNetworkModule::class,
+            ParticipantPersistenceModule::class,
+            ParticipantRepositoryModule::class
         ]
     )
     abstract fun injectParticipantFragment() : MyParticipantsFragment

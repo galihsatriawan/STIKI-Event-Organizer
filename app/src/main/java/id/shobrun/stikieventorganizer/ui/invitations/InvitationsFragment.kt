@@ -43,7 +43,7 @@ class InvitationsFragment : DaggerFragment() {
         }
         invitationAdapter= RecyclerInvitationAdapter(ArrayList())
         invitationAdapter.setItemListener {
-            rvInvitations.snackbar(it.event.event_name)
+            rvInvitations.snackbar(it.participant_email)
         }
         viewModel.postParticipantEmail("galih@gmail.com")
 

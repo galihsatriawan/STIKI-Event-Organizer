@@ -17,6 +17,7 @@ abstract class AppDatabase : RoomDatabase(){
     abstract fun eventDao() : EventDao
     abstract fun invitationDao() : InvitationDao
     abstract fun participantDao() : ParticipantDao
+    abstract fun userDao() : UserDao
 
     companion object{
         private const val DB_SEO = "SEO-db"

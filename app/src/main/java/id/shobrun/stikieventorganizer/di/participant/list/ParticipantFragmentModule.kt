@@ -1,4 +1,4 @@
-package id.shobrun.stikieventorganizer.di.participant
+package id.shobrun.stikieventorganizer.di.participant.list
 
 import dagger.Module
 

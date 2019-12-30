@@ -15,7 +15,7 @@ object FakeData{
     )
 
     fun fakeInvitation() = Invitation(1,2,"galih@gmail.com",1,null
-        ,InvitationStatus.WAITING_FOR_COMING.toString(), fakeEvent())
+        ,InvitationStatus.WAITING_FOR_COMING.toString())
 
     fun fakeInvitations() = listOf<Invitation>(
         fakeInvitation(),

@@ -66,9 +66,9 @@ class RecyclerInvitationAdapter(private var items: List<Invitation>) : RecyclerV
         val tvEventFrom : LiveData<String> = _tvEventFrom
 
         fun bind(invitation : Invitation){
-            _tvEventName.value = invitation.event.event_name
-            _tvEventFrom.value = "Invited by ${invitation.event.user_username}"
-            _tvEventDate.value = invitation.event.event_date
+            _tvEventName.value = invitation.status
+            _tvEventFrom.value = "Invited by ${invitation.status}"
+            _tvEventDate.value = invitation.status
         }
     }
 
