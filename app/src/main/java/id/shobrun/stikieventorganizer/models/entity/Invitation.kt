@@ -16,5 +16,8 @@ data class Invitation(
     var participant_email : String,
     var event_id : Int,
     var arrived_time : String?,
-    var status : String?
+    var status : String?,
+    var event_name: String?,
+    var event_date : String,
+    var inviter : String?
 ):Parcelable

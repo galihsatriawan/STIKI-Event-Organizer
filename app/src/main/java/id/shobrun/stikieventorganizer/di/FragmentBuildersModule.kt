@@ -2,6 +2,9 @@ package id.shobrun.stikieventorganizer.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import id.shobrun.stikieventorganizer.di.invitation.InvitationNetworkModule
+import id.shobrun.stikieventorganizer.di.invitation.InvitationPersistenceModule
+import id.shobrun.stikieventorganizer.di.invitation.InvitationRepositoryModule
 import id.shobrun.stikieventorganizer.di.invitation.list.InvitationFragmentModule
 import id.shobrun.stikieventorganizer.di.invitation.list.InvitationFragmentViewModelModule
 import id.shobrun.stikieventorganizer.di.participant.ParticipantNetworkModule
@@ -28,7 +31,10 @@ abstract class FragmentBuildersModule {
     @ContributesAndroidInjector(
         modules = [
             InvitationFragmentModule::class,
-            InvitationFragmentViewModelModule::class
+            InvitationFragmentViewModelModule::class,
+            InvitationNetworkModule::class,
+            InvitationPersistenceModule::class,
+            InvitationRepositoryModule::class
         ]
     )
     abstract fun injectInvitationFragment() : InvitationsFragment
