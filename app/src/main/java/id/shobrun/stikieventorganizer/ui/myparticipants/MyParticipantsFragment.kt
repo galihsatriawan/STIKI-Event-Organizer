@@ -20,7 +20,9 @@ import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentParticipantsBinding
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantAdapter
 import id.shobrun.stikieventorganizer.utils.FakeData.fakeParticipants
+import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_participants.*
+import kotlinx.android.synthetic.main.fragment_participants.fabAdd
 import org.jetbrains.anko.design.snackbar
 import javax.inject.Inject
 
@@ -60,5 +62,8 @@ class MyParticipantsFragment : DaggerFragment() {
         val dividerItemDecoration = DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
+        fabAdd.setOnClickListener{
+            it.snackbar("Fab")
+        }
     }
 }

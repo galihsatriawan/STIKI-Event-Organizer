@@ -31,7 +31,7 @@ class RecyclerParticipantAdapter(private var items : List<Participant>) :
             with(binding){
                 vm =  viewModel
                 viewModel.bind(participant)
-                binding.executePendingBindings()
+                executePendingBindings()
             }
         }
     }

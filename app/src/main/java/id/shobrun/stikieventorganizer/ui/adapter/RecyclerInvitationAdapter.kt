@@ -16,7 +16,7 @@ class RecyclerInvitationAdapter(private var items: List<Invitation>) : RecyclerV
             with(binding){
                 vm = viewModel
                 viewModel.bind(invitation)
-                binding.executePendingBindings()
+                executePendingBindings()
             }
         }
 

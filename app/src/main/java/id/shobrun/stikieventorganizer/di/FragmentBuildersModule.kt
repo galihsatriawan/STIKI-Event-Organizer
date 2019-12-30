@@ -2,6 +2,11 @@ package id.shobrun.stikieventorganizer.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import id.shobrun.stikieventorganizer.di.event.EventNetworkModule
+import id.shobrun.stikieventorganizer.di.event.EventPersistenceModule
+import id.shobrun.stikieventorganizer.di.event.EventRepositoryModule
+import id.shobrun.stikieventorganizer.di.event.list.EventFragmentModule
+import id.shobrun.stikieventorganizer.di.event.list.EventFragmentViewModelModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationNetworkModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationPersistenceModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationRepositoryModule
@@ -13,6 +18,7 @@ import id.shobrun.stikieventorganizer.di.participant.ParticipantRepositoryModule
 import id.shobrun.stikieventorganizer.di.participant.list.ParticipantFragmentModule
 import id.shobrun.stikieventorganizer.di.participant.list.ParticipantFragmentViewModelModule
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsFragment
+import id.shobrun.stikieventorganizer.ui.myevents.MyEventsFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.MyParticipantsFragment
 
 @Module
@@ -38,4 +44,14 @@ abstract class FragmentBuildersModule {
         ]
     )
     abstract fun injectInvitationFragment() : InvitationsFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            EventFragmentModule::class,
+            EventFragmentViewModelModule::class,
+            EventNetworkModule::class,
+            EventPersistenceModule::class,
+            EventRepositoryModule::class
+    ])
+    abstract fun injectEventFragment() : MyEventsFragment
 }

@@ -17,6 +17,7 @@ import dagger.android.support.DaggerFragment
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentInvitationsBinding
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerInvitationAdapter
+import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_invitations.*
 import org.jetbrains.anko.design.snackbar
 import javax.inject.Inject
@@ -46,7 +47,6 @@ class InvitationsFragment : DaggerFragment() {
             rvInvitations.snackbar(it.participant_email)
         }
         viewModel.postParticipantEmail("galih@gmail.com")
-
         return binding.root
     }
 
