@@ -16,7 +16,9 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
     companion object{
         val TAG = this.javaClass.name
     }
-
+    fun getParticipantDetail(id : Int) : LiveData<Participant>{
+        return localDB.getDetailParticipant(id)
+    }
     fun getMyParticipants(id : Int) : LiveData<Resource<List<Participant>>> {
         return object : NetworkBoundRepository<List<Participant>,ParticipantsResponse>(appExecutors) {
             override fun saveFetchData(items: ParticipantsResponse) {
