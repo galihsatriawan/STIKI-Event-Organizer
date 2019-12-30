@@ -15,6 +15,30 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
     companion object{
         val TAG = this.javaClass.name
     }
+    fun getEventDetail(id : Int) = object : NetworkBoundRepository<Event,EventsResponse>(appExecutors){
+        override fun saveFetchData(items: EventsResponse) {
+            val event = items.result?.get(0)
+            if(event!=null){
+                localDB.insert(event)
+            }
+        }
+
+        override fun shouldFetch(data: Event?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<Event> {
+            return localDB.getDetailEvent(id)
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {
+            return apiService.getDetailEvent(id)
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$TAG $message")
+        }
+    }.asLiveData()
     fun getMyEvents(id : Int) = object : NetworkBoundRepository<List<Event>,EventsResponse>(appExecutors) {
         override fun saveFetchData(items: EventsResponse) {
             val events = items.result

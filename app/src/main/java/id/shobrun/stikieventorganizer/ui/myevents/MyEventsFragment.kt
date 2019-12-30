@@ -39,21 +39,31 @@ class MyEventsFragment : DaggerFragment() {
             lifecycleOwner = this@MyEventsFragment
             vm = viewModel
         }
-        eventAdapter = RecyclerEventAdapter(ArrayList())
-        eventAdapter.setItemListener {
-            rvEvent.snackbar(it.event_name)
-        }
-        viewModel.postUserId(1)
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        eventAdapter = RecyclerEventAdapter(ArrayList())
+        eventAdapter.setItemListener {
+            rvEvent.snackbar(it.event_name)
+        }
+
+        viewModel.postUserId(1)
+
         val dividerItemDecoration = DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL)
         binding.rvEvent.addItemDecoration(dividerItemDecoration)
         binding.rvEvent.adapter = eventAdapter
+
         fabAdd.setOnClickListener{
             it.snackbar("Fab")
         }
+
     }
 }

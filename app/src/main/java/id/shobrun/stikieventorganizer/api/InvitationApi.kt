@@ -9,4 +9,7 @@ import retrofit2.http.Query
 interface InvitationApi {
     @POST("invitation/myinvitation")
     fun getMyInvitation(@Query("id") email : String) : LiveData<ApiResponse<InvitationsResponse>>
+
+    @POST("invitation/status")
+    fun getInvitationDetail(@Query("id") id : Int) : LiveData<ApiResponse<InvitationsResponse>>
 }

@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import id.shobrun.stikieventorganizer.AppExecutors
 import id.shobrun.stikieventorganizer.api.ApiResponse
 import id.shobrun.stikieventorganizer.api.InvitationApi
+import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.network.EventsResponse
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.room.InvitationDao
 import timber.log.Timber
@@ -14,6 +16,30 @@ class InvitationRepository @Inject constructor(private val appExecutors: AppExec
     companion object{
         val TAG = this.javaClass.name
     }
+    fun getInvitationDetail(id : Int) = object : NetworkBoundRepository<Invitation,InvitationsResponse>(appExecutors){
+        override fun saveFetchData(items: InvitationsResponse) {
+            val invitation = items.result?.get(0)
+            if(invitation!=null){
+                localDB.insert(invitation)
+            }
+        }
+
+        override fun shouldFetch(data: Invitation?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<Invitation> {
+            return localDB.getDetailInvitation(id)
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<InvitationsResponse>> {
+            return apiService.getInvitationDetail(id)
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$TAG $message")
+        }
+    }.asLiveData()
     fun getMyInvitation(email : String) = object : NetworkBoundRepository<List<Invitation>, InvitationsResponse>(appExecutors) {
         override fun saveFetchData(items: InvitationsResponse) {
            val invitations = items.result

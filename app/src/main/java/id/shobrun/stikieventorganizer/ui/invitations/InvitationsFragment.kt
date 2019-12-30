@@ -42,16 +42,17 @@ class InvitationsFragment : DaggerFragment() {
             lifecycleOwner = this@InvitationsFragment
             vm = viewModel
         }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         invitationAdapter= RecyclerInvitationAdapter(ArrayList())
         invitationAdapter.setItemListener {
             rvInvitations.snackbar(it.participant_email)
         }
         viewModel.postParticipantEmail("galih@gmail.com")
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         var dividerItemDecoration = DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL)
         binding.rvInvitations.addItemDecoration(dividerItemDecoration)
         binding.rvInvitations.adapter = invitationAdapter

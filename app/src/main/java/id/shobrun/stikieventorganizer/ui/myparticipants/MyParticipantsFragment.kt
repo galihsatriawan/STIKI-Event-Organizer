@@ -46,6 +46,11 @@ class MyParticipantsFragment : DaggerFragment() {
             lifecycleOwner = this@MyParticipantsFragment
             vm = viewModel
         }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         participantsAdapter = RecyclerParticipantAdapter(ArrayList())
         participantsAdapter.setItemListener {
             /**
@@ -54,11 +59,6 @@ class MyParticipantsFragment : DaggerFragment() {
             rvParticipants.snackbar(it.participant_email)
         }
         viewModel.postUserId(2)
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         val dividerItemDecoration = DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter

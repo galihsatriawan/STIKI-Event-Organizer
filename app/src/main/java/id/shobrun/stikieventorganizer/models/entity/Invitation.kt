@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_INVITATION
 import kotlinx.android.parcel.Parcelize
 
@@ -11,6 +12,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_INVITATION)
 data class Invitation(
     @PrimaryKey
+    @SerializedName("ID")
     var invitation_id :Int,
     var participant_id : Int,
     var participant_email : String,
