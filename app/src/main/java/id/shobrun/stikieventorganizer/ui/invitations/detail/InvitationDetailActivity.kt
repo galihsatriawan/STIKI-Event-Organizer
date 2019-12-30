@@ -3,6 +3,7 @@ package id.shobrun.stikieventorganizer.ui.invitations.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import id.shobrun.stikieventorganizer.R
@@ -18,7 +19,7 @@ class InvitationDetailActivity : DaggerAppCompatActivity() {
     lateinit var binding : ActivityInvitationDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_invitation_detail)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_invitation_detail)
 
         with(binding){
             lifecycleOwner = this@InvitationDetailActivity
