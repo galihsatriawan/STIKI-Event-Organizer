@@ -17,9 +17,11 @@ import dagger.android.support.DaggerFragment
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentInvitationsBinding
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerInvitationAdapter
+import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_invitations.*
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.support.v4.intentFor
 import javax.inject.Inject
 
 class InvitationsFragment : DaggerFragment() {
@@ -29,6 +31,9 @@ class InvitationsFragment : DaggerFragment() {
     private val viewModel: InvitationsViewModel by viewModels{ viewModelFactory }
 
     private lateinit var invitationAdapter : RecyclerInvitationAdapter
+    companion object{
+        fun newInstance() = InvitationsFragment()
+    }
 
     private lateinit var binding : FragmentInvitationsBinding
     override fun onCreateView(
@@ -49,8 +54,10 @@ class InvitationsFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         invitationAdapter= RecyclerInvitationAdapter(ArrayList())
-        invitationAdapter.setItemListener {
-            rvInvitations.snackbar(it.participant_email)
+        invitationAdapter.setItemListener {invitation ->
+            val detail = intentFor<InvitationDetailActivity>(
+                InvitationDetailActivity.EXTRA_INVITATION to invitation
+            )
         }
         viewModel.postParticipantEmail("galih@gmail.com")
         var dividerItemDecoration = DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL)

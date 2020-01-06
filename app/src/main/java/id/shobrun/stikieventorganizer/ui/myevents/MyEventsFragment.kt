@@ -28,6 +28,9 @@ class MyEventsFragment : DaggerFragment() {
 
     private lateinit var eventAdapter : RecyclerEventAdapter
 
+    companion object{
+        fun newInstance() = MyEventsFragment()
+    }
     lateinit var binding : FragmentEventsBinding
     override fun onCreateView(
             inflater: LayoutInflater,

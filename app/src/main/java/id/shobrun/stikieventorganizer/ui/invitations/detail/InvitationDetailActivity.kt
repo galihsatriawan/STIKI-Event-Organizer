@@ -15,7 +15,9 @@ class InvitationDetailActivity : DaggerAppCompatActivity() {
     lateinit var viewModelFactory : ViewModelProvider.Factory
 
     private val viewModel by viewModels<InvitationDetailViewModel> {viewModelFactory}
-
+    companion object{
+        const val EXTRA_INVITATION = "extra_invitation"
+    }
     lateinit var binding : ActivityInvitationDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,6 @@ class InvitationDetailActivity : DaggerAppCompatActivity() {
         }
 
         viewModel.postEventId(1)
-        viewModel.postEventId(1)
+        viewModel.postInvitationId(1)
     }
 }

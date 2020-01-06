@@ -36,6 +36,9 @@ class MyParticipantsFragment : DaggerFragment() {
 
     private lateinit var participantsAdapter : RecyclerParticipantAdapter
 
+    companion object{
+        fun newInstance() = MyParticipantsFragment()
+    }
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -58,7 +61,7 @@ class MyParticipantsFragment : DaggerFragment() {
              */
             rvParticipants.snackbar(it.participant_email)
         }
-        viewModel.postUserId(2)
+        viewModel.postUserId(1)
         val dividerItemDecoration = DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter

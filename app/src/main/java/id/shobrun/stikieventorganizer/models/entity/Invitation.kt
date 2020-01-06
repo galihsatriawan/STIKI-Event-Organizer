@@ -12,14 +12,13 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_INVITATION)
 data class Invitation(
     @PrimaryKey
-    @SerializedName("ID")
-    var invitation_id :Int,
-    var participant_id : Int,
-    var participant_email : String,
-    var event_id : Int,
-    var arrived_time : String?,
-    var status : String?,
-    var event_name: String?,
-    var event_date : String,
-    var inviter : String?
+    @SerializedName("ID") var invitation_id :Int,
+    @SerializedName("PARTICIPANT_ID") var participant_id : Int,
+    @SerializedName("PARTICIPANT_EMAIL") var participant_email : String,
+    @SerializedName("EVENT_ID") var event_id : Int,
+    @SerializedName("ARRIVED_TIME") var arrived_time : String?,
+    @SerializedName("STATUS") var status : String?,
+    @SerializedName("EVENT_NAME") var event_name: String?,
+    @SerializedName("EVENT_DATE") var event_date : String,
+    @SerializedName("INVITER") var inviter : String?
 ):Parcelable
