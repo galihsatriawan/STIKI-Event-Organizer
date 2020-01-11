@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithHome
+import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithoutHome
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsFragment
 import id.shobrun.stikieventorganizer.ui.myevents.MyEventsFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.MyParticipantsFragment
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         bottom_navigation.selectedItemId = currentSelectItemId
-        simpleToolbarWithHome(toolbar, "STIKI EVENT ORGANIZER")
+        simpleToolbarWithoutHome(toolbar, "STIKI EVENT ORGANIZER")
     }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

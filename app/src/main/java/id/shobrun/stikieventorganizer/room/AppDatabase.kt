@@ -11,7 +11,7 @@ import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.models.entity.User
 import id.shobrun.stikieventorganizer.utils.DateConverter
 
-@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 3, exportSchema = false)
+@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 6, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun eventDao() : EventDao

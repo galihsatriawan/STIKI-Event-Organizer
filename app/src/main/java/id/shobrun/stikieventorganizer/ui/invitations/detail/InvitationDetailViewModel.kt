@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class InvitationDetailViewModel @Inject constructor(invitationRepository : InvitationRepository, eventRepository: EventRepository): ViewModel(){
     private val invitationId = MutableLiveData<Int>()
-    private val eventId = MutableLiveData<Int>()
+    private val eventId = MutableLiveData<String>()
     private val event : LiveData<Resource<Event>>
     private val invitation : LiveData<Resource<Invitation>>
     init {
@@ -34,7 +34,7 @@ class InvitationDetailViewModel @Inject constructor(invitationRepository : Invit
     fun postInvitationId(id : Int){
         this.invitationId.value = id
     }
-    fun postEventId(id : Int){
+    fun postEventId(id : String){
         this.eventId.value = id
     }
 }

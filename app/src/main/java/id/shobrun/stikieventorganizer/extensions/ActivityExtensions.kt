@@ -12,3 +12,9 @@ fun AppCompatActivity.simpleToolbarWithHome(toolbar: Toolbar, title_: String = "
         title = title_
     }
 }
+fun AppCompatActivity.simpleToolbarWithoutHome(toolbar: Toolbar, title_: String = "") {
+    setSupportActionBar(toolbar)
+    supportActionBar?.run {
+        title = title_
+    }
+}

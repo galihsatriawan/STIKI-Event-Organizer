@@ -58,6 +58,7 @@ class InvitationsFragment : DaggerFragment() {
             val detail = intentFor<InvitationDetailActivity>(
                 InvitationDetailActivity.EXTRA_INVITATION to invitation
             )
+            startActivity(detail)
         }
         viewModel.postParticipantEmail("galih@gmail.com")
         var dividerItemDecoration = DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL)

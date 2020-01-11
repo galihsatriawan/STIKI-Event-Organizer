@@ -15,7 +15,7 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
     companion object{
         val TAG = this.javaClass.name
     }
-    fun getEventDetail(id : Int) = object : NetworkBoundRepository<Event,EventsResponse>(appExecutors){
+    fun getEventDetail(id : String) = object : NetworkBoundRepository<Event,EventsResponse>(appExecutors){
         override fun saveFetchData(items: EventsResponse) {
             val event = items.result?.get(0)
             if(event!=null){
@@ -42,7 +42,7 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
     fun getMyEvents(id : Int) = object : NetworkBoundRepository<List<Event>,EventsResponse>(appExecutors) {
         override fun saveFetchData(items: EventsResponse) {
             val events = items.result
-            if(events!=null){
+            if(events.isNotEmpty()){
                 localDB.inserts(events)
             }
         }

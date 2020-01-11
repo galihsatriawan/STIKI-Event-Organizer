@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_PARTICIPANT)
 data class Participant (
     @PrimaryKey
-    @SerializedName("PARTICIPANT_ID") var participant_id : Int,
+    @SerializedName("PARTICIPANT_ID") var participant_id : String,
     @SerializedName("PARTICIPANT_NAME") var participant_name : String,
     @SerializedName("PARTICIPANT_EMAIL") var participant_email : String,
     @SerializedName("USER_ID") var user_id : Int?,

@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = TABLE_EVENT)
 data class Event(
     @PrimaryKey
-    @SerializedName("EVENT_ID") var event_id : Int,
+    @SerializedName("EVENT_ID") var event_id : String,
     @SerializedName("USER_ID") var user_id : Int,
     @SerializedName("USER_USERNAME") var user_username : String,
     @SerializedName("USER_EMAIL") var user_email : String,

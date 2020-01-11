@@ -13,7 +13,7 @@ interface ParticipantDao {
      * CRUD Room
      */
     @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE $ID_PARTICIPANT = :id")
-    fun getDetailParticipant(id : Int) : LiveData<Participant>
+    fun getDetailParticipant(id : String) : LiveData<Participant>
 
     @Query("SELECT * FROM $TABLE_PARTICIPANT")
     fun getMyParticipants() : LiveData<List<Participant>>
@@ -28,7 +28,7 @@ interface ParticipantDao {
     fun update(participant: Participant) : Int
 
     @Query("DELETE FROM $TABLE_PARTICIPANT WHERE ${ID_PARTICIPANT}= :id")
-    fun delete(id : Int)
+    fun delete(id : String)
 
     @Query("DELETE FROM $TABLE_PARTICIPANT")
     fun deletes()

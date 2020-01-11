@@ -19,11 +19,13 @@ import dagger.android.support.DaggerFragment
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentParticipantsBinding
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantAdapter
+import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
 import id.shobrun.stikieventorganizer.utils.FakeData.fakeParticipants
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.fragment_participants.*
 import kotlinx.android.synthetic.main.fragment_participants.fabAdd
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.support.v4.intentFor
 import javax.inject.Inject
 
 class MyParticipantsFragment : DaggerFragment() {
@@ -59,14 +61,17 @@ class MyParticipantsFragment : DaggerFragment() {
             /**
              * When Click Item
              */
-            rvParticipants.snackbar(it.participant_email)
+            var detail = intentFor<ParticipantDetailActivity>(ParticipantDetailActivity.EXTRA_PARTICIPANT to it)
+            startActivity(detail)
+
         }
         viewModel.postUserId(1)
         val dividerItemDecoration = DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
         fabAdd.setOnClickListener{
-            it.snackbar("Fab")
+            var add = intentFor<ParticipantDetailActivity>()
+            startActivity(add)
         }
     }
 }

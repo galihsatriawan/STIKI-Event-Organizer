@@ -8,4 +8,11 @@
     <string name="title_invitations">Invitations</string>
     <string name="title_profile">Profile</string>
     <string name="failed_load">Failed to load data</string>
+    <string name="seo_hint_participant_name">Participant Name</string>
+    <string name="seo_btn_add">Add</string>
+    <string name="seo_btn_cancel">Cancel</string>
+    <string name="seo_btn_save">Save</string>
+    <string name="seo_hint_participant_email">Participant Email</string>
+    <string name="seo_hint_participant_telp">Participant Telp</string>
+    <string name="seo_hint_participant_address">Participant Address</string>
 </resources>

@@ -12,7 +12,7 @@ interface EventDao {
      * CRUD Room
      */
     @Query("SELECT * FROM $TABLE_EVENT WHERE $ID_EVENT = :id")
-    fun getDetailEvent(id : Int) : LiveData<Event>
+    fun getDetailEvent(id : String) : LiveData<Event>
 
     @Query("SELECT * FROM $TABLE_EVENT")
     fun getMyEvents() : LiveData<List<Event>>
@@ -27,7 +27,7 @@ interface EventDao {
     fun update(event: Event) : Int
 
     @Query("DELETE FROM $TABLE_EVENT WHERE $ID_EVENT = :id")
-    fun delete(id : Int)
+    fun delete(id : String)
 
     @Query("DELETE FROM $TABLE_EVENT")
     fun deletes()

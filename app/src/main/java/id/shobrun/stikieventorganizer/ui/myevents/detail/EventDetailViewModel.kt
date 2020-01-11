@@ -11,7 +11,7 @@ import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import javax.inject.Inject
 
 class EventDetailViewModel @Inject constructor(repository: EventRepository): ViewModel(){
-    private val eventId = MutableLiveData<Int>()
+    private val eventId = MutableLiveData<String>()
     private val event : LiveData<Resource<Event>>
     init {
         event = eventId.switchMap {
@@ -21,7 +21,7 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository): Vie
         }
     }
 
-    fun postEventId(id : Int){
+    fun postEventId(id : String){
         this.eventId.value = id
     }
 }

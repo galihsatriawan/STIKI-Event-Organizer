@@ -23,6 +23,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -146,5 +147,7 @@ dependencies {
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoIdlingVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTest"
     androidTestImplementation "androidx.test:rules:$androidxTestRules"
+    implementation "com.android.support:multidex:$multidexVersion"
+    implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAbpVersion"
     testImplementation "junit:junit:$junitVersion"
 }

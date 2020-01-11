@@ -14,5 +14,5 @@ interface EventApi {
 
     @POST("event/detail")
     @FormUrlEncoded
-    fun getDetailEvent(@Field("id") eventId : Int) : LiveData<ApiResponse<EventsResponse>>
+    fun getDetailEvent(@Field("id") eventId : String) : LiveData<ApiResponse<EventsResponse>>
 }

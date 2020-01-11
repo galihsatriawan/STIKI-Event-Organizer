@@ -3,7 +3,7 @@ package id.shobrun.stikieventorganizer.utils
 import id.shobrun.stikieventorganizer.models.entity.*
 
 object FakeData{
-    fun fakeEvent() = Event(1,2,"galih","galih@gmail.com",
+    fun fakeEvent() = Event("1",2,"galih","galih@gmail.com",
         "galih","Event","2019/10/19 3:29","Malang",
         "gg.gg/maps",9.0,8.0,"085604044550", EventStatus.COMING_SOON.toString())
 
@@ -14,7 +14,7 @@ object FakeData{
         fakeEvent()
     )
 
-    fun fakeInvitation() = Invitation(1,2,"galih@gmail.com",1,null
+    fun fakeInvitation() = Invitation(1,"2","galih@gmail.com","1",null
         ,InvitationStatus.WAITING_FOR_COMING.toString(),"galih","2019","galih")
 
     fun fakeInvitations() = listOf<Invitation>(
@@ -25,7 +25,7 @@ object FakeData{
         fakeInvitation()
     )
 
-    fun fakeParticipant() = Participant(2,"steven@gmail.com","steven",2,"galih","galih@gmail.com","08999","Malang")
+    fun fakeParticipant() = Participant("2","steven@gmail.com","steven",2,"galih","galih@gmail.com","08999","Malang")
 
     fun fakeParticipants() = listOf<Participant>(
         fakeParticipant(),

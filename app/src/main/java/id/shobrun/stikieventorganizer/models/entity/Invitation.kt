@@ -13,9 +13,9 @@ import kotlinx.android.parcel.Parcelize
 data class Invitation(
     @PrimaryKey
     @SerializedName("ID") var invitation_id :Int,
-    @SerializedName("PARTICIPANT_ID") var participant_id : Int,
+    @SerializedName("PARTICIPANT_ID") var participant_id : String,
     @SerializedName("PARTICIPANT_EMAIL") var participant_email : String,
-    @SerializedName("EVENT_ID") var event_id : Int,
+    @SerializedName("EVENT_ID") var event_id : String,
     @SerializedName("ARRIVED_TIME") var arrived_time : String?,
     @SerializedName("STATUS") var status : String?,
     @SerializedName("EVENT_NAME") var event_name: String?,
