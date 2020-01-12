@@ -34,7 +34,6 @@ buildscript {
         retrofitVersion = "2.6.1"
         robolectricVersion = '4.3'
         roomVersion = "2.2.3"
-        threeTenAbpVersion = "1.2.1"
         timberVersion = '4.7.1'
         okhttp = '3.10.0'
 

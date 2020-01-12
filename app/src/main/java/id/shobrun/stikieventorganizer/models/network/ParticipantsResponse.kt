@@ -4,7 +4,7 @@ import id.shobrun.stikieventorganizer.models.NetworkResponseModel
 import id.shobrun.stikieventorganizer.models.entity.Participant
 
 class ParticipantsResponse (
-    val result: List<Participant>,
-    val status : String,
-    val message : String
+    var result: List<Participant>,
+    var status : String,
+    var message : String
 ): NetworkResponseModel

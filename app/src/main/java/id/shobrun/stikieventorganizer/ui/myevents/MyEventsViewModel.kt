@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import id.shobrun.stikieventorganizer.models.Resource
 import id.shobrun.stikieventorganizer.models.entity.Event
+import id.shobrun.stikieventorganizer.models.network.EventsResponse
 import id.shobrun.stikieventorganizer.repository.EventRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import javax.inject.Inject
 
 class MyEventsViewModel @Inject constructor(repository: EventRepository) : ViewModel() {
     private val userId = MutableLiveData<Int>()
-    val eventsLiveData : LiveData<Resource<List<Event>>>
+    val eventsLiveData : LiveData<Resource<List<Event>,EventsResponse>>
 
     init {
         eventsLiveData = userId.switchMap {

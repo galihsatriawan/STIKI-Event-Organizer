@@ -10,7 +10,7 @@ import id.shobrun.stikieventorganizer.models.network.ErrorEnvelope
  * @param <T>
 </T> */
 @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE", "LiftReturnOrAssignment", "RedundantOverride", "SpellCheckingInspection")
-data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
+data class Resource<out T, out S>(val status: Status, val data: T?, val additionalData: S?, val message: String?) {
 
     var errorEnvelope: ErrorEnvelope? = null
 
@@ -26,16 +26,16 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
     }
 
     companion object {
-        fun <T> success(data: T?): Resource<T> {
-            return Resource(status = Status.SUCCESS, data = data, message = null)
+        fun <T,S> success(data: T?,additionalData : S?): Resource<T,S> {
+            return Resource(status = Status.SUCCESS, data = data,additionalData = additionalData, message = null)
         }
 
-        fun <T> error(msg: String, data: T?): Resource<T> {
-            return Resource(status = Status.ERROR, data = data, message = msg)
+        fun <T,S> error(msg: String, data: T?,additionalData: S?): Resource<T,S> {
+            return Resource(status = Status.ERROR, data = data,additionalData = additionalData, message = msg)
         }
 
-        fun <T> loading(data: T?): Resource<T> {
-            return Resource(status = Status.LOADING, data = data, message = null)
+        fun <T,S> loading(data: T?,additionalData:S?): Resource<T,S> {
+            return Resource(status = Status.LOADING, data = data,additionalData = additionalData, message = null)
         }
     }
     override fun equals(o: Any?): Boolean {
@@ -46,7 +46,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
             return false
         }
 
-        val resource = o as Resource<*>
+        val resource = o as Resource<*,*>
 
         if (status !== resource.status) {
             return false
@@ -65,7 +65,8 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
         return "Resource[" +
                 "status=" + status + '\'' +
                 ",message='" + message + '\'' +
-                ",data=" + data +
+                ",data=" + data +'\''+
+                ",additional= "+additionalData+
                 ']'
     }
 

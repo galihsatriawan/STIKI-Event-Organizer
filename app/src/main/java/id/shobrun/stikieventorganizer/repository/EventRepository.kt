@@ -8,18 +8,17 @@ import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.network.EventsResponse
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.room.EventDao
+import id.shobrun.stikieventorganizer.transporter.EventResponseTransporter
 import timber.log.Timber
 import javax.inject.Inject
 
 class EventRepository @Inject constructor(private val appExecutors: AppExecutors,private val apiService : EventApi, private val localDB : EventDao) {
-    companion object{
-        val TAG = this.javaClass.name
-    }
-    fun getEventDetail(id : String) = object : NetworkBoundRepository<Event,EventsResponse>(appExecutors){
+
+    fun getEventDetail(id : String) = object : NetworkBoundRepository<Event,EventsResponse,EventResponseTransporter>(appExecutors){
         override fun saveFetchData(items: EventsResponse) {
-            val event = items.result?.get(0)
-            if(event!=null){
-                localDB.insert(event)
+
+            if(!items.result.isNullOrEmpty()){
+                localDB.insert(items.result[0])
             }
         }
 
@@ -36,14 +35,18 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
         }
 
         override fun onFetchFailed(message: String?) {
-            Timber.d("$TAG $message")
+            Timber.d("$message")
+        }
+
+        override fun transporter(): EventResponseTransporter {
+            return EventResponseTransporter()
         }
     }.asLiveData()
-    fun getMyEvents(id : Int) = object : NetworkBoundRepository<List<Event>,EventsResponse>(appExecutors) {
+    fun getMyEvents(id : Int) = object : NetworkBoundRepository<List<Event>,EventsResponse,EventResponseTransporter>(appExecutors) {
         override fun saveFetchData(items: EventsResponse) {
-            val events = items.result
-            if(events.isNotEmpty()){
-                localDB.inserts(events)
+
+            if(!items.result.isNullOrEmpty()){
+                localDB.inserts(items.result)
             }
         }
 
@@ -60,7 +63,11 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
         }
 
         override fun onFetchFailed(message: String?) {
-            Timber.d("$TAG $message")
+            Timber.d("$message")
+        }
+
+        override fun transporter(): EventResponseTransporter {
+            return EventResponseTransporter()
         }
     }.asLiveData()
 

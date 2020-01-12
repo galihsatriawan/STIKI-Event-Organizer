@@ -8,13 +8,15 @@ import id.shobrun.stikieventorganizer.AppExecutors
 import id.shobrun.stikieventorganizer.api.ApiResponse
 import id.shobrun.stikieventorganizer.models.NetworkResponseModel
 import id.shobrun.stikieventorganizer.models.Resource
+import id.shobrun.stikieventorganizer.transporter.NetworkResponseTransporter
 
 
 abstract class NetworkBoundRepository<ResultType,
-        RequestType : NetworkResponseModel>
+        RequestType : NetworkResponseModel,
+        Transporter : NetworkResponseTransporter<RequestType>>
 @MainThread constructor(private val appExecutors: AppExecutors) {
 
-    private val result: MediatorLiveData<Resource<ResultType>> = MediatorLiveData()
+    private val result: MediatorLiveData<Resource<ResultType,RequestType>> = MediatorLiveData()
 
     init {
 
@@ -22,11 +24,11 @@ abstract class NetworkBoundRepository<ResultType,
         result.addSource(loadedFromDB) { data ->
             result.removeSource(loadedFromDB)
             if (shouldFetch(data)) {
-                result.postValue(Resource.loading(null))
+                result.postValue(Resource.loading(null,null))
                 fetchFromNetwork(loadedFromDB)
             } else {
                 result.addSource<ResultType>(loadedFromDB) { newData ->
-                    setValue(Resource.success(newData))
+                    setValue(Resource.success(newData,null))
                 }
             }
         }
@@ -39,7 +41,7 @@ abstract class NetworkBoundRepository<ResultType,
                 when (response.isSuccessful) {
                     true -> {
                         if(response.body != null){
-                            response.body?.let {
+                            response.body.let {
                                 appExecutors.diskIO().execute{
                                     saveFetchData(it)
                                     appExecutors.mainThread().execute{
@@ -49,20 +51,19 @@ abstract class NetworkBoundRepository<ResultType,
                                         val loaded = loadFromDb()
                                         result.addSource(loaded) { newData ->
                                             newData?.let {
-                                                setValue(Resource.success(newData))
+                                                setValue(Resource.success(newData,transporter().additionalData(response.body)))
                                             }
                                         }
                                     }
 
                                 }
-
                             }
                         }else{
                             appExecutors.mainThread().execute{
                                 // reload from disk whatever we had
                                 result.addSource(loadFromDb()) { newData ->
                                     newData?.let {
-                                        setValue(Resource.success(newData))
+                                        setValue(Resource.success(data = newData,additionalData = null))
                                     }
                                 }
                             }
@@ -73,7 +74,7 @@ abstract class NetworkBoundRepository<ResultType,
                         onFetchFailed(response.message)
                         response.message?.let {
                             result.addSource<ResultType>(loadedFromDB) { newData ->
-                                setValue(Resource.error(it, newData))
+                                setValue(Resource.error(it, data = newData,additionalData = null))
                             }
                         }
                     }
@@ -83,11 +84,11 @@ abstract class NetworkBoundRepository<ResultType,
     }
 
     @MainThread
-    private fun setValue(newValue: Resource<ResultType>) {
+    private fun setValue(newValue: Resource<ResultType,RequestType>) {
         result.value = newValue
     }
 
-    fun asLiveData(): LiveData<Resource<ResultType>> {
+    fun asLiveData(): LiveData<Resource<ResultType,RequestType>> {
         return result
     }
 
@@ -103,6 +104,8 @@ abstract class NetworkBoundRepository<ResultType,
     @MainThread
     protected abstract fun fetchService(): LiveData<ApiResponse<RequestType>>
 
+    @MainThread
+    protected abstract fun transporter() : Transporter
 
     @MainThread
     protected abstract fun onFetchFailed(message: String?)

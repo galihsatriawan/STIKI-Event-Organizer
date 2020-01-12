@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             currentSelectItemId = savedInstanceState.getInt(SAVED_STATE_CURRENT_TAB_KEY)
         }
         bottom_navigation.setOnNavigationItemSelectedListener {
-            var fragment = Fragment()
+            var fragment: Fragment
 
             when (it.itemId) {
                 R.id.navigation_invitations -> {

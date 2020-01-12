@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import id.shobrun.stikieventorganizer.R
@@ -15,6 +16,7 @@ import id.shobrun.stikieventorganizer.models.entity.Participant
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_participant_detail.*
 import kotlinx.android.synthetic.main.activity_participant_detail.toolbar
+import org.jetbrains.anko.design.snackbar
 import javax.inject.Inject
 
 class ParticipantDetailActivity : DaggerAppCompatActivity() {
@@ -42,6 +44,11 @@ class ParticipantDetailActivity : DaggerAppCompatActivity() {
         }else{
             viewModel.postParticipantId(null)
         }
+        viewModel.snackbarText.observe(this , Observer {
+            if(it!=null){
+                binding.root.snackbar(it).show()
+            }
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {

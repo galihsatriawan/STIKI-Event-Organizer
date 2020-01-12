@@ -18,25 +18,25 @@ import id.shobrun.stikieventorganizer.ui.adapter.RecyclerInvitationAdapter
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantAdapter
 
 @BindingAdapter("resourceLoading")
-fun bindResourceItem(view: ProgressBar, result: Resource<Any>?){
+fun bindResourceItem(view: ProgressBar, result: Resource<Any,Any>?){
     view.bindResource(result){
         if(it.status == Status.LOADING) view.visible() else view.gone()
     }
 }
 @BindingAdapter("liveResourceList")
-fun <T> bindParticipantsList(view: RecyclerView, result: Resource<List<T>>?) {
+fun <T> bindParticipantsList(view: RecyclerView, result: Resource<List<T>,Any>?) {
     view.bindResource(result) {
         when(view.adapter){
             is RecyclerParticipantAdapter -> {
-                val res =  it?.data as (List<Participant>)
+                val res =  it.data as (List<Participant>)
                 (view.adapter as RecyclerParticipantAdapter).setItems(res)
             }
             is RecyclerInvitationAdapter -> {
-                val res = it?.data as (List<Invitation>)
+                val res = it.data as (List<Invitation>)
                 (view.adapter as RecyclerInvitationAdapter).setItems(res)
             }
             is RecyclerEventAdapter -> {
-                val res = it?.data as (List<Event>)
+                val res = it.data as (List<Event>)
                 (view.adapter as RecyclerEventAdapter).setItems(res)
             }
         }
@@ -46,7 +46,7 @@ fun <T> bindParticipantsList(view: RecyclerView, result: Resource<List<T>>?) {
 Binding Participant Detail
  */
 @BindingAdapter("participantName")
-fun bindParticipantName(view : TextInputEditText, resource: Resource<Participant>?){
+fun bindParticipantName(view : TextInputEditText, resource: Resource<Participant,Any>?){
     view.bindResource(resource){
         view.setText(it.data?.participant_name)
     }

@@ -7,6 +7,8 @@ import androidx.lifecycle.switchMap
 import id.shobrun.stikieventorganizer.models.Resource
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.network.EventsResponse
+import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.repository.EventRepository
 import id.shobrun.stikieventorganizer.repository.InvitationRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
@@ -15,8 +17,8 @@ import javax.inject.Inject
 class InvitationDetailViewModel @Inject constructor(invitationRepository : InvitationRepository, eventRepository: EventRepository): ViewModel(){
     private val invitationId = MutableLiveData<Int>()
     private val eventId = MutableLiveData<String>()
-    private val event : LiveData<Resource<Event>>
-    private val invitation : LiveData<Resource<Invitation>>
+    private val event : LiveData<Resource<Event,EventsResponse>>
+    private val invitation : LiveData<Resource<Invitation,InvitationsResponse>>
     init {
         event = eventId.switchMap {
             eventId.value?.let {

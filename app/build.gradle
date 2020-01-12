@@ -148,6 +148,5 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxTest"
     androidTestImplementation "androidx.test:rules:$androidxTestRules"
     implementation "com.android.support:multidex:$multidexVersion"
-    implementation "com.jakewharton.threetenabp:threetenabp:$threeTenAbpVersion"
     testImplementation "junit:junit:$junitVersion"
 }

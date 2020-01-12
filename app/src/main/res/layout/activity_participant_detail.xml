@@ -59,15 +59,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
-                    android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
-
+                    android:visibility="@{vm.loading || vm.loadingUpdate ? View.VISIBLE : View.GONE}"
                     />
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -75,6 +75,7 @@
                     style="@style/Widget.SEO.TextInputLayout"
                     android:hint="@string/seo_hint_participant_name"
                     app:errorEnabled="true"
+                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_participant_name"
@@ -89,6 +90,7 @@
                     style="@style/Widget.SEO.TextInputLayout"
                     android:hint="@string/seo_hint_participant_email"
                     app:errorEnabled="true"
+                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_participant_email"
@@ -104,6 +106,7 @@
                     style="@style/Widget.SEO.TextInputLayout"
                     android:hint="@string/seo_hint_participant_telp"
                     app:errorEnabled="true"
+                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_participant_telp"
@@ -119,6 +122,7 @@
                     style="@style/Widget.SEO.TextInputLayout"
                     android:hint="@string/seo_hint_participant_address"
                     app:errorEnabled="true"
+                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_participant_address"

@@ -9,7 +9,7 @@ class AppViewModelsFactory @Inject constructor (private val viewModels: MutableM
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val creator = viewModels[modelClass]
             ?: viewModels.asIterable().firstOrNull{modelClass.isAssignableFrom(it.key)}?.value
-            ?: throw IllegalArgumentException("unknown model class $modelClass")
+            ?: throw Throwable("unknown model class $modelClass")
         return try {
             creator.get() as T
         }catch (e : Exception){
