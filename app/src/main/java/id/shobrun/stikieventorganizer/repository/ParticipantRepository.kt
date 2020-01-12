@@ -79,9 +79,10 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
     }
     fun insertObj(participant: Participant) = object: NetworkBoundRepository<Participant,ParticipantsResponse,ParticipantResponseTransporter>(appExecutors){
         override fun saveFetchData(items: ParticipantsResponse) {
-            val participants = items.result
-            if(participants.isNotEmpty()){
-                localDB.insert(participants[0])
+            if(!items.result.isNullOrEmpty()){
+                localDB.insert(items.result[0])
+            }else{
+                localDB.insert(participant)
             }
         }
 
@@ -94,7 +95,9 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
         }
 
         override fun fetchService(): LiveData<ApiResponse<ParticipantsResponse>> {
-            return apiService.addParticipant(participant)
+            val data = HashMap<String,Participant>()
+            data["participant"] = participant
+            return apiService.addParticipant(data)
         }
 
         override fun onFetchFailed(message: String?) {
@@ -107,9 +110,10 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
     }.asLiveData()
     fun updateObj(participant: Participant)= object: NetworkBoundRepository<Participant,ParticipantsResponse,ParticipantResponseTransporter>(appExecutors){
         override fun saveFetchData(items: ParticipantsResponse) {
-            val p = items.result
-            if(p.isNotEmpty()){
-                localDB.update(p[0])
+            if(!items.result.isNullOrEmpty()){
+                localDB.update(items.result[0])
+            }else{
+                localDB.update(participant)
             }
         }
 
@@ -122,7 +126,9 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
         }
 
         override fun fetchService(): LiveData<ApiResponse<ParticipantsResponse>> {
-            return apiService.updateParticipant(participant)
+            val data = HashMap<String,Participant>()
+            data["participant"] = participant
+            return apiService.updateParticipant(data)
         }
 
         override fun onFetchFailed(message: String?) {

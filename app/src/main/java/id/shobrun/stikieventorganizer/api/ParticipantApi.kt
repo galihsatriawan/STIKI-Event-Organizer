@@ -15,8 +15,8 @@ interface ParticipantApi {
     fun getDetailParticipant(@Field("id") id: String) : LiveData<ApiResponse<ParticipantsResponse>>
 
     @POST("participant/edit")
-    fun updateParticipant(@Body participant:Participant) : LiveData<ApiResponse<ParticipantsResponse>>
+    fun updateParticipant(@Body participant : HashMap<String,Participant>) : LiveData<ApiResponse<ParticipantsResponse>>
 
     @POST("participant/add")
-    fun addParticipant(@Body participant: Participant) : LiveData<ApiResponse<ParticipantsResponse>>
+    fun addParticipant(@Body participant: HashMap<String,Participant>) : LiveData<ApiResponse<ParticipantsResponse>>
 }

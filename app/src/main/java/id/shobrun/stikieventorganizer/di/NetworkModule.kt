@@ -1,5 +1,7 @@
 package id.shobrun.stikieventorganizer.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import id.shobrun.stikieventorganizer.api.LiveDataCallAdapterFactory
@@ -19,13 +21,19 @@ class NetworkModule{
             .addInterceptor(RequestInterceptor())
             .build()
     }
-
     @Singleton
     @Provides
-    internal fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit{
+    internal fun provideGson() : Gson{
+        return GsonBuilder()
+            .setLenient()
+            .create()
+    }
+    @Singleton
+    @Provides
+    internal fun provideRetrofit(okHttpClient: OkHttpClient,gson : Gson) : Retrofit{
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .client(okHttpClient)
             .build()

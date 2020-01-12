@@ -46,7 +46,7 @@ class ParticipantDetailActivity : DaggerAppCompatActivity() {
         }
         viewModel.snackbarText.observe(this , Observer {
             if(it!=null){
-                binding.root.snackbar(it).show()
+                binding.progressBar.snackbar(it).show()
             }
         })
     }
