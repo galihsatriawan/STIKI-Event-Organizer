@@ -21,6 +21,7 @@ import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailViewModel
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailViewModel
 
@@ -41,16 +42,6 @@ abstract class ActivityBuildersModule {
     )
     abstract fun injectInvitationDetailActivity() : InvitationDetailActivity
 
-    @ContributesAndroidInjector(
-        modules =[
-            EventDetailModule::class,
-            EventDetailViewModelModule::class,
-            EventNetworkModule::class,
-            EventPersistenceModule::class,
-            EventRepositoryModule::class
-        ]
-    )
-    abstract fun injectEventDetailActivity() : EventDetailActivity
 
     @ContributesAndroidInjector(
         modules = [

@@ -78,6 +78,7 @@ class ParticipantDetailViewModel @Inject constructor(private val repository : Pa
              * Message
              */
             Timber.d("$currentName - $currentAddress - $currentEmail - $currentTelp null edittext")
+            _snackbarText.value = "Please fill completely"
             return
         }
         if(isNewParticipant){

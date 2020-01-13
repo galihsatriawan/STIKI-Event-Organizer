@@ -15,4 +15,12 @@
     <string name="seo_hint_participant_email">Participant Email</string>
     <string name="seo_hint_participant_telp">Participant Telp</string>
     <string name="seo_hint_participant_address">Participant Address</string>
+    <string name="tab_event">Event</string>
+    <string name="tab_participant">Participant</string>
+    <string name="seo_hint_event_name">Event Name</string>
+    <string name="seo_hint_event_description">Event Description</string>
+    <string name="seo_hint_event_date">Event Date</string>
+    <string name="seo_hint_event_link_maps">Link Maps</string>
+    <string name="seo_hint_event_location">Event Location</string>
+    <string name="seo_hint_event_cp">Contact Person</string>
 </resources>

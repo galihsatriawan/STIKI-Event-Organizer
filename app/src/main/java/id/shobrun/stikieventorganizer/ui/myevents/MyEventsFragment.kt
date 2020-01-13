@@ -16,8 +16,11 @@ import dagger.android.support.DaggerFragment
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentEventsBinding
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerEventAdapter
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.support.v4.intentFor
 import javax.inject.Inject
 
 class MyEventsFragment : DaggerFragment() {
@@ -55,7 +58,8 @@ class MyEventsFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         eventAdapter = RecyclerEventAdapter(ArrayList())
         eventAdapter.setItemListener {
-            rvEvent.snackbar(it.event_name)
+            val detail = intentFor<EventDetailActivity>(EventDetailActivity.EXTRA_EVENT to it)
+            startActivity(detail)
         }
 
         viewModel.postUserId(1)
@@ -65,7 +69,9 @@ class MyEventsFragment : DaggerFragment() {
         binding.rvEvent.adapter = eventAdapter
 
         fabAdd.setOnClickListener{
-            it.snackbar("Fab")
+            val newEvent = intentFor<EventDetailActivity>(
+            )
+            startActivity(newEvent)
         }
 
     }

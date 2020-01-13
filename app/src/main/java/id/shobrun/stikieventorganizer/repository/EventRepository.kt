@@ -5,6 +5,7 @@ import id.shobrun.stikieventorganizer.AppExecutors
 import id.shobrun.stikieventorganizer.api.ApiResponse
 import id.shobrun.stikieventorganizer.api.EventApi
 import id.shobrun.stikieventorganizer.models.entity.Event
+import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.models.network.EventsResponse
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.room.EventDao
@@ -70,5 +71,69 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
             return EventResponseTransporter()
         }
     }.asLiveData()
+    fun insertEvent(event: Event) = object : NetworkBoundRepository<Event,EventsResponse,EventResponseTransporter>(appExecutors){
+        override fun saveFetchData(items: EventsResponse) {
+            if(!items.result.isNullOrEmpty()){
+                localDB.insert(items.result[0])
+            }else{
+                localDB.insert(event)
+            }
+        }
 
+        override fun shouldFetch(data: Event?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<Event> {
+            return localDB.getDetailEvent(event.event_id)
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {
+            val data = hashMapOf(
+                "event" to event
+            )
+            return apiService.insertEvent(data)
+        }
+
+        override fun transporter(): EventResponseTransporter {
+            return EventResponseTransporter()
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$message")
+        }
+    }.asLiveData()
+
+    fun updateEvent(event:Event) = object : NetworkBoundRepository<Event,EventsResponse,EventResponseTransporter>(appExecutors){
+        override fun saveFetchData(items: EventsResponse) {
+            if(!items.result.isNullOrEmpty()){
+                localDB.insert(items.result[0])
+            }else{
+                localDB.insert(event)
+            }
+        }
+
+        override fun shouldFetch(data: Event?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<Event> {
+            return localDB.getDetailEvent(event.event_id)
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {
+            val data = hashMapOf(
+                "event" to event
+            )
+            return apiService.updateEvent(data)
+        }
+
+        override fun transporter(): EventResponseTransporter {
+            return EventResponseTransporter()
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$message")
+        }
+    }.asLiveData()
 }
