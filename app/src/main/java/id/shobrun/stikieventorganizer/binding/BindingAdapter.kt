@@ -16,6 +16,7 @@ import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerEventAdapter
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerInvitationAdapter
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantAdapter
+import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantEventAdapter
 
 @BindingAdapter("resourceLoading")
 fun bindResourceItem(view: ProgressBar, result: Resource<Any,Any>?){
@@ -31,14 +32,20 @@ fun <T> bindParticipantsList(view: RecyclerView, result: Resource<List<T>,Any>?)
                 val res =  it.data as (List<Participant>)
                 (view.adapter as RecyclerParticipantAdapter).setItems(res)
             }
-            is RecyclerInvitationAdapter -> {
+            is RecyclerInvitationAdapter-> {
                 val res = it.data as (List<Invitation>)
                 (view.adapter as RecyclerInvitationAdapter).setItems(res)
+            }
+            is RecyclerParticipantEventAdapter-> {
+                val res = it.data as (List<Invitation>)
+                (view.adapter as RecyclerParticipantEventAdapter).setItems(res)
             }
             is RecyclerEventAdapter -> {
                 val res = it.data as (List<Event>)
                 (view.adapter as RecyclerEventAdapter).setItems(res)
             }
+
+
         }
     }
 }

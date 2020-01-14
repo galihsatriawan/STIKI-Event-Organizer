@@ -10,6 +10,7 @@ import id.shobrun.stikieventorganizer.models.network.EventsResponse
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.room.EventDao
 import id.shobrun.stikieventorganizer.transporter.EventResponseTransporter
+import id.shobrun.stikieventorganizer.transporter.InvitationResponseTransporter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -109,7 +110,7 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
             if(!items.result.isNullOrEmpty()){
                 localDB.insert(items.result[0])
             }else{
-                localDB.insert(event)
+                localDB.update(event)
             }
         }
 

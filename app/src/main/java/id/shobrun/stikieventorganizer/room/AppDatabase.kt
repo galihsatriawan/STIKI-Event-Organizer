@@ -5,13 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import id.shobrun.stikieventorganizer.models.entity.Event
-import id.shobrun.stikieventorganizer.models.entity.Invitation
-import id.shobrun.stikieventorganizer.models.entity.Participant
-import id.shobrun.stikieventorganizer.models.entity.User
+import id.shobrun.stikieventorganizer.models.entity.*
 import id.shobrun.stikieventorganizer.utils.DateConverter
 
-@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 6, exportSchema = false)
+@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 7, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun eventDao() : EventDao
@@ -33,6 +30,8 @@ abstract class AppDatabase : RoomDatabase(){
 
         const val TABLE_USER = "user_table"
         const val ID_USER = "user_id"
+
+        const val TABLE_PARTICIPANT_INVITATION = "participant_invitation_table"
         // For Singleton instantiation
         @Volatile
         private var instance: AppDatabase? = null

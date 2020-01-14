@@ -3,8 +3,13 @@ package id.shobrun.stikieventorganizer.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.entity.Participant
+import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_EVENT
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_INVITATION
+import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_PARTICIPANT
+import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_EVENT
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_INVITATION
+import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_PARTICIPANT
 
 @Dao
 interface InvitationDao {
@@ -16,6 +21,9 @@ interface InvitationDao {
 
     @Query("SELECT * FROM $TABLE_INVITATION")
     fun getMyInvitations() : LiveData<List<Invitation>>
+
+    @Query("SELECT $TABLE_INVITATION.* FROM $TABLE_INVITATION LEFT JOIN $TABLE_PARTICIPANT ON $TABLE_INVITATION.$ID_PARTICIPANT = $TABLE_PARTICIPANT.$ID_PARTICIPANT WHERE $ID_EVENT = :idEvent ")
+    fun getInvitatationParticipants(idEvent: String) : LiveData<List<Invitation>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(invitation: Invitation)

@@ -6,7 +6,7 @@ import id.shobrun.stikieventorganizer.api.ApiResponse
 import id.shobrun.stikieventorganizer.api.InvitationApi
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.entity.Invitation
-import id.shobrun.stikieventorganizer.models.network.EventsResponse
+
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.room.InvitationDao
 import id.shobrun.stikieventorganizer.transporter.InvitationResponseTransporter
@@ -66,6 +66,35 @@ class InvitationRepository @Inject constructor(private val appExecutors: AppExec
 
         override fun transporter(): InvitationResponseTransporter {
             return InvitationResponseTransporter()
+        }
+    }.asLiveData()
+
+    fun getParticipantsEvent(eventId: String) = object : NetworkBoundRepository<List<Invitation>,InvitationsResponse,InvitationResponseTransporter>(appExecutors){
+        override fun saveFetchData(items: InvitationsResponse) {
+            if(!items.result.isNullOrEmpty()){
+                Timber.d("${items.result?.get(0).toString()}")
+                localDB.inserts(items.result)
+            }
+        }
+
+        override fun shouldFetch(data: List<Invitation>?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<List<Invitation>> {
+            return localDB.getInvitatationParticipants(eventId)
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<InvitationsResponse>> {
+            return apiService.getInvitationParticipants(eventId)
+        }
+
+        override fun transporter(): InvitationResponseTransporter {
+            return InvitationResponseTransporter()
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$message")
         }
     }.asLiveData()
 }

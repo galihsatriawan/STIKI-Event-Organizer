@@ -19,4 +19,5 @@ interface EventApi {
 
     @POST("event/edit")
     fun updateEvent(@Body event: HashMap<String, Event>) : LiveData<ApiResponse<EventsResponse>>
+
 }
