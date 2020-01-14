@@ -45,4 +45,9 @@ class SharedPref (val application:Application){
         }
         editor.apply()
     }
+    fun removeSharedPref(){
+        prefs = prefs?:application.getSharedPreferences(PREFS_FILENAME,MODE_PRIVATE)
+        val editor = prefs!!.edit().clear()
+        editor.commit()
+    }
 }

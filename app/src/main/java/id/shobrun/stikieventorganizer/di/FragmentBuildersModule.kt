@@ -21,11 +21,17 @@ import id.shobrun.stikieventorganizer.di.participant.ParticipantPersistenceModul
 import id.shobrun.stikieventorganizer.di.participant.ParticipantRepositoryModule
 import id.shobrun.stikieventorganizer.di.participant.list.ParticipantFragmentModule
 import id.shobrun.stikieventorganizer.di.participant.list.ParticipantFragmentViewModelModule
+import id.shobrun.stikieventorganizer.di.user.UserNetworkModule
+import id.shobrun.stikieventorganizer.di.user.UserPersistenceModule
+import id.shobrun.stikieventorganizer.di.user.UserRepositoryModule
+import id.shobrun.stikieventorganizer.di.user.profile.ProfileModule
+import id.shobrun.stikieventorganizer.di.user.profile.ProfileViewModelModule
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsFragment
 import id.shobrun.stikieventorganizer.ui.myevents.MyEventsFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantEventFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.MyParticipantsFragment
+import id.shobrun.stikieventorganizer.ui.profile.ProfileFragment
 
 @Module
 abstract class FragmentBuildersModule {
@@ -81,4 +87,16 @@ abstract class FragmentBuildersModule {
         ]
     )
     abstract fun injectParticipantEventFragment() : ParticipantEventFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            ProfileModule::class,
+            ProfileViewModelModule::class,
+            UserNetworkModule::class,
+            UserPersistenceModule::class,
+            UserRepositoryModule::class
+        ]
+    )
+    abstract fun injectProfileFragment() : ProfileFragment
+
 }

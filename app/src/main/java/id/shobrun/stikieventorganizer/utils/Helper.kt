@@ -1,15 +1,16 @@
 package id.shobrun.stikieventorganizer.utils
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
+import com.google.zxing.common.BitMatrix
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.security.MessageDigest
 import java.sql.Timestamp
-import java.time.Instant
-import java.time.format.DateTimeFormatter
-import java.util.*
 
-import kotlin.system.measureTimeMillis
 
 object Helper{
     fun getTimeStamp() = Timestamp(System.currentTimeMillis()).time
@@ -50,5 +51,23 @@ object Helper{
         val id = "$userId${getTimeStamp()}"
         return simpleHash(simpleHash(id))
     }
-
+    fun generatedCode(text: String?, type: BarcodeFormat?): Bitmap? {
+        var bitmap: Bitmap? = null
+        val multiFormatWriter = MultiFormatWriter()
+        try {
+            val bitMatrix: BitMatrix = multiFormatWriter.encode(text, type, 200, 200)
+            val barcodeEncoder = BarcodeEncoder()
+            bitmap = barcodeEncoder.createBitmap(bitMatrix)
+            //            imageView.setImageBitmap(bitmap);
+        } catch (e: WriterException) {
+            e.printStackTrace()
+        }
+        return bitmap
+    }
+    fun directionMaps(latitude: Double, longitude: Double): Intent? {
+        return Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("google.navigation:q=$latitude,$longitude")
+        )
+    }
 }

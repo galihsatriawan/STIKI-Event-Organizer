@@ -31,6 +31,10 @@ class LoginViewModel @Inject constructor(repository: UserRepository,sharedPref: 
     val loginRespons : LiveData<Resource<List<User>,UsersResponse>>
 
     init {
+        /**
+         * Sign out
+         */
+        sharedPref.removeSharedPref()
         loginRespons = loginAction.switchMap {
             loginAction.value?.let {
                 username.value?.let {
@@ -48,7 +52,9 @@ class LoginViewModel @Inject constructor(repository: UserRepository,sharedPref: 
                 _snackbarText.value = it.message?: it.additionalData?.message
                 if(!it.data.isNullOrEmpty()){
                     isSuccess.value = true
-
+                    /**
+                     * Login
+                     */
                     sharedPref.setValue(PREFS_IS_LOGIN,true)
                     sharedPref.setValue(PREFS_USER_ID,it.data[0].user_id)
                     sharedPref.setValue(PREFS_USER_USERNAME,it.data[0].user_name)

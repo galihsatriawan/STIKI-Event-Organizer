@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.MaterialTheme">
-        <activity android:name="id.shobrun.stikieventorganizer.ui.user.register.RegisterActivity"></activity>
+        <activity android:name=".ui.user.register.RegisterActivity" />
         <activity
             android:name=".ui.user.login.LoginActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />

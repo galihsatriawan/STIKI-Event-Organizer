@@ -1,0 +1,67 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/profile_header">
+
+        <Preference
+            app:key="username"
+            app:title="@string/seo_profile_username"
+            app:summary="@string/dummy_username"
+            />
+        <Preference
+            app:key="email"
+            app:title="@string/seo_profile_email"
+            app:summary="@string/dummy_email"
+
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/pref_header_about">
+        <!-- preference opens url in browser -->
+        <Preference
+            app:summary="satriawan.galih99@gmail.com"
+            app:title="Creator">
+            <intent
+                app:action="android.intent.action.VIEW"
+                app:data="@string/url_faq" />
+        </Preference>
+        <Preference
+            app:summary="@string/creator_institution"
+            app:title="@string/title_institution" />
+
+        <Preference
+            app:summary="@string/app_version"
+            app:title="@string/title_version" />
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/other_header">
+        <Preference
+            app:title="Help"
+            >
+
+        </Preference>
+        <Preference
+            app:title="@string/title_sign_out"
+            app:key="signout"
+            >
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>
