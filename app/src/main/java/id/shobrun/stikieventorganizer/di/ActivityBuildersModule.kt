@@ -22,6 +22,8 @@ import id.shobrun.stikieventorganizer.di.user.UserPersistenceModule
 import id.shobrun.stikieventorganizer.di.user.UserRepositoryModule
 import id.shobrun.stikieventorganizer.di.user.login.LoginModule
 import id.shobrun.stikieventorganizer.di.user.login.LoginViewModelModule
+import id.shobrun.stikieventorganizer.di.user.register.RegisterModule
+import id.shobrun.stikieventorganizer.di.user.register.RegisterViewModelModule
 import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailViewModel
@@ -30,6 +32,7 @@ import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailViewModel
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
+import id.shobrun.stikieventorganizer.ui.user.register.RegisterActivity
 
 
 @Module
@@ -70,4 +73,15 @@ abstract class ActivityBuildersModule {
         ]
     )
     abstract fun injectLoginActivity(): LoginActivity
+
+    @ContributesAndroidInjector(
+        modules = [
+            RegisterModule::class,
+            RegisterViewModelModule::class,
+            UserNetworkModule::class,
+            UserPersistenceModule::class,
+            UserRepositoryModule::class
+        ]
+    )
+    abstract fun injectRegisterActivity(): RegisterActivity
 }

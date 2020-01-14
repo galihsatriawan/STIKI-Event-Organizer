@@ -16,8 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.MaterialTheme">
-        <activity android:name=".ui.user.login.LoginActivity"
-            android:theme="@style/AppTheme.MaterialTheme.NoActionBar"></activity>
+        <activity android:name="id.shobrun.stikieventorganizer.ui.user.register.RegisterActivity"></activity>
+        <activity
+            android:name=".ui.user.login.LoginActivity"
+            android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
             android:name=".ui.SplashScreen"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar">
@@ -39,7 +41,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.MaterialTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

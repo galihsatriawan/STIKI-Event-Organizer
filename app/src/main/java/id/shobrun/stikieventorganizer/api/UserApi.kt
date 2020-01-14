@@ -11,12 +11,12 @@ interface UserApi {
     fun loginUser(@Body data: HashMap<String,String>) : LiveData<ApiResponse<UsersResponse>>
 
     @POST("user/register")
-    fun registerUser(@Body user: User) : LiveData<ApiResponse<UsersResponse>>
+    fun registerUser(@Body data : HashMap<String,User>) : LiveData<ApiResponse<UsersResponse>>
 
     @POST("user/detail")
     @FormUrlEncoded
     fun getDetailUser(@Field("username") username: String) : LiveData<ApiResponse<UsersResponse>>
 
     @POST("user/edit")
-    fun editUser(@Body user:User) : LiveData<ApiResponse<UsersResponse>>
+    fun editUser(@Body data : HashMap<String,User>) : LiveData<ApiResponse<UsersResponse>>
 }

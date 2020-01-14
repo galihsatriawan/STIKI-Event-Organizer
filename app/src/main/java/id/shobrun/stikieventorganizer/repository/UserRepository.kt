@@ -47,4 +47,38 @@ class UserRepository @Inject constructor(val apiService: UserApi, val localDB : 
 
     }.asLiveData()
 
+    fun registerUser(user:User ) = object : NetworkBoundRepository<List<User>,UsersResponse,UserResponseTransporter>(appExecutors){
+        override fun saveFetchData(items: UsersResponse) {
+            if(!items.result.isNullOrEmpty()){
+                Timber.d("${items.result[0].toString()}")
+                localDB.insert(items.result[0])
+            }
+        }
+
+        override fun shouldFetch(data: List<User>?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<List<User>> {
+            return localDB.getDetailUserByUsername(user.user_username,md5(md5(user.user_password)))
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<UsersResponse>> {
+            val tempUser = user.copy()
+            tempUser.user_password = md5(user.user_password)
+            val data = hashMapOf(
+                "user" to tempUser
+            )
+            return apiService.registerUser(data)
+        }
+
+        override fun transporter(): UserResponseTransporter {
+            return UserResponseTransporter()
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$message")
+        }
+    }.asLiveData()
+
 }

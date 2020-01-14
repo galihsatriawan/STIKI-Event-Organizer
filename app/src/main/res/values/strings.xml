@@ -27,4 +27,9 @@
     <string name="seo_sign_up">Create Account</string>
     <string name="seo_sign_in">Sign in</string>
     <string name="seo_hint_password">Your Password</string>
+    <string name="seo_register">Register</string>
+    <string name="seo_have_account">Have Account</string>
+    <string name="seo_hint_name">Your Name</string>
+    <string name="seo_hint_email">Your Email</string>
+    <string name="seo_hint_telp">Your Phone Number</string>
 </resources>

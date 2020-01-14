@@ -17,11 +17,13 @@ class LoginViewModel @Inject constructor(repository: UserRepository) : ViewModel
     val username = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     private val loginAction = MutableLiveData<Boolean>()
+    val registerAction = MutableLiveData<Boolean>()
     val loading : LiveData<Boolean>
     val isSuccess= MutableLiveData<Boolean>()
     private val _snackbarText = MutableLiveData<String>()
     val snackbarText: LiveData<String> = _snackbarText
     val loginRespons : LiveData<Resource<List<User>,UsersResponse>>
+
     init {
         loginRespons = loginAction.switchMap {
             loginAction.value?.let {
@@ -45,7 +47,17 @@ class LoginViewModel @Inject constructor(repository: UserRepository) : ViewModel
     }
 
     fun clickLogin(){
+        val currentUsername = username.value
+        val currentPassword = password.value
+        if(currentPassword.isNullOrEmpty() || currentUsername.isNullOrEmpty()){
+            _snackbarText.value = "Please fill completely"
+            return
+        }
         if(loginAction.value==null) loginAction.value = true
         else loginAction.value = !loginAction.value!!
+    }
+    fun clickRegister(){
+        if(registerAction.value==null) registerAction.value = true
+        else registerAction.value = !registerAction.value!!
     }
 }

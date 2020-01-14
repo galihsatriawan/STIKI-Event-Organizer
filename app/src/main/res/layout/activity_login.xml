@@ -87,6 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="@{!vm.loading}"
+            android:onClick="@{()-> vm.clickRegister()}"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:text="@string/seo_sign_up"
             />

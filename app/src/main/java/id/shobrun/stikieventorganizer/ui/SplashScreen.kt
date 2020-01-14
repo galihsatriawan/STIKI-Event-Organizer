@@ -29,7 +29,6 @@ class SplashScreen : AppCompatActivity() {
         val max = 100
         val cnt =90
 
-        progressBar.isIndeterminate = false
         while (progress <= max) {
             try {
                 Thread.sleep(loadingTime/cnt)

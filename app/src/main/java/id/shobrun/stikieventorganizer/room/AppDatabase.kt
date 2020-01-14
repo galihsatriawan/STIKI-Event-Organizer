@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import id.shobrun.stikieventorganizer.models.entity.*
 import id.shobrun.stikieventorganizer.utils.DateConverter
 
-@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 7, exportSchema = false)
+@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 8, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun eventDao() : EventDao

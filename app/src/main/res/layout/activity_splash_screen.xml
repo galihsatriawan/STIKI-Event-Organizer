@@ -20,11 +20,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="20dp"
         android:indeterminate="true"
-        android:max="100"
-        android:indeterminateTintMode="screen"
-        android:indeterminateBehavior="repeat"
-        style="@android:style/Widget.ProgressBar.Horizontal"/>
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
 
 </RelativeLayout>
