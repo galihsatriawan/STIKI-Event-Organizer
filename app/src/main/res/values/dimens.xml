@@ -4,4 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="app_bar_height_detail_participant">150dp</dimen>
     <dimen name="activity_horizontal_margin_small">8dp</dimen>
+    <dimen name="activity_vertical_margin_big">24dp</dimen>
+    <dimen name="activity_vertical_margin_xbig">32dp</dimen>
+    <dimen name="activity_vertical_margin_small">8dp</dimen>
 </resources>

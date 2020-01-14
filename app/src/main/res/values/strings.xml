@@ -23,4 +23,8 @@
     <string name="seo_hint_event_link_maps">Link Maps</string>
     <string name="seo_hint_event_location">Event Location</string>
     <string name="seo_hint_event_cp">Contact Person</string>
+    <string name="seo_hint_username">Your Username</string>
+    <string name="seo_sign_up">Create Account</string>
+    <string name="seo_sign_in">Sign in</string>
+    <string name="seo_hint_password">Your Password</string>
 </resources>

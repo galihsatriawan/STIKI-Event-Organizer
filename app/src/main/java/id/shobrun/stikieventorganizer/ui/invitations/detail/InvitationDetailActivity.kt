@@ -30,5 +30,6 @@ class InvitationDetailActivity : DaggerAppCompatActivity() {
 
         viewModel.postEventId("1")
         viewModel.postInvitationId(1)
+
     }
 }

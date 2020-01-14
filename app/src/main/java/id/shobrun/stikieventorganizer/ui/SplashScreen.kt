@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.ProgressBar
 import id.shobrun.stikieventorganizer.R
+import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
 import org.jetbrains.anko.intentFor
 
 class SplashScreen : AppCompatActivity() {
@@ -16,7 +17,6 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         progressBar = findViewById(R.id.progressBar)
-
         Thread(Runnable {
             doProgress()
             goToMain()
@@ -38,11 +38,10 @@ class SplashScreen : AppCompatActivity() {
                 e.printStackTrace()
             }
             progress += (max/cnt)
-
         }
     }
     private fun goToMain(){
-        val mainContent = intentFor<MainActivity>()
+        val mainContent = intentFor<LoginActivity>()
         startActivity(mainContent)
         finish()
     }

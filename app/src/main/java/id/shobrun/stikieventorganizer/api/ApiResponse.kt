@@ -24,7 +24,8 @@ class ApiResponse<T> {
     constructor(response: Response<T>) {
         Timber.d("Api Response Header : ${response.headers()}")
         Timber.d("Api Response Raw : ${response.raw()}")
-
+        Timber.d("Api Response Raw : ${response.body().toString()}")
+        Timber.d("Api Response Raw : ${response.errorBody()}")
         this.code = response.code()
 
         if (response.isSuccessful) {

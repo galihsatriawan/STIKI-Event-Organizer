@@ -23,14 +23,14 @@ object Helper{
         return printHexBinary(bytes)
     }
     private fun printHexBinary(data: ByteArray): String {
-        val HEX_CHARS = "0123456789ABCDEF".toCharArray()
-        val r = StringBuilder(data.size * 2)
+        val hexString = StringBuilder()
+
         data.forEach { b ->
-            val i = b.toInt()
-            r.append(HEX_CHARS[i shr 4 and 0xF])
-            r.append(HEX_CHARS[i and 0xF])
+            var h = Integer.toHexString(0xFF and b.toInt())
+            while(h.length < 2) h= "0$h"
+            hexString.append(h)
         }
-        return r.toString()
+        return hexString.toString()
     }
 
     private fun simpleHash(input: String): String{
