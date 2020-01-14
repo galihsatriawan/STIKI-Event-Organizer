@@ -10,10 +10,16 @@ import id.shobrun.stikieventorganizer.models.entity.User
 import id.shobrun.stikieventorganizer.models.network.UsersResponse
 import id.shobrun.stikieventorganizer.repository.UserRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
+import id.shobrun.stikieventorganizer.utils.SharedPref
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_IS_LOGIN
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
 import timber.log.Timber
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(repository: UserRepository) : ViewModel(){
+class LoginViewModel @Inject constructor(repository: UserRepository,sharedPref: SharedPref) : ViewModel(){
+
     val username = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     private val loginAction = MutableLiveData<Boolean>()
@@ -40,7 +46,14 @@ class LoginViewModel @Inject constructor(repository: UserRepository) : ViewModel
             val isLoading = it.status==Status.LOADING
             if(!isLoading){
                 _snackbarText.value = it.message?: it.additionalData?.message
-                if(!it.data.isNullOrEmpty())isSuccess.value = true
+                if(!it.data.isNullOrEmpty()){
+                    isSuccess.value = true
+
+                    sharedPref.setValue(PREFS_IS_LOGIN,true)
+                    sharedPref.setValue(PREFS_USER_ID,it.data[0].user_id)
+                    sharedPref.setValue(PREFS_USER_USERNAME,it.data[0].user_name)
+                    sharedPref.setValue(PREFS_USER_EMAIL,it.data[0].user_email)
+                }
             }
             MutableLiveData(isLoading)
         }

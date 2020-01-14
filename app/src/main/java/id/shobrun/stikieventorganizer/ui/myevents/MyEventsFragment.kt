@@ -62,7 +62,6 @@ class MyEventsFragment : DaggerFragment() {
             startActivity(detail)
         }
 
-        viewModel.postUserId(1)
 
         val dividerItemDecoration = DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL)
         binding.rvEvent.addItemDecoration(dividerItemDecoration)

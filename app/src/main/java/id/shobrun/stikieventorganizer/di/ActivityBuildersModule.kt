@@ -25,6 +25,7 @@ import id.shobrun.stikieventorganizer.di.user.login.LoginViewModelModule
 import id.shobrun.stikieventorganizer.di.user.register.RegisterModule
 import id.shobrun.stikieventorganizer.di.user.register.RegisterViewModelModule
 import id.shobrun.stikieventorganizer.models.entity.Participant
+import id.shobrun.stikieventorganizer.ui.SplashScreen
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailViewModel
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
@@ -84,4 +85,7 @@ abstract class ActivityBuildersModule {
         ]
     )
     abstract fun injectRegisterActivity(): RegisterActivity
+
+    @ContributesAndroidInjector
+    abstract fun injectSplashScreenActivity() : SplashScreen
 }

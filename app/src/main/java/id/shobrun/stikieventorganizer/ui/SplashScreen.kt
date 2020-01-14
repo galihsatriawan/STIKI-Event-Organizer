@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.ProgressBar
+import dagger.android.support.DaggerAppCompatActivity
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
+import id.shobrun.stikieventorganizer.utils.SharedPref
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_IS_LOGIN
 import org.jetbrains.anko.intentFor
+import javax.inject.Inject
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreen : DaggerAppCompatActivity() {
+    @Inject
+    lateinit var sharedPref: SharedPref
     private lateinit var progressBar: ProgressBar
     private val loadingTime = 4000L // 3 Seconds
     private lateinit var handler: Handler
@@ -32,7 +38,6 @@ class SplashScreen : AppCompatActivity() {
         while (progress <= max) {
             try {
                 Thread.sleep(loadingTime/cnt)
-                progressBar.setProgress(progress)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -40,8 +45,15 @@ class SplashScreen : AppCompatActivity() {
         }
     }
     private fun goToMain(){
-        val mainContent = intentFor<LoginActivity>()
-        startActivity(mainContent)
-        finish()
+        if(sharedPref.getValue(PREFS_IS_LOGIN,false)){
+            val mainContent = intentFor<MainActivity>()
+            startActivity(mainContent)
+            finish()
+        }else{
+            val mainContent = intentFor<LoginActivity>()
+            startActivity(mainContent)
+            finish()
+        }
+
     }
 }

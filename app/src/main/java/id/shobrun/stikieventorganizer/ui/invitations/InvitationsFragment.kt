@@ -25,6 +25,7 @@ import org.jetbrains.anko.support.v4.intentFor
 import javax.inject.Inject
 
 class InvitationsFragment : DaggerFragment() {
+
     @Inject
     lateinit var viewModelFactory : ViewModelProvider.Factory
 
@@ -60,7 +61,6 @@ class InvitationsFragment : DaggerFragment() {
             )
             startActivity(detail)
         }
-        viewModel.postParticipantEmail("galih@gmail.com")
         var dividerItemDecoration = DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL)
         binding.rvInvitations.addItemDecoration(dividerItemDecoration)
         binding.rvInvitations.adapter = invitationAdapter

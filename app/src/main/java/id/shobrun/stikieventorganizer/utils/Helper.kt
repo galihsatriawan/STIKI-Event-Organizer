@@ -1,6 +1,8 @@
 package id.shobrun.stikieventorganizer.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import java.security.MessageDigest
 import java.sql.Timestamp
 import java.time.Instant
@@ -48,4 +50,5 @@ object Helper{
         val id = "$userId${getTimeStamp()}"
         return simpleHash(simpleHash(id))
     }
+
 }

@@ -65,7 +65,6 @@ class MyParticipantsFragment : DaggerFragment() {
             startActivity(detail)
 
         }
-        viewModel.postUserId(1)
         val dividerItemDecoration = DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter

@@ -9,6 +9,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.ActivityRegisterBinding
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
+import kotlinx.coroutines.Delay
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.intentFor
 import javax.inject.Inject
@@ -41,6 +42,7 @@ class RegisterActivity : DaggerAppCompatActivity() {
         })
         viewModel.loginAction.observe(this, Observer {
             it?.let {
+
                 val login = intentFor<LoginActivity>()
                 startActivity(login)
                 finish()
