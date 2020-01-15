@@ -33,6 +33,9 @@
             android:name=".ui.myparticipants.detail.ParticipantDetailActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
+            android:name=".ui.myevents.detail.ParticipantSelectionActivity"
+            android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
+        <activity
             android:name=".ui.myevents.detail.EventDetailActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity

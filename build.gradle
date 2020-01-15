@@ -32,6 +32,7 @@ buildscript {
         multidexVersion = '1.0.3'
         navigation = '2.1.0'
         retrofitVersion = "2.6.1"
+        recyclerviewVersion = '1.0.0'
         robolectricVersion = '4.3'
         roomVersion = "2.2.3"
         timberVersion = '4.7.1'

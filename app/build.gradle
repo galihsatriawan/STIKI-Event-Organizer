@@ -52,6 +52,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -64,6 +67,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-design:$ankoVersion"
     implementation "org.jetbrains.anko:anko-recyclerview-v7:$ankoVersion"
     implementation "org.jetbrains.anko:anko-recyclerview-v7-coroutines:$ankoVersion"
+    implementation "androidx.recyclerview:recyclerview-selection:$recyclerviewVersion"
     // Anko Commons
     implementation "org.jetbrains.anko:anko-commons:$ankoVersion"
     // CardView-v7
@@ -84,7 +88,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.preference:preference:1.1.0-alpha05'
+    implementation 'androidx.preference:preference:1.1.0'
     annotationProcessor "android.arch.lifecycle:common-java8:$archLifeCycle"
     androidTestImplementation "androidx.arch.core:core-testing:$androidArchVersion"
     testImplementation "androidx.arch.core:core-testing:$androidArchVersion"
@@ -149,7 +153,7 @@ dependencies {
     /**
      * QR Code
      */
-    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'

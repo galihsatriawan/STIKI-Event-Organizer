@@ -61,14 +61,14 @@ class RecyclerParticipantEventAdapter(private var items : List<Invitation>) :
     }
 
     class ParticipantEventViewModel : ViewModel(){
-        private val _tvName = MutableLiveData<String>()
-        val tvName : LiveData<String> = _tvName
+            private val _tvName = MutableLiveData<String>()
+            val tvName : LiveData<String> = _tvName
 
-        private val _tvEmail = MutableLiveData<String>()
-        val tvEmail : LiveData<String> = _tvEmail
-        fun bind(invitation : Invitation){
-            _tvName.value = invitation.participant_name
-            _tvEmail.value = invitation.participant_email
-        }
+            private val _tvEmail = MutableLiveData<String>()
+            val tvEmail : LiveData<String> = _tvEmail
+            fun bind(invitation : Invitation){
+                _tvName.value = invitation.participant_name
+                _tvEmail.value = invitation.participant_email
+            }
     }
 }

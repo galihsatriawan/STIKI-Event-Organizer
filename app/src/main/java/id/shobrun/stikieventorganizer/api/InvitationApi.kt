@@ -20,4 +20,8 @@ interface InvitationApi {
     @POST("invitation/participants")
     @FormUrlEncoded
     fun getInvitationParticipants(@Field("id") id:String) : LiveData<ApiResponse<InvitationsResponse>>
+
+    @POST("invitation/allparticipants")
+    @FormUrlEncoded
+    fun getInvitationAllParticipants(@Field("id") id:String) : LiveData<ApiResponse<InvitationsResponse>>
 }

@@ -68,7 +68,9 @@ class ParticipantEventFragment : DaggerFragment() {
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
         fabAdd.setOnClickListener{
-            var add = intentFor<ParticipantDetailActivity>()
+            var add = intentFor<ParticipantSelectionActivity>(
+                EXTRA_EVENT to event
+            )
             startActivity(add)
         }
     }

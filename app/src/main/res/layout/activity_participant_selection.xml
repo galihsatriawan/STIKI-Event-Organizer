@@ -4,16 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
         <variable
             name="vm"
-            type="id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantEventViewModel" />
+            type="id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantSelectionViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </com.google.android.material.appbar.AppBarLayout>
         <ProgressBar
+            android:layout_below="@+id/app_bar"
             android:id="@+id/progressBar"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
@@ -21,6 +38,7 @@
             android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
             />
         <androidx.core.widget.NestedScrollView
+            android:layout_below="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.recyclerview.widget.RecyclerView
@@ -29,7 +47,7 @@
                 android:layout_height="wrap_content"
                 liveResourceList="@{vm.participantsLiveData}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_participant"
+                tools:listitem="@layout/item_participant_selection"
                 />
         </androidx.core.widget.NestedScrollView>
 
@@ -39,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_increase"
+            android:src="@android:drawable/ic_menu_save"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin" />
     </RelativeLayout>

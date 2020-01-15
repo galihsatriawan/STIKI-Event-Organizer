@@ -5,8 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import id.shobrun.stikieventorganizer.di.event.EventNetworkModule
 import id.shobrun.stikieventorganizer.di.event.EventPersistenceModule
 import id.shobrun.stikieventorganizer.di.event.EventRepositoryModule
-import id.shobrun.stikieventorganizer.di.event.detail.EventDetailModule
-import id.shobrun.stikieventorganizer.di.event.detail.EventDetailViewModelModule
+import id.shobrun.stikieventorganizer.di.event.detail.*
 import id.shobrun.stikieventorganizer.di.invitation.InvitationNetworkModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationPersistenceModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationRepositoryModule
@@ -30,6 +29,7 @@ import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailActi
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailViewModel
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
+import id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantSelectionActivity
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailViewModel
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
@@ -51,7 +51,16 @@ abstract class ActivityBuildersModule {
         ]
     )
     abstract fun injectInvitationDetailActivity() : InvitationDetailActivity
-
+    @ContributesAndroidInjector(
+        modules =[
+            ParticipantSelectionModule::class,
+            ParticipantSelectionViewModelModule::class,
+            InvitationNetworkModule::class,
+            InvitationPersistenceModule::class,
+            InvitationRepositoryModule::class
+        ]
+    )
+    abstract fun injectParticipantSelectionActivity() : ParticipantSelectionActivity
 
     @ContributesAndroidInjector(
         modules = [
