@@ -161,7 +161,7 @@
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:onClick="@{()->vm.directMaps()}"
+                        android:onClick="@{(v)->vm.directMaps(v)}"
                         android:src="@drawable/ic_map" />
                 </RelativeLayout>
                 <TextView
@@ -208,9 +208,12 @@
                     tools:text="@string/lorem_ipsum" />
                 <LinearLayout
                     android:layout_below="@id/content_cp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin_small"
                     android:orientation="vertical"
+                    android:onClick="@{()-> vm.showQRCode()}"
                     android:layout_gravity="center">
                 <ImageView
                     android:layout_margin="@dimen/activity_vertical_margin"

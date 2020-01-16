@@ -16,6 +16,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.zxing.BarcodeFormat
 import de.hdodenhof.circleimageview.CircleImageView
 import id.shobrun.stikieventorganizer.R
+import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.entity.InvitationStatus
 import id.shobrun.stikieventorganizer.utils.Helper.generatedCode
 
 
@@ -125,8 +127,50 @@ class DialogTools(private val activity: Activity) {
             generatedCode(data, BarcodeFormat.QR_CODE)
         )
         if (callback != null) {
-            (dialog.findViewById<View>(R.id.btn_neutral) as MaterialButton).setOnClickListener {
+            (dialog.findViewById<View>(R.id.btn_neutral) as Button).setOnClickListener {
                 callback.onPositiveClick(
+                    dialog
+                )
+            }
+        }
+        return dialog
+    }
+    fun buildDialogValidateTicket(
+        myTicket: Invitation,
+        callback: CallbackDialog?
+    ): Dialog? {
+        return buildDialogValidate(myTicket, callback)
+    }
+
+    // dialog info
+    fun buildDialogValidate(
+        myTicket: Invitation,
+        callback: CallbackDialog?
+    ): Dialog {
+        val dialog = buildDialogView(R.layout.dialog_confirm_ticket)
+        (dialog.findViewById<View>(R.id.tvIdTicket) as TextView).setText(myTicket.invitation_id)
+        (dialog.findViewById<View>(R.id.tvParticipantName) as TextView).setText(myTicket.participant_name)
+        (dialog.findViewById<View>(R.id.tvParticipantEmail) as TextView).setText(myTicket.participant_email)
+        val valid:Boolean = myTicket.status?.equals(InvitationStatus.WAITING_FOR_COMING.toString())?:false
+        var contentStatus =  ""
+
+        if (!valid) {
+            contentStatus = "Not Valid (${myTicket.status})"
+            (dialog.findViewById<View>(R.id.tvStatusTicket) as TextView).text = contentStatus
+            (dialog.findViewById<View>(R.id.btn_positive) as Button).visibility = View.GONE
+            (dialog.findViewById<View>(R.id.btn_negative) as Button).text = "Close"
+        } else {
+            contentStatus = "Valid"
+            (dialog.findViewById<View>(R.id.tvStatusTicket) as TextView).text = contentStatus
+        }
+        if (callback != null) {
+            (dialog.findViewById<View>(R.id.btn_positive) as Button).setOnClickListener {
+                callback.onPositiveClick(
+                    dialog
+                )
+            }
+            (dialog.findViewById<View>(R.id.btn_negative) as Button).setOnClickListener {
+                callback.onNegativeClick(
                     dialog
                 )
             }

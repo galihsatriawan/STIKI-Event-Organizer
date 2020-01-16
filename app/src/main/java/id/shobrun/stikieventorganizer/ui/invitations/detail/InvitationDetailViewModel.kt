@@ -57,9 +57,10 @@ class InvitationDetailViewModel @Inject constructor(invitationRepository : Invit
     fun postEventId(id : String?){
         this.eventId.value = id?:"-1"
     }
-    fun directMaps(){
+    fun directMaps(v:View){
         event.value?.let {
-            directionMaps(it.data!!.event_latitude!!,it.data!!.event_longitude!!)
+            val map = directionMaps(it.data!!.event_latitude!!,it.data!!.event_longitude!!)
+            v.context.startActivity(map)
         }
     }
     fun showQRCode(){

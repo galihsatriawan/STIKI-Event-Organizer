@@ -125,4 +125,36 @@ class InvitationRepository @Inject constructor(private val appExecutors: AppExec
             Timber.d("$message")
         }
     }.asLiveData()
+    fun updateInvitation(invitation:Invitation) = object : NetworkBoundRepository<Invitation,InvitationsResponse,InvitationResponseTransporter>(appExecutors){
+        override fun saveFetchData(items: InvitationsResponse) {
+            if(!items.result.isNullOrEmpty()){
+                localDB.inserts(items.result)
+            }
+        }
+
+        override fun shouldFetch(data: Invitation?): Boolean {
+            return true
+        }
+
+        override fun loadFromDb(): LiveData<Invitation> {
+            return localDB.getDetailInvitation(invitation.invitation_id)
+        }
+
+        override fun fetchService(): LiveData<ApiResponse<InvitationsResponse>> {
+            val data = hashMapOf(
+                "invitation" to invitation,
+                "id" to invitation.invitation_id,
+                "status" to "Attend"
+            )
+            return apiService.updateInvitation(data)
+        }
+
+        override fun transporter(): InvitationResponseTransporter {
+            return InvitationResponseTransporter()
+        }
+
+        override fun onFetchFailed(message: String?) {
+            Timber.d("$message")
+        }
+    }.asLiveData()
 }

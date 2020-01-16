@@ -77,4 +77,14 @@
     <string name="tipe">Tipe</string>
     <string name="data">Data</string>
     <string name="seo_scan">Scan</string>
+    <string name="VALIDATE">Validate</string>
+    <string name="valid">Valid</string>
+    <string name="status">Status</string>
+    <string name="ticket_detail">Ticket Detail</string>
+    <string name="id_ticket">ID Ticket</string>
+    <string name="title_camera_permission">Camera Permission</string>
+    <string name="text_camera_permission">Please give permission for camera</string>
+    <string name="OK">OK</string>
+    <string name="seo_name">Name</string>
+    <string name="seo_email">Email</string>
 </resources>

@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
@@ -16,6 +17,7 @@ import id.shobrun.stikieventorganizer.models.Resource
 import id.shobrun.stikieventorganizer.models.Status
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.entity.InvitationStatus
 import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.ui.adapter.*
 import id.shobrun.stikieventorganizer.utils.Helper.generatedCode
@@ -119,3 +121,57 @@ fun bindEventLocation(view : ImageView, resource: Resource<Invitation,Any>?){
 
     }
 }
+
+/**
+ * Confirm Ticket
+ */
+@BindingAdapter("idTicket")
+fun bindIdTicket(view: TextView , resource: Resource<Invitation, Any>?){
+    view.bindResource(resource){
+        it.data?.let {
+            view.text = it.event_id
+        }
+    }
+}
+
+@BindingAdapter("participantEmail")
+fun bindParticipantEmail(view: TextView , resource: Resource<Invitation, Any>?){
+    view.bindResource(resource){
+        it.data?.let {
+            view.text = it.participant_email
+        }
+    }
+}
+
+@BindingAdapter("invitationStatus")
+fun bindInvitationStatus(view: TextView , resource: Resource<Invitation, Any>?){
+    view.bindResource(resource){
+        it.data?.let {
+            val valid:Boolean = it.status?.equals(InvitationStatus.WAITING_FOR_COMING.toString())?:false
+            if(valid) view.text = "Valid"
+            else view.text = "Not Valid (${it.status})"
+
+        }
+    }
+}
+
+@BindingAdapter("tvParticipantName")
+fun bindParticipantName(view: TextView , resource: Resource<Invitation, Any>?){
+    view.bindResource(resource){
+        it.data?.let {
+            view.text = it.participant_name
+        }
+    }
+}
+
+@BindingAdapter("bindValidateButton")
+fun bindValidateButton(view: MaterialButton, resource: Resource<Invitation, Any>?){
+    view.bindResource(resource){
+        it.data?.let{
+            val valid:Boolean = it.status?.equals(InvitationStatus.WAITING_FOR_COMING.toString())?:false
+            if(!valid) view.gone()
+        }
+
+    }
+}
+

@@ -3,10 +3,7 @@ package id.shobrun.stikieventorganizer.api
 import androidx.lifecycle.LiveData
 import id.shobrun.stikieventorganizer.models.entity.Invitation
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface InvitationApi {
     @POST("invitation/myinvitation")
@@ -24,4 +21,7 @@ interface InvitationApi {
     @POST("invitation/allparticipants")
     @FormUrlEncoded
     fun getInvitationAllParticipants(@Field("id") id:String) : LiveData<ApiResponse<InvitationsResponse>>
+
+    @POST("invitation/update")
+    fun updateInvitation(@Body data: HashMap<String,Any>) : LiveData<ApiResponse<InvitationsResponse>>
 }
