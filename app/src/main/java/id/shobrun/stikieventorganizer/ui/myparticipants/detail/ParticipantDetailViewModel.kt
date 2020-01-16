@@ -14,11 +14,12 @@ import id.shobrun.stikieventorganizer.repository.ParticipantRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import id.shobrun.stikieventorganizer.utils.Helper
 import id.shobrun.stikieventorganizer.utils.Helper.getUniqueID
+import id.shobrun.stikieventorganizer.utils.SharedPref
 import timber.log.Timber
 import javax.inject.Inject
 
 
-class ParticipantDetailViewModel @Inject constructor(private val repository : ParticipantRepository): ViewModel(){
+class ParticipantDetailViewModel @Inject constructor(private val repository : ParticipantRepository,private val sharedPref: SharedPref): ViewModel(){
     private var isNewParticipant = false
     private val participantId : MutableLiveData<String> = MutableLiveData()
     val participant : LiveData<Resource<Participant,ParticipantsResponse>>
@@ -82,9 +83,9 @@ class ParticipantDetailViewModel @Inject constructor(private val repository : Pa
             return
         }
         if(isNewParticipant){
-            val user_id =1
-            val user_username= "galih"
-            val user_email ="galih@gmail.com"
+            val user_id =sharedPref.getValue(SharedPref.PREFS_USER_ID,-1)
+            val user_username= sharedPref.getValue(SharedPref.PREFS_USER_USERNAME,"")
+            val user_email =sharedPref.getValue(SharedPref.PREFS_USER_EMAIL,"")
             val participant = Participant(getUniqueID("$user_id"),currentName,currentEmail,user_id,user_username,user_email,currentTelp,currentAddress)
             insertParticipant(participant)
         }else{

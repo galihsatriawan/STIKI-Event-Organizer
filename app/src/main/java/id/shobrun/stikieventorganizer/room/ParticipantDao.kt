@@ -15,8 +15,8 @@ interface ParticipantDao {
     @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE $ID_PARTICIPANT = :id")
     fun getDetailParticipant(id : String) : LiveData<Participant>
 
-    @Query("SELECT * FROM $TABLE_PARTICIPANT")
-    fun getMyParticipants() : LiveData<List<Participant>>
+    @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE USER_ID = :id")
+    fun getMyParticipants(id:Int) : LiveData<List<Participant>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(participant: Participant)

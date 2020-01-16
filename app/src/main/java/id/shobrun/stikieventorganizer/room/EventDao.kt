@@ -14,8 +14,8 @@ interface EventDao {
     @Query("SELECT * FROM $TABLE_EVENT WHERE $ID_EVENT = :id")
     fun getDetailEvent(id : String) : LiveData<Event>
 
-    @Query("SELECT * FROM $TABLE_EVENT")
-    fun getMyEvents() : LiveData<List<Event>>
+    @Query("SELECT * FROM $TABLE_EVENT WHERE USER_ID = :id")
+    fun getMyEvents(id: Int) : LiveData<List<Event>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(event : Event)

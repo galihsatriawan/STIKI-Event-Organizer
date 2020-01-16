@@ -39,9 +39,6 @@
         <Preference
             app:summary="satriawan.galih99@gmail.com"
             app:title="Creator">
-            <intent
-                app:action="android.intent.action.VIEW"
-                app:data="@string/url_faq" />
         </Preference>
         <Preference
             app:summary="@string/creator_institution"

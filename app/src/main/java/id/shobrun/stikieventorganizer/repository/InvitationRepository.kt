@@ -53,7 +53,7 @@ class InvitationRepository @Inject constructor(private val appExecutors: AppExec
         }
 
         override fun loadFromDb(): LiveData<List<Invitation>> {
-            return localDB.getMyInvitations()
+            return localDB.getMyInvitations(email)
         }
 
         override fun fetchService(): LiveData<ApiResponse<InvitationsResponse>> {

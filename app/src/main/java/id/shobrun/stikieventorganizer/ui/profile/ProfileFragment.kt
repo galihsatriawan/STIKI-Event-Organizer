@@ -64,5 +64,4 @@ class ProfileFragment : DaggerFragment() {
             return super.onCreateView(inflater, container, savedInstanceState)
         }
     }
-
 }

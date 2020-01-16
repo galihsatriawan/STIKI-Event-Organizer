@@ -18,7 +18,6 @@ interface UserDao {
     @Query("SELECT * FROM $TABLE_USER WHERE USER_USERNAME = :username AND USER_PASSWORD = :password")
     fun getDetailUserByUsername(username: String,password: String) : LiveData<List<User>>
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)
 

@@ -13,6 +13,7 @@ import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import id.shobrun.stikieventorganizer.utils.FakeData.fakeInvitations
 import id.shobrun.stikieventorganizer.utils.SharedPref
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
+import timber.log.Timber
 import javax.inject.Inject
 
 class InvitationsViewModel @Inject constructor(repository : InvitationRepository,sharedPref: SharedPref): ViewModel() {
@@ -30,6 +31,7 @@ class InvitationsViewModel @Inject constructor(repository : InvitationRepository
             var isLoading = it.status == Status.LOADING
             MutableLiveData(isLoading)
         }
+        Timber.d(sharedPref.getValue(PREFS_USER_EMAIL,""))
         postParticipantEmail(sharedPref.getValue(PREFS_USER_EMAIL,""))
     }
 

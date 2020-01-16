@@ -60,7 +60,7 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
             }
 
             override fun loadFromDb(): LiveData<List<Participant>> {
-                return localDB.getMyParticipants()
+                return localDB.getMyParticipants(id)
             }
 
             override fun fetchService(): LiveData<ApiResponse<ParticipantsResponse>> {

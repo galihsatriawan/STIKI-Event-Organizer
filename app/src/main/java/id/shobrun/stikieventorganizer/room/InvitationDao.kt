@@ -19,8 +19,8 @@ interface InvitationDao {
     @Query("SELECT * FROM $TABLE_INVITATION WHERE $ID_INVITATION = :id")
     fun getDetailInvitation(id : Int) : LiveData<Invitation>
 
-    @Query("SELECT * FROM $TABLE_INVITATION")
-    fun getMyInvitations() : LiveData<List<Invitation>>
+    @Query("SELECT * FROM $TABLE_INVITATION WHERE PARTICIPANT_EMAIL = :email ")
+    fun getMyInvitations(email: String) : LiveData<List<Invitation>>
 
     @Query("SELECT $TABLE_INVITATION.* FROM $TABLE_INVITATION LEFT JOIN $TABLE_PARTICIPANT ON $TABLE_INVITATION.$ID_PARTICIPANT = $TABLE_PARTICIPANT.$ID_PARTICIPANT WHERE $ID_EVENT = :idEvent ")
     fun getInvitatationParticipants(idEvent: String) : LiveData<List<Invitation>>

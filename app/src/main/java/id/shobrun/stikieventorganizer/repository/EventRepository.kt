@@ -57,7 +57,7 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
         }
 
         override fun loadFromDb(): LiveData<List<Event>> {
-            return localDB.getMyEvents()
+            return localDB.getMyEvents(id)
         }
 
         override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {

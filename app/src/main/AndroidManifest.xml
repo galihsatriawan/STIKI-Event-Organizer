@@ -6,7 +6,9 @@
     <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:name=".SEOApplication"
         android:allowBackup="true"
@@ -34,6 +36,9 @@
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
             android:name=".ui.myevents.detail.ParticipantSelectionActivity"
+            android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
+        <activity
+            android:name=".ui.myevents.scanner.ScannerActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
             android:name=".ui.myevents.detail.EventDetailActivity"

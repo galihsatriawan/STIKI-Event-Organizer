@@ -21,6 +21,6 @@ data class Invitation(
     @SerializedName("ARRIVED_TIME") var arrived_time : String?,
     @SerializedName("STATUS") var status : String?,
     @SerializedName("EVENT_NAME") var event_name: String?,
-    @SerializedName("EVENT_DATE") var event_date : String,
+    @SerializedName("EVENT_DATE") var event_date : String?,
     @SerializedName("INVITER") var inviter : String?
 ):Parcelable

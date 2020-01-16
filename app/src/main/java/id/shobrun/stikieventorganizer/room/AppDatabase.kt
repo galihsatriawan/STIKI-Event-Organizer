@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import id.shobrun.stikieventorganizer.models.entity.*
 import id.shobrun.stikieventorganizer.utils.DateConverter
 
-@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 9 , exportSchema = false)
+@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 10 , exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun eventDao() : EventDao
@@ -17,7 +17,8 @@ abstract class AppDatabase : RoomDatabase(){
     abstract fun userDao() : UserDao
 
     companion object{
-        private const val DB_SEO = "SEO-db"
+        private const val
+                DB_SEO = "SEO-db"
 
         const val TABLE_INVITATION = "INVITATION_table"
         const val ID_INVITATION = "invitation_id"

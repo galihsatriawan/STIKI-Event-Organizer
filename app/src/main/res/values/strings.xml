@@ -68,4 +68,13 @@
     <string name="title_event_location">Location</string>
     <string name="title_event_cp">Contact Person</string>
     <string name="title_event_eo">Event Organizer</string>
+    <string name="CLOSE">Close</string>
+    <string name="dummy_content_text">Content</string>
+    <string name="dummy_title">Title</string>
+    <string name="YES">YES</string>
+    <string name="NO">NO</string>
+    <string name="SEARCH_IN_WEB">Search</string>
+    <string name="tipe">Tipe</string>
+    <string name="data">Data</string>
+    <string name="seo_scan">Scan</string>
 </resources>

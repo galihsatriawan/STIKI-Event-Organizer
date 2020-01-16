@@ -12,9 +12,13 @@ import id.shobrun.stikieventorganizer.models.network.EventsResponse
 import id.shobrun.stikieventorganizer.repository.EventRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import id.shobrun.stikieventorganizer.utils.Helper.getUniqueID
+import id.shobrun.stikieventorganizer.utils.SharedPref
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
 import javax.inject.Inject
 
-class EventDetailViewModel @Inject constructor(repository: EventRepository): ViewModel(){
+class EventDetailViewModel @Inject constructor(repository: EventRepository,val sharedPref: SharedPref): ViewModel(){
     private val eventId = MutableLiveData<String>()
     private val event : LiveData<Resource<Event,EventsResponse>>
     private var isNewEvent : Boolean = false
@@ -82,9 +86,9 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository): Vie
             return
         }
         if(isNewEvent){
-            val user_id =1
-            val user_username= "galih"
-            val user_email ="galih@gmail.com"
+            val user_id =sharedPref.getValue(PREFS_USER_ID,-1)
+            val user_username= sharedPref.getValue(PREFS_USER_USERNAME,"")
+            val user_email =sharedPref.getValue(PREFS_USER_EMAIL,"")
             val eventNew = Event(getUniqueID("$user_id"),user_id,user_username,user_email,currentName,currentDesc,currentDate,currentLocation,currentLink,null,null,currentCp,EventStatus.ON_HOLD.toString())
             insertEvent(eventNew)
         }else{
