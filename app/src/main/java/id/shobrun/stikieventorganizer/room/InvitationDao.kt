@@ -38,6 +38,9 @@ interface InvitationDao {
     @Query("DELETE FROM ${TABLE_INVITATION} WHERE $ID_INVITATION= :id")
     fun delete(id : Int)
 
+    @Query("DELETE FROM ${TABLE_INVITATION} WHERE $ID_EVENT= :eventId AND INVITER_ID=:userId")
+    fun deleteByEventId(userId: Int,eventId : String)
+
     @Query("DELETE FROM $TABLE_INVITATION")
     fun deletes()
 }

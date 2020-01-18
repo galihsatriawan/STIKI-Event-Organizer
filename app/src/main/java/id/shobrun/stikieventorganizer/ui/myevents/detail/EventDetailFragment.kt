@@ -127,8 +127,18 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         super.onOptionsItemSelected(item)
         return when(item.itemId){
             R.id.scan ->{
-                val scan = intentFor<ScannerActivity>()
+                if(EventDetailActivity.isNewEvent){
+                    binding.root.snackbar(getString(R.string.seo_info_has_create_event))
+                    return true
+                }
+                val scan = intentFor<ScannerActivity>(
+                    EXTRA_EVENT to event
+                )
                 startActivity(scan)
+                true
+            }
+            android.R.id.home ->{
+                requireActivity().onBackPressed()
                 true
             }
 

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
@@ -23,10 +24,16 @@ import com.google.zxing.Result
 import dagger.android.support.DaggerAppCompatActivity
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.DialogConfirmTicketBinding
+import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import id.shobrun.stikieventorganizer.utils.DialogTools
 import id.shobrun.stikieventorganizer.utils.DialogTools.CallbackDialog
+import id.shobrun.stikieventorganizer.utils.SharedPref
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import me.dm7.barcodescanner.zxing.ZXingScannerView
+import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -38,13 +45,20 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
     @Inject
     lateinit var viewModelFactory : ViewModelProvider.Factory
     val viewModel:ScannerViewModel by viewModels{viewModelFactory}
+    var event: Event? = null
     lateinit var binding: DialogConfirmTicketBinding
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-
+        event = intent?.getParcelableExtra(EXTRA_EVENT)
         mScannerView = ZXingScannerView(this) // Programmatically initialize the scanner view
 
         setContentView(mScannerView) // Set the scanner view as the content view
+        viewModel.snackbarText.observe(this, Observer {
+            if(it!=null){
+                Toast.makeText(applicationContext,it,Toast.LENGTH_LONG)
+            }
+
+        })
         checkCameraPermission()
     }
 
@@ -121,21 +135,18 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
     }
 
     override fun handleResult(rawResult: Result) { // Do something with the result here
-        Timber.d(TAG, rawResult.text) // Prints scan results
-        Timber.d(
-            TAG,
-            rawResult.barcodeFormat.toString()
-        ) // Prints the scan format (qrcode, pdf417 etc.)
-               // Toast.makeText(this, rawResult.text +"-"+rawResult.barcodeFormat.toString(), Toast.LENGTH_SHORT).show()
-        Timber.d(rawResult.text +"-"+rawResult.barcodeFormat.toString())
-        rawResult.text
         val data: String = rawResult.text
         Timber.d("$data")
         var invitation : Invitation? = null
         try {
             invitation= Gson().fromJson(data,Invitation::class.java)
         }catch (e : Exception){
-            Toast.makeText(this,"Please place your camera properly",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.seo_info_check_camera),Toast.LENGTH_SHORT).show()
+        }
+        val userId = viewModel.sharedPref.getValue(PREFS_USER_ID,-1)
+        if(invitation?.inviter_id != userId){
+            Toast.makeText(this,getString(R.string.seo_info_not_grant_validate),Toast.LENGTH_SHORT).show()
+            return
         }
 
         val resDialog = Dialog(this as Activity)

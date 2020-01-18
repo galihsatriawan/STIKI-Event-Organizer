@@ -62,10 +62,6 @@ class RecyclerParticipantSelectionAdapter(var items: List<Invitation>) :
 
     override fun onBindViewHolder(holder: ParticipantsViewHolder, position: Int) {
         val item = items[position]
-        holder.itemView.checkboxInvited.setOnClickListener{
-            holder.itemView.checkboxInvited.isChecked = !holder.itemView.checkboxInvited.isChecked
-            items[position].is_invited = holder.itemView.checkboxInvited.isChecked
-        }
         holder.bind(item)
     }
 

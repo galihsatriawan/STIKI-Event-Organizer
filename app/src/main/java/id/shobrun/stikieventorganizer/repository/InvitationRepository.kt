@@ -164,6 +164,14 @@ class InvitationRepository @Inject constructor(private val appExecutors: AppExec
     fun updateEventParticipant(userId: Int,eventId: String,invitations: List<Invitation>) = object : NetworkBoundRepository<List<Invitation>,InvitationsResponse,InvitationParticipantResponseTransporter>(appExecutors){
         override fun saveFetchData(items: InvitationsResponse) {
 //            if(items.result)
+            /**
+             * Remove the data before
+             * then save it
+             */
+            if(!items.result.isNullOrEmpty()){
+                localDB.deleteByEventId(userId,eventId)
+                localDB.inserts(items.result)
+            }
         }
 
         override fun shouldFetch(data: List<Invitation>?): Boolean {
@@ -177,6 +185,7 @@ class InvitationRepository @Inject constructor(private val appExecutors: AppExec
         override fun fetchService(): LiveData<ApiResponse<InvitationsResponse>> {
             val data: HashMap<String,Any?> = hashMapOf(
                 "event_id" to eventId,
+                "user_id" to userId,
                 "invitations" to invitations
             )
             return apiService.updateParticipantEvent(data)

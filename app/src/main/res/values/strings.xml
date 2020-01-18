@@ -92,4 +92,7 @@
     <string name="go_to_picker_activity">Go to picker</string>
     <string name="seo_hint_your_location">Your Location</string>
     <string name="seo_hint_detail_location">Detail Location</string>
+    <string name="seo_info_has_create_event">Please create th event first</string>
+    <string name="seo_info_check_camera">Please place your camera properly</string>
+    <string name="seo_info_not_grant_validate">You don\'t have any permission to validate</string>
 </resources>

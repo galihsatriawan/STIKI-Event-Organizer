@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,6 +53,14 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
         binding.rvParticipants.adapter = participantsAdapter
         viewModel.recyclerAdapter = participantsAdapter
         viewModel.postEventId(event?.event_id?:EventDetailActivity.currentEventId)
+        viewModel.snackbarText.observe(this, Observer {
+            if(it!=null) Toast.makeText(applicationContext,it,Toast.LENGTH_LONG).show()
+        })
+        viewModel.isSuccess.observe(this, Observer {
+            if(it!=null){
+                if(it) onBackPressed()
+            }
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {

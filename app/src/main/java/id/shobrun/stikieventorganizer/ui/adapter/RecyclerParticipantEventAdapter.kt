@@ -43,7 +43,7 @@ class RecyclerParticipantEventAdapter(private var items : List<Invitation>) :
         val view = ParticipantEventViewHolder(itemBinding)
 
         view.listen {
-            itemListener(items[it])
+            //itemListener(items[it])
         }
 
         return view

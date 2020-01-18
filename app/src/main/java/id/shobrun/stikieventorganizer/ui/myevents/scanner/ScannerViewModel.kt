@@ -11,9 +11,10 @@ import id.shobrun.stikieventorganizer.models.entity.InvitationStatus
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.repository.InvitationRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
+import id.shobrun.stikieventorganizer.utils.SharedPref
 import javax.inject.Inject
 
-class ScannerViewModel @Inject constructor(repository: InvitationRepository) : ViewModel(){
+class ScannerViewModel @Inject constructor(repository: InvitationRepository,val sharedPref: SharedPref) : ViewModel(){
     val loading : LiveData<Boolean>
 
     val updateInvitation : LiveData<Resource<Invitation,InvitationsResponse>>
@@ -47,6 +48,7 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository) : V
     }
     fun postInvitation(invitation: Invitation?){
         invitationFromIntent.value = invitation
+
     }
     fun validateInvitation(){
         val invitation = invitationDetail.value?.data

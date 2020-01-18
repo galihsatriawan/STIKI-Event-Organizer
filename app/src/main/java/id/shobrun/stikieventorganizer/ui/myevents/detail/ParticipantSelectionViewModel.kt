@@ -46,11 +46,8 @@ class ParticipantSelectionViewModel @Inject constructor(val repository: Invitati
         }
         loadingAction = participantResAction.switchMap {
             val isLoading = it.status == Status.LOADING
-            if(it.status==Status.SUCCESS){
-                isSuccess.value = true
-                _snackbarText.value = it.message ?:it.additionalData?.status
-            }else if (it.status==Status.ERROR){
-                isSuccess.value = false
+            if(!isLoading){
+                if(it.status==Status.SUCCESS) isSuccess.value = true
                 _snackbarText.value = it.message ?:it.additionalData?.status
             }
             MutableLiveData(isLoading)
@@ -61,8 +58,11 @@ class ParticipantSelectionViewModel @Inject constructor(val repository: Invitati
     }
     fun addParticipantSelection(){
 
+        val selection = ArrayList<Invitation>()
         for(i in recyclerAdapter.items){
-            Timber.d("Selection -${i.participant_id}- ${i.is_invited}")
+//            Timber.d("Selection -${i.participant_id}- ${i.is_invited}")
+            if(i.is_invited?:false) selection.add(i)
         }
+        participantMutable.value = selection
     }
 }
