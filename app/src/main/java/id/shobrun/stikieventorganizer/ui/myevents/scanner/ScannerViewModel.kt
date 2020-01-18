@@ -20,7 +20,7 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository) : V
     val invitationMutable = MutableLiveData<Invitation>()
     val invitationFromIntent = MutableLiveData<Invitation>()
     val loadingDetail : LiveData<Boolean>
-    private val invitationDetail : LiveData<Resource<Invitation,InvitationsResponse>>
+    val invitationDetail : LiveData<Resource<Invitation,InvitationsResponse>>
     private val _snackbarText = MutableLiveData<String>()
     val snackbarText = _snackbarText
     init {
@@ -37,7 +37,7 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository) : V
         }
         invitationDetail = invitationFromIntent.switchMap {
             invitationFromIntent.value?.let {
-                repository.getInvitationDetail(it.invitation_id)
+                repository.getInvitationDetail(it.invitation_id?:-1)
             }?: AbsentLiveData.create()
         }
         loadingDetail = invitationDetail.switchMap {

@@ -108,7 +108,7 @@ class EventRepository @Inject constructor(private val appExecutors: AppExecutors
     fun updateEvent(event:Event) = object : NetworkBoundRepository<Event,EventsResponse,EventResponseTransporter>(appExecutors){
         override fun saveFetchData(items: EventsResponse) {
             if(!items.result.isNullOrEmpty()){
-                localDB.insert(items.result[0])
+                localDB.update(items.result[0])
             }else{
                 localDB.update(event)
             }

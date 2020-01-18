@@ -87,4 +87,9 @@
     <string name="OK">OK</string>
     <string name="seo_name">Name</string>
     <string name="seo_email">Email</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="SEARCH_LOCATION">Search Location</string>
+    <string name="go_to_picker_activity">Go to picker</string>
+    <string name="seo_hint_your_location">Your Location</string>
+    <string name="seo_hint_detail_location">Detail Location</string>
 </resources>

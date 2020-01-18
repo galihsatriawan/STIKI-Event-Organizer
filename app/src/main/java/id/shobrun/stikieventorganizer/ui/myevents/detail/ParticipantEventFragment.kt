@@ -21,6 +21,7 @@ import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantEventAdapter
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
 import kotlinx.android.synthetic.main.fragment_participants.*
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.intentFor
 import javax.inject.Inject
 
@@ -50,24 +51,20 @@ class ParticipantEventFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.postEventId(event?.event_id)
+        viewModel.postEventId(event?.event_id?:EventDetailActivity.currentEventId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         participantsAdapter = RecyclerParticipantEventAdapter(ArrayList())
-        participantsAdapter.setItemListener {
-            /**
-             * When Click Item
-             */
-            var detail = intentFor<ParticipantDetailActivity>(ParticipantDetailActivity.EXTRA_PARTICIPANT to it)
-            startActivity(detail)
-
-        }
         val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
         fabAdd.setOnClickListener{
+            if(EventDetailActivity.isNewEvent){
+                binding.root.snackbar("Please create the event first")
+                return@setOnClickListener
+            }
             var add = intentFor<ParticipantSelectionActivity>(
                 EXTRA_EVENT to event
             )

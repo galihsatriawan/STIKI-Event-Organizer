@@ -36,6 +36,8 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
     val eventLinkMaps = MutableLiveData<String>()
     val eventCp = MutableLiveData<String>()
     val eventStatus = MutableLiveData<String>()
+    val eventLatitude = MutableLiveData<Double>()
+    val eventLongitude = MutableLiveData<Double>()
 
     private val _snackbarText = MutableLiveData<String>()
     val snackbarText :LiveData<String> = _snackbarText
@@ -81,7 +83,9 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
         val currentLink = eventLinkMaps.value
         val currentLocation = eventLocation.value
         val currentCp = eventCp.value
-        if(currentName.isNullOrEmpty() || currentDesc.isNullOrEmpty() || currentDate.isNullOrEmpty()|| currentLink .isNullOrEmpty()|| currentLocation .isNullOrEmpty()|| currentCp .isNullOrEmpty()){
+        val currentLatitude = eventLatitude.value
+        val currentLongitude = eventLongitude.value
+        if(currentName.isNullOrEmpty() || currentDesc.isNullOrEmpty() || currentDate.isNullOrEmpty()|| currentLocation .isNullOrEmpty()|| currentCp .isNullOrEmpty()){
             _snackbarText.value = "Please fill completely"
             return
         }
@@ -89,7 +93,7 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
             val user_id =sharedPref.getValue(PREFS_USER_ID,-1)
             val user_username= sharedPref.getValue(PREFS_USER_USERNAME,"")
             val user_email =sharedPref.getValue(PREFS_USER_EMAIL,"")
-            val eventNew = Event(getUniqueID("$user_id"),user_id,user_username,user_email,currentName,currentDesc,currentDate,currentLocation,currentLink,null,null,currentCp,EventStatus.ON_HOLD.toString())
+            val eventNew = Event(getUniqueID("$user_id"),user_id,user_username,user_email,currentName,currentDesc,currentDate,currentLocation,currentLink,currentLatitude,currentLongitude,currentCp,EventStatus.ON_HOLD.toString())
             insertEvent(eventNew)
         }else{
             val eventTemp = this.event.value?.data!!
@@ -99,6 +103,8 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
             eventTemp.event_cp = currentCp
             eventTemp.event_map_location = currentLink
             eventTemp.event_location = currentLocation
+            eventTemp.event_latitude = currentLatitude
+            eventTemp.event_longitude = currentLongitude
             updateEvent(eventTemp)
         }
     }

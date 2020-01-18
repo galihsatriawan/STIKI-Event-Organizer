@@ -7,6 +7,7 @@ import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_EVENT
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_INVITATION
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_PARTICIPANT
+import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.ID_USER
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_EVENT
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_INVITATION
 import id.shobrun.stikieventorganizer.room.AppDatabase.Companion.TABLE_PARTICIPANT
@@ -19,11 +20,11 @@ interface InvitationDao {
     @Query("SELECT * FROM $TABLE_INVITATION WHERE $ID_INVITATION = :id")
     fun getDetailInvitation(id : Int) : LiveData<Invitation>
 
-    @Query("SELECT * FROM $TABLE_INVITATION WHERE PARTICIPANT_EMAIL = :email ")
-    fun getMyInvitations(email: String) : LiveData<List<Invitation>>
+    @Query("SELECT * FROM $TABLE_INVITATION WHERE PARTICIPANT_EMAIL = :email AND IS_INVITED=:isInvited")
+    fun getMyInvitations(email: String,isInvited:Boolean) : LiveData<List<Invitation>>
 
-    @Query("SELECT $TABLE_INVITATION.* FROM $TABLE_INVITATION LEFT JOIN $TABLE_PARTICIPANT ON $TABLE_INVITATION.$ID_PARTICIPANT = $TABLE_PARTICIPANT.$ID_PARTICIPANT WHERE $ID_EVENT = :idEvent ")
-    fun getInvitatationParticipants(idEvent: String) : LiveData<List<Invitation>>
+    @Query("SELECT $TABLE_INVITATION.* FROM $TABLE_INVITATION LEFT JOIN $TABLE_PARTICIPANT ON $TABLE_INVITATION.$ID_PARTICIPANT = $TABLE_PARTICIPANT.$ID_PARTICIPANT WHERE ($ID_EVENT = :idEvent) AND INVITER_ID=:userId")
+    fun getInvitatationParticipants(userId:Int,idEvent: String) : LiveData<List<Invitation>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(invitation: Invitation)

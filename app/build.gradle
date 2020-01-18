@@ -15,6 +15,14 @@ allOpen {
     annotation 'id.shobrun.footballleague.testing.OpenClass'
 }
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/sh0brun/AndroidStudioProjects/PPB2/UAS/stiki-seo.jks')
+            storePassword 'stikiseo'
+            keyAlias = 'stiki-seo'
+            keyPassword 'stikiseo'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -30,6 +38,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     packagingOptions {
@@ -89,6 +101,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.preference:preference:1.1.0'
+    implementation "com.google.android.gms:play-services-maps:$mapsVersion"
+    implementation "com.google.android.gms:play-services-location:$mapsLocationVersion"
+    implementation "com.google.android.gms:play-services-places:$mapsLocationVersion"
+    implementation "com.google.android.libraries.places:places:1.1.0"
     annotationProcessor "android.arch.lifecycle:common-java8:$archLifeCycle"
     androidTestImplementation "androidx.arch.core:core-testing:$androidArchVersion"
     testImplementation "androidx.arch.core:core-testing:$androidArchVersion"
@@ -155,7 +171,10 @@ dependencies {
      */
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
-
+    /**
+     * Map Box
+     */
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.6.0'
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

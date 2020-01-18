@@ -58,7 +58,7 @@ class MyEventsFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         eventAdapter = RecyclerEventAdapter(ArrayList())
         eventAdapter.setItemListener {
-            val detail = intentFor<EventDetailActivity>(EventDetailActivity.EXTRA_EVENT to it)
+            val detail = intentFor<EventDetailActivity>(EXTRA_EVENT to it)
             startActivity(detail)
         }
 

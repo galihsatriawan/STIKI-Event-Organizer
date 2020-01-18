@@ -20,8 +20,11 @@ interface InvitationApi {
 
     @POST("invitation/allparticipants")
     @FormUrlEncoded
-    fun getInvitationAllParticipants(@Field("id") id:String) : LiveData<ApiResponse<InvitationsResponse>>
+    fun getInvitationAllParticipants(@Field("id") id:Int,@Field("eventId") eventId:String) : LiveData<ApiResponse<InvitationsResponse>>
 
     @POST("invitation/update")
-    fun updateInvitation(@Body data: HashMap<String,Any>) : LiveData<ApiResponse<InvitationsResponse>>
+    fun updateInvitation(@Body data: HashMap<String,Any?>) : LiveData<ApiResponse<InvitationsResponse>>
+
+    @POST("invitation/update_participant_event")
+    fun updateParticipantEvent(@Body data: HashMap<String,Any?>) : LiveData<ApiResponse<InvitationsResponse>>
 }

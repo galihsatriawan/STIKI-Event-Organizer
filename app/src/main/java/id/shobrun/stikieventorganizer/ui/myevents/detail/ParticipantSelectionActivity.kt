@@ -17,7 +17,9 @@ import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithHome
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantSelectionAdapter
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
+import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
 import kotlinx.android.synthetic.main.activity_participant_selection.*
+import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
 class ParticipantSelectionActivity : DaggerAppCompatActivity() {
@@ -47,8 +49,8 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
         val dividerItemDecoration = DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL)
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
-
-        viewModel.postEventId(event?.event_id?:"-1")
+        viewModel.recyclerAdapter = participantsAdapter
+        viewModel.postEventId(event?.event_id?:EventDetailActivity.currentEventId)
     }
 
     override fun onSupportNavigateUp(): Boolean {

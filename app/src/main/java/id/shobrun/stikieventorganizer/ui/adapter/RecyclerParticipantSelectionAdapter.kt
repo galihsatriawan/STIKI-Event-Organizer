@@ -8,15 +8,18 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import id.shobrun.stikieventorganizer.databinding.ItemParticipantSelectionBinding
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import kotlinx.android.synthetic.main.item_participant_selection.view.*
+import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
+import timber.log.Timber
 
-class RecyclerParticipantSelectionAdapter(private var items: List<Invitation>) :
+class RecyclerParticipantSelectionAdapter(var items: List<Invitation>) :
     RecyclerView.Adapter<RecyclerParticipantSelectionAdapter.ParticipantsViewHolder>() {
     private lateinit var itemListener: (Invitation) -> Unit
     fun setItemListener(listener: (invitation: Invitation) -> Unit) {
         this.itemListener = listener
     }
 
-    fun setItems(items: List<Invitation>?) {
+    fun set(items: List<Invitation>) {
         if (items != null) {
             this.items = items
             notifyDataSetChanged()
@@ -41,7 +44,8 @@ class RecyclerParticipantSelectionAdapter(private var items: List<Invitation>) :
         val view = ParticipantsViewHolder(itemBinding)
 
         view.listen {
-            itemListener(items[it])
+            itemBinding.checkboxInvited.isChecked = !itemBinding.checkboxInvited.isChecked
+            items[it].is_invited = itemBinding.checkboxInvited.isChecked
         }
 
         return view
@@ -58,6 +62,10 @@ class RecyclerParticipantSelectionAdapter(private var items: List<Invitation>) :
 
     override fun onBindViewHolder(holder: ParticipantsViewHolder, position: Int) {
         val item = items[position]
+        holder.itemView.checkboxInvited.setOnClickListener{
+            holder.itemView.checkboxInvited.isChecked = !holder.itemView.checkboxInvited.isChecked
+            items[position].is_invited = holder.itemView.checkboxInvited.isChecked
+        }
         holder.bind(item)
     }
 
@@ -73,7 +81,8 @@ class RecyclerParticipantSelectionAdapter(private var items: List<Invitation>) :
         fun bind(invitation: Invitation) {
             _tvName.value = invitation.participant_name
             _tvEmail.value = invitation.participant_email
-            _checkBox.value = invitation.status != null
+            _checkBox.value = invitation.is_invited
+            Timber.d("${tvName.value}-${checkBox.value}")
         }
     }
 }

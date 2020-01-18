@@ -148,7 +148,7 @@ class DialogTools(private val activity: Activity) {
         callback: CallbackDialog?
     ): Dialog {
         val dialog = buildDialogView(R.layout.dialog_confirm_ticket)
-        (dialog.findViewById<View>(R.id.tvIdTicket) as TextView).setText(myTicket.invitation_id)
+        (dialog.findViewById<View>(R.id.tvIdTicket) as TextView).setText(myTicket.invitation_id?:-1)
         (dialog.findViewById<View>(R.id.tvParticipantName) as TextView).setText(myTicket.participant_name)
         (dialog.findViewById<View>(R.id.tvParticipantEmail) as TextView).setText(myTicket.participant_email)
         val valid:Boolean = myTicket.status?.equals(InvitationStatus.WAITING_FOR_COMING.toString())?:false

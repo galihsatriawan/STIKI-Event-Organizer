@@ -14,9 +14,11 @@ import id.shobrun.stikieventorganizer.repository.EventRepository
 import id.shobrun.stikieventorganizer.repository.InvitationRepository
 import id.shobrun.stikieventorganizer.repository.ParticipantRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
+import id.shobrun.stikieventorganizer.utils.SharedPref
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import javax.inject.Inject
 
-class ParticipantEventViewModel @Inject constructor(repository: InvitationRepository) : ViewModel() {
+class ParticipantEventViewModel @Inject constructor(repository: InvitationRepository,sharedPref: SharedPref) : ViewModel() {
     private var isNewEvent = false
     private var eventId : MutableLiveData<String> = MutableLiveData()
     val participantsLiveData : LiveData<Resource<List<Invitation>,InvitationsResponse>>
@@ -24,7 +26,7 @@ class ParticipantEventViewModel @Inject constructor(repository: InvitationReposi
     init {
         participantsLiveData = eventId.switchMap {
             eventId.value?.let {
-                repository.getParticipantsEvent(it)
+                repository.getParticipantsEvent(sharedPref.getValue(PREFS_USER_ID,-1),it)
             }?: AbsentLiveData.create()
         }
         loading = participantsLiveData.switchMap {

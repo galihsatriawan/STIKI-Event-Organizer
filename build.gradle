@@ -26,6 +26,8 @@ buildscript {
         legacyVersion = '1.0.0'
         lifeCycle = "2.2.0-rc03"
         lifeCycleVM = "2.1.0"
+        mapsVersion = "16.1.0"
+        mapsLocationVersion = "17.0.0"
         mockito = "3.1.0"
         mockitoKotlinVersion = '2.0.0-RC1'
         mockWebServerVersion = '3.9.0'
@@ -46,7 +48,7 @@ buildscript {
 
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "com.android.tools.build:gradle:${gradleVersion}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"

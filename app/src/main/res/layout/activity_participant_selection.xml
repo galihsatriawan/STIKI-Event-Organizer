@@ -43,7 +43,7 @@
                 android:id="@+id/rvParticipants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                liveResourceList="@{vm.participantsLiveData}"
+                liveResourceAdditionalList="@{vm.participantsLiveData}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_participant_selection"
                 />
@@ -56,6 +56,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@android:drawable/ic_menu_save"
+            android:onClick="@{()->vm.addParticipantSelection()}"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin" />
     </RelativeLayout>

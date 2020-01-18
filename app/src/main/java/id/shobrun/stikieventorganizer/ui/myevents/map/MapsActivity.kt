@@ -1,24 +1,20 @@
-package id.shobrun.stikieventorganizer.ui.myevents.detail
+package id.shobrun.stikieventorganizer.ui.myevents.map
 
 import android.app.Activity
 import android.content.Intent
+import android.location.Location
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.RelativeLayout
+
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
-import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
+
+
 import android.util.Log
-import android.view.*
-import android.widget.RelativeLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -31,78 +27,36 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import dagger.android.support.DaggerFragment
+import java.io.IOException
 
 import id.shobrun.stikieventorganizer.R
-import id.shobrun.stikieventorganizer.databinding.FragmentEventDetailBinding
-import id.shobrun.stikieventorganizer.models.entity.Event
-import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
-import id.shobrun.stikieventorganizer.ui.myevents.scanner.ScannerActivity
-import kotlinx.android.synthetic.main.fragment_event_detail.*
-import kotlinx.android.synthetic.main.fragment_events.*
-import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.support.v4.intentFor
-import timber.log.Timber
-import java.io.IOException
-import javax.inject.Inject
 
-class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
 
+    private lateinit var map: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var lastLocation: Location
+
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+    private var locationUpdateState = false
+
     companion object {
-        fun newInstance() = EventDetailFragment()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val REQUEST_CHECK_SETTINGS = 2
         private const val PLACE_PICKER_REQUEST = 3
     }
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel : EventDetailViewModel by viewModels { viewModelFactory }
-    private lateinit var binding : FragmentEventDetailBinding
-    var event: Event? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-
-
-
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_event_detail,container,false)
-        if(arguments?.get(EXTRA_EVENT) !=null){
-            event = arguments!![EXTRA_EVENT]  as Event
-        }
-
-        with(binding){
-            lifecycleOwner = this@EventDetailFragment
-            vm = viewModel
-        }
-
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
-        viewModel.postEventId(event?.event_id)
-        viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
-            if(!it.isNullOrEmpty())  binding.root.snackbar(it).show()
-        })
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager
+        setContentView(R.layout.activity_order_with_map)
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
@@ -115,35 +69,8 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         }
 
         createLocationRequest()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_event_detail, menu)
 
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
-        return when(item.itemId){
-            R.id.scan ->{
-                val scan = intentFor<ScannerActivity>()
-                startActivity(scan)
-                true
-            }
-
-            else -> true
-        }
-    }
-
-    private lateinit var map: GoogleMap
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var lastLocation: Location
-
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var locationRequest: LocationRequest
-    private var locationUpdateState = false
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -155,8 +82,8 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             }
         }
         if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == AppCompatActivity.RESULT_OK) {
-                val place = PlacePicker.getPlace(context, data)
+            if (resultCode == RESULT_OK) {
+                val place = PlacePicker.getPlace(this, data)
                 var addressText = place.name.toString()
                 addressText += "\n" + place.address.toString()
 
@@ -170,7 +97,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    override fun onResume() {
+    public override fun onResume() {
         super.onResume()
         if (!locationUpdateState) {
             startLocationUpdates()
@@ -198,9 +125,9 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     override fun onMarkerClick(p0: Marker?) = false
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
+        if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+            ActivityCompat.requestPermissions(this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
@@ -208,7 +135,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         map.isMyLocationEnabled = true
         map.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-        fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
+        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             // Got last known location. In some rare situations this can be null.
             if (location != null) {
                 lastLocation = location
@@ -222,15 +149,15 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
 
-        val titleStr :String?= getAddress(location)  // add these two lines
-        markerOptions.title(titleStr?:"Your Location")
-        map.clear()
+        val titleStr = getAddress(location)  // add these two lines
+        markerOptions.title(titleStr)
+
         map.addMarker(markerOptions)
     }
 
     private fun getAddress(latLng: LatLng): String {
         // 1
-        val geocoder = Geocoder(context)
+        val geocoder = Geocoder(this)
         val addresses: List<Address>?
         val address: Address?
         var addressText = ""
@@ -238,15 +165,12 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         try {
             // 2
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            viewModel.eventLatitude.value = latLng.latitude
-            viewModel.eventLongitude.value = latLng.longitude
             // 3
             if (null != addresses && !addresses.isEmpty()) {
                 address = addresses[0]
                 for (i in 0 until address.maxAddressLineIndex) {
                     // pada getAddressLine berisi tentang alamat, kota, negara, dimulai dari index 0
                     addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
-                    viewModel.eventLocation.value = addressText
                 }
             }
         } catch (e: IOException) {
@@ -257,9 +181,9 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     }
 
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
+        if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+            ActivityCompat.requestPermissions(this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST_CODE)
             return
@@ -275,7 +199,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
-        val client = LocationServices.getSettingsClient(requireActivity())
+        val client = LocationServices.getSettingsClient(this)
         val task = client.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener {
@@ -289,7 +213,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    e.startResolutionForResult(requireActivity(),
+                    e.startResolutionForResult(this,
                         REQUEST_CHECK_SETTINGS)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
@@ -302,7 +226,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         val builder = PlacePicker.IntentBuilder()
 
         try {
-            startActivityForResult(builder.build(requireActivity()), PLACE_PICKER_REQUEST)
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
         } catch (e: GooglePlayServicesRepairableException) {
             e.printStackTrace()
         } catch (e: GooglePlayServicesNotAvailableException) {
@@ -310,3 +234,4 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         }
     }
 }
+

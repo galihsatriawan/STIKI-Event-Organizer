@@ -72,7 +72,10 @@
                     style="@style/Widget.SEO.TextInputLayout"
                     android:hint="@string/seo_hint_event_date"
                     app:errorEnabled="true"
-                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/ic_date"
+                    android:enabled="true"
+                    selectDateLayout="@{vm.eventDate}"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_event_date"
@@ -80,39 +83,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="date"
                         android:text="@={vm.eventDate}"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.SEO.TextInputLayout"
-                    android:hint="@string/seo_hint_event_link_maps"
-                    app:errorEnabled="true"
-                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
-                    >
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_event_link_maps"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={vm.eventLinkMaps}"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Widget.SEO.TextInputLayout"
-                    android:hint="@string/seo_hint_event_location"
-                    app:errorEnabled="true"
-                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
-                    >
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_event_location"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minLines="2"
-                        android:maxLines="4"
-                        android:text="@={vm.eventLocation}"
-                        />
+                        selectDate="@{vm.eventDate}"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -130,7 +101,44 @@
                         android:text="@={vm.eventCp}"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="@{(vm.loading || vm.loadingUpdate)? View.GONE : View.VISIBLE}"
+                    >
+                    <TextView
+                        android:id="@+id/title_eventLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seo_hint_your_location"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        />
+                    <include
+                        android:layout_below="@+id/title_eventLocation"
+                        android:id="@+id/lyt_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/activity_order_with_map"
+                        android:visibility="visible"
+                        />
+                </RelativeLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.SEO.TextInputLayout"
+                    android:hint="@string/seo_hint_detail_location"
+                    app:errorEnabled="true"
+                    android:enabled="@{!(vm.loading || vm.loadingUpdate)}"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_event_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:text="@={vm.eventLocation}"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
         <RelativeLayout
