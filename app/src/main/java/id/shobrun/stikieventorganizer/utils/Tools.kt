@@ -1,6 +1,7 @@
 package id.shobrun.stikieventorganizer.utils
 
 import android.R
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
@@ -16,21 +17,21 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 
-class Tools(context: Context) {
+class Tools(private val activity:Activity) {
     private val TAG = javaClass.simpleName
-    private val context: Context
+
     fun openMap(context: Context, latitude: Double, longitude: Double) {
         val uri = "geo:$latitude,$longitude"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         context.startActivity(intent)
     }
 
-    fun openBrowser(context: Context, url: String?) {
+    fun openBrowser( url: String?) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         // Always use string resources for UI text. This says something like "Share this photo with"
-        val title: String = context.getString(R.string.search_go)
-        context.startActivity(intent)
+        val title: String = activity.getString(R.string.search_go)
+        activity.startActivity(intent)
     }
 
     fun callPhone(context: Context, telp: String) {
@@ -40,7 +41,6 @@ class Tools(context: Context) {
     }
 
     fun sendEmail(
-        context: Context,
         to: String?,
         subject: String?,
         body: String?
@@ -50,7 +50,7 @@ class Tools(context: Context) {
         intent.putExtra(Intent.EXTRA_EMAIL, to)
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         intent.putExtra(Intent.EXTRA_TEXT, body)
-        context.startActivity(Intent.createChooser(intent, "Send Email"))
+        activity.startActivity(Intent.createChooser(intent, "Send Email"))
     }
 
     fun shareWA(context: Context, message: String?) {
@@ -192,9 +192,5 @@ class Tools(context: Context) {
         const val LOC = "LOC"
         const val KODE = "KODE"
         const val PRODUK = "PRODUK"
-    }
-
-    init {
-        this.context = context
     }
 }

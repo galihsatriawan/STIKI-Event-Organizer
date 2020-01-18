@@ -6,10 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
+import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.ItemParticipantBinding
 import id.shobrun.stikieventorganizer.databinding.ItemParticipantEventBinding
 import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.entity.InvitationStatus
 import id.shobrun.stikieventorganizer.models.entity.Participant
+import kotlinx.android.synthetic.main.item_participant_event.view.*
 
 class RecyclerParticipantEventAdapter(private var items : List<Invitation>) :
     RecyclerView.Adapter<RecyclerParticipantEventAdapter.ParticipantEventViewHolder>() {
@@ -58,6 +61,10 @@ class RecyclerParticipantEventAdapter(private var items : List<Invitation>) :
 
     override fun onBindViewHolder(holder: ParticipantEventViewHolder, position: Int) {
         holder.bind(items[position])
+        if(items[position].status.equals(InvitationStatus.ATTENDED.toString()))
+            holder.itemView.icAttendance.setImageResource(R.drawable.ic_attend)
+        else
+            holder.itemView.icAttendance.setImageResource(R.drawable.ic_no_attend_yet)
     }
 
     class ParticipantEventViewModel : ViewModel(){

@@ -20,6 +20,27 @@
             android:layout_height="wrap_content"
             android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
             />
+        <LinearLayout
+            android:id="@+id/container_message"
+            visibleMessage="@{vm.eventsLiveData}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/txt_content_description"
+                android:src="@drawable/ic_error_black_24dp" />
+
+            <TextView
+                messageEvents="@{vm.eventsLiveData}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/failed_load" />
+        </LinearLayout>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

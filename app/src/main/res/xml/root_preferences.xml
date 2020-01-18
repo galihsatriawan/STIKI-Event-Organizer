@@ -38,11 +38,14 @@
         <!-- preference opens url in browser -->
         <Preference
             app:summary="satriawan.galih99@gmail.com"
-            app:title="Creator">
+            app:title="Creator"
+            app:key="email_creator">
         </Preference>
         <Preference
             app:summary="@string/creator_institution"
-            app:title="@string/title_institution" />
+            app:title="@string/title_institution"
+            app:key="institution"
+            />
 
         <Preference
             app:summary="@string/app_version"
@@ -52,6 +55,7 @@
     <PreferenceCategory app:title="@string/other_header">
         <Preference
             app:title="Help"
+            app:key="help"
             >
 
         </Preference>

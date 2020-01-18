@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
+import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.extensions.bindResource
 import id.shobrun.stikieventorganizer.extensions.gone
 import id.shobrun.stikieventorganizer.extensions.visible
@@ -274,3 +276,29 @@ fun selectTime(context: Context, date: MutableLiveData<String>) {
     timePickerDialog.show()
 }
 
+
+@BindingAdapter("visibleMessage")
+fun bindVisibleMessage(view: LinearLayout, resource: Resource<List<Any>,Any>?) {
+    view.bindResource(resource) {
+        if (it.data?.isNullOrEmpty() != false) {
+            view.visible()
+        } else {
+            view.gone()
+        }
+    }
+}
+
+@BindingAdapter("messageEvents")
+fun bindMessage(view: TextView, resource: Resource<List<Any>,Any>?) {
+    view.bindResource(resource) {
+        if (it.status == Status.ERROR) {
+            view.text = it.message
+            view.text = view.context.getString(R.string.failed_load)
+        } else {
+            if (it.data.isNullOrEmpty()) {
+                view.text = view.context.getString(R.string.empty_data)
+            }
+        }
+
+    }
+}

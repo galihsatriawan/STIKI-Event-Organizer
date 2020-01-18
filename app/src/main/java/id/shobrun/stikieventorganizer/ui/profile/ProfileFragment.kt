@@ -15,6 +15,10 @@ import dagger.android.support.DaggerFragment
 
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
+import id.shobrun.stikieventorganizer.utils.SharedPref
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
+import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
+import id.shobrun.stikieventorganizer.utils.Tools
 import org.jetbrains.anko.support.v4.intentFor
 import javax.inject.Inject
 
@@ -46,12 +50,25 @@ class ProfileFragment : DaggerFragment() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
         }
+        lateinit var sharedPref: SharedPref
+        lateinit var tools : Tools
+        lateinit var username : Preference
+        lateinit var email : Preference
         lateinit var signoutPreference : Preference
+        lateinit var helpPreference : Preference
+        lateinit var creator : Preference
+        lateinit var institution : Preference
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
+            sharedPref = SharedPref(requireActivity().application)
+            tools = Tools(requireContext())
+            username= preferenceManager.findPreference("username")!!
+            username.summary = sharedPref.getValue(PREFS_USER_USERNAME,"username")
+            email= preferenceManager.findPreference("email")!!
+            email.summary = sharedPref.getValue(PREFS_USER_EMAIL,"email")
 
             signoutPreference = preferenceManager.findPreference<Preference>("signout")!!
             signoutPreference.setOnPreferenceClickListener {
@@ -60,6 +77,25 @@ class ProfileFragment : DaggerFragment() {
                 requireActivity().finish()
                 true
             }
+
+            helpPreference = preferenceManager.findPreference("help")!!
+            helpPreference.setOnPreferenceClickListener {
+
+                true
+            }
+
+            creator= preferenceManager.findPreference("email_creator")!!
+            creator.setOnPreferenceClickListener {
+//                tools.sendEmail(getString(R.string.creator_email),"Personal Requirement","")
+                true
+            }
+
+            institution = preferenceManager.findPreference("institution")!!
+            institution.setOnPreferenceClickListener {
+//                tools.openBrowser(getString(R.string.web_institution))
+                true
+            }
+
 
             return super.onCreateView(inflater, container, savedInstanceState)
         }
