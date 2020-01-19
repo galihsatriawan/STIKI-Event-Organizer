@@ -38,7 +38,8 @@ class RegisterViewModel @Inject constructor(repository: UserRepository): ViewMod
             var isLoading = it.status == Status.LOADING
             if(!isLoading) {
                 Timber.d("${it.message?:it.additionalData?.message}")
-                _snackbarText.value = it.message?:it.additionalData?.message
+                if(it.status == Status.ERROR) _snackbarText.value = "Failed to get data"
+                else _snackbarText.value = it.message?: it.additionalData?.message
                 if(!it.data.isNullOrEmpty()) isSuccess.value = true
                 Timber.d("${it.data?.size}")
             }

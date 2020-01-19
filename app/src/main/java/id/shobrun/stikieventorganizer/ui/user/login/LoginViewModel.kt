@@ -49,7 +49,8 @@ class LoginViewModel @Inject constructor(repository: UserRepository,sharedPref: 
             Timber.d("${it.status}")
             val isLoading = it.status==Status.LOADING
             if(!isLoading){
-                _snackbarText.value = it.message?: it.additionalData?.message
+                if(it.status == Status.ERROR) _snackbarText.value = "Failed to get data"
+                    else _snackbarText.value = it.message?: it.additionalData?.message
                 if(!it.data.isNullOrEmpty()){
                     isSuccess.value = true
                     /**

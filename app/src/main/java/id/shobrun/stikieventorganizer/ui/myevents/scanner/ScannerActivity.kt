@@ -146,7 +146,6 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
         val userId = viewModel.sharedPref.getValue(PREFS_USER_ID,-1)
         if(invitation?.inviter_id != userId){
             Toast.makeText(this,getString(R.string.seo_info_not_grant_validate),Toast.LENGTH_SHORT).show()
-            return
         }
 
         val resDialog = Dialog(this as Activity)

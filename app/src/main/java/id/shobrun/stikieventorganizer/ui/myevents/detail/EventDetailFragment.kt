@@ -232,7 +232,8 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
 
-        val titleStr :String?= getAddress(location)  // add these two lines
+//        val titleStr :String?= getAddress(location)  // add these two lines
+        val titleStr :String?= null
         markerOptions.title(titleStr?:"Your Location")
         map.clear()
         map.addMarker(markerOptions)
@@ -240,7 +241,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     private fun getAddress(latLng: LatLng): String {
         // 1
-        val geocoder = Geocoder(context)
+        val geocoder = Geocoder(requireContext())
         val addresses: List<Address>?
         val address: Address?
         var addressText = ""

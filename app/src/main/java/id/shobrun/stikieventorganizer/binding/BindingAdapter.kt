@@ -280,7 +280,7 @@ fun selectTime(context: Context, date: MutableLiveData<String>) {
 @BindingAdapter("visibleMessage")
 fun bindVisibleMessage(view: LinearLayout, resource: Resource<List<Any>,Any>?) {
     view.bindResource(resource) {
-        if (it.data?.isNullOrEmpty() != false) {
+        if (it.data.isNullOrEmpty()) {
             view.visible()
         } else {
             view.gone()
@@ -299,6 +299,40 @@ fun bindMessage(view: TextView, resource: Resource<List<Any>,Any>?) {
                 view.text = view.context.getString(R.string.empty_data)
             }
         }
+    }
+}
 
+
+@BindingAdapter("visibleMessageTransporter")
+fun bindVisibleMessageTransporter(view: LinearLayout, resource: Resource<List<Any>,Any>?) {
+    view.bindResource(resource) {
+        if(it.additionalData==null) view.visible()
+        else{
+            val data = it.additionalData as InvitationsResponse
+            if (data.result.isNullOrEmpty()) {
+                view.visible()
+            } else {
+                view.gone()
+            }
+        }
+    }
+}
+
+@BindingAdapter("messageEventsTransporter")
+fun bindMessageTransporter(view: TextView, resource: Resource<List<Any>,Any>?) {
+    view.bindResource(resource) {
+        if (it.status ==Status.ERROR) {
+            view.text = it.message
+            view.text = view.context.getString(R.string.failed_load)
+        } else {
+            if(it.additionalData ==null) view.text = view.context.getString(R.string.empty_data)
+            else {
+                val data = it.additionalData as InvitationsResponse
+                if (data.result.isNullOrEmpty()) {
+                    view.text = view.context.getString(R.string.empty_data)
+                }
+            }
+
+        }
     }
 }

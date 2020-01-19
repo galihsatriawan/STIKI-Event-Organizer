@@ -8,13 +8,13 @@ import id.shobrun.stikieventorganizer.models.Status
 import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 
-inline fun <reified T , reified S> View.bindResource(resource: Resource<T,S>?, onSuccess: (Resource<T,S>) -> Unit) {
+inline fun <reified T , reified S> View.bindResource(resource: Resource<T,S>?, onSuccessOrError: (Resource<T,S>) -> Unit) {
     if (resource != null) {
         when (resource.status) {
             Status.LOADING -> Unit
-            Status.SUCCESS -> onSuccess(resource)
+            Status.SUCCESS -> onSuccessOrError(resource)
             Status.ERROR -> {
-                Timber.d(resource.errorEnvelope?.status_message.toString())
+                onSuccessOrError(resource)
                 snackbar(this.context.resources.getString(R.string.failed_load))
             }
         }
