@@ -28,5 +28,7 @@ data class Event(
     @SerializedName("EVENT_LATITUDE") var event_latitude : Double?,
     @SerializedName("EVENT_LONGITUDE") var event_longitude : Double?,
     @SerializedName("EVENT_CP") var event_cp : String?,
-    @SerializedName("EVENT_STATUS") var event_status : String
+    @SerializedName("EVENT_STATUS") var event_status : String?,
+    @SerializedName("EVENT_PARTICIPANTS_TOTAL") var participant_total : Int?,
+    @SerializedName("EVENT_PARTICIPANTS_ATTEND") var participant_attend : Int?
 ):Parcelable

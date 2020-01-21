@@ -138,33 +138,44 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
         val data: String = rawResult.text
         Timber.d("$data")
         var invitation : Invitation? = null
+        var valid = true
         try {
             invitation= Gson().fromJson(data,Invitation::class.java)
         }catch (e : Exception){
+            valid = false
             Toast.makeText(this,getString(R.string.seo_info_check_camera),Toast.LENGTH_SHORT).show()
         }
         val userId = viewModel.sharedPref.getValue(PREFS_USER_ID,-1)
         if(invitation?.inviter_id != userId){
+            valid = false
             Toast.makeText(this,getString(R.string.seo_info_not_grant_validate),Toast.LENGTH_SHORT).show()
         }
-
-        val resDialog = Dialog(this as Activity)
-        resDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        binding = DataBindingUtil.inflate(LayoutInflater.from(this as Activity),R.layout.dialog_confirm_ticket,null,false)
-        resDialog.setCancelable(true)
-        resDialog.setContentView(binding.root)
-        val closeButton : MaterialButton = resDialog.findViewById(R.id.btn_negative)
-        closeButton.setOnClickListener{
-            resDialog.dismiss()
+        if(invitation?.event_id != event?.event_id?:-1){
+            valid = false
+            Toast.makeText(this,getString(R.string.seo_info_not_the_event),Toast.LENGTH_SHORT).show()
         }
-        with(binding){
-            vm = viewModel
-            lifecycleOwner = this@ScannerActivity
-        }
-        resDialog.show()
+        if(valid){
+            val resDialog = Dialog(this as Activity)
+            resDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            binding = DataBindingUtil.inflate(LayoutInflater.from(this as Activity),R.layout.dialog_confirm_ticket,null,false)
+//            resDialog.setCancelable(true)
+            resDialog.setContentView(binding.root)
+            val closeButton : MaterialButton = resDialog.findViewById(R.id.btn_negative)
+            closeButton.setOnClickListener{
+                mScannerView!!.resumeCameraPreview(this)
+                resDialog.dismiss()
+                // If you would like to resume scanning, call this method below:
 
-        viewModel.postInvitation(invitation)
-        // If you would like to resume scanning, call this method below:
-        mScannerView!!.resumeCameraPreview(this)
+            }
+            with(binding){
+                vm = viewModel
+                lifecycleOwner = this@ScannerActivity
+            }
+            resDialog.show()
+
+            viewModel.postInvitation(invitation)
+        }
+
+
     }
 }

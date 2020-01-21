@@ -9,12 +9,14 @@ import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventSummaryFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantEventFragment
 
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_event,
-    R.string.tab_participant
+    R.string.tab_participant,
+    R.string.tab_summary
 
 )
 
@@ -27,11 +29,18 @@ class EventDetailPagerAdapter(private val context: Context, fm: FragmentManager,
 
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment
-        if (position == 0) {
-            fragment = EventDetailFragment.newInstance()
-        } else {
-            fragment = ParticipantEventFragment.newInstance()
+        when(position){
+            0->{
+                fragment = EventDetailFragment.newInstance()
+            }
+            1->{
+                fragment = ParticipantEventFragment.newInstance()
+            }
+            else->{
+                fragment = EventSummaryFragment.newInstance()
+            }
         }
+
         fragment.arguments = bundleOf(EXTRA_EVENT to event)
         return fragment
 
@@ -42,7 +51,7 @@ class EventDetailPagerAdapter(private val context: Context, fm: FragmentManager,
     }
 
     override fun getCount(): Int {
-        // Show 2 total pages.
-        return 2
+        // Show 3 total pages.
+        return 3
     }
 }

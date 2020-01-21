@@ -1,5 +1,6 @@
 package id.shobrun.stikieventorganizer.ui.profile
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,6 +16,8 @@ import dagger.android.support.DaggerFragment
 
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
+import id.shobrun.stikieventorganizer.utils.Helper.openBrowser
+import id.shobrun.stikieventorganizer.utils.Helper.sendEmail
 import id.shobrun.stikieventorganizer.utils.SharedPref
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
@@ -80,19 +83,22 @@ class ProfileFragment : DaggerFragment() {
 
             helpPreference = preferenceManager.findPreference("help")!!
             helpPreference.setOnPreferenceClickListener {
-
+                val help = Intent(requireContext(),HelpActivity::class.java)
+                requireContext().startActivity(help)
                 true
             }
 
             creator= preferenceManager.findPreference("email_creator")!!
             creator.setOnPreferenceClickListener {
-//                tools.sendEmail(getString(R.string.creator_email),"Personal Requirement","")
+                val intent = sendEmail(getString(R.string.creator_email),"Your Subject")
+                requireActivity().startActivity(Intent.createChooser(intent, "Send Email"))
                 true
             }
 
             institution = preferenceManager.findPreference("institution")!!
             institution.setOnPreferenceClickListener {
-//                tools.openBrowser(getString(R.string.web_institution))
+                val institut = openBrowser(getString(R.string.web_institution))
+                requireActivity().startActivity(institut)
                 true
             }
 

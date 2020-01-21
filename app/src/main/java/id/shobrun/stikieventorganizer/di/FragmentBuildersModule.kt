@@ -5,10 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import id.shobrun.stikieventorganizer.di.event.EventNetworkModule
 import id.shobrun.stikieventorganizer.di.event.EventPersistenceModule
 import id.shobrun.stikieventorganizer.di.event.EventRepositoryModule
-import id.shobrun.stikieventorganizer.di.event.detail.EventDetailModule
-import id.shobrun.stikieventorganizer.di.event.detail.EventDetailViewModelModule
-import id.shobrun.stikieventorganizer.di.event.detail.ParticipantEventModule
-import id.shobrun.stikieventorganizer.di.event.detail.ParticipantEventViewModelModule
+import id.shobrun.stikieventorganizer.di.event.detail.*
 import id.shobrun.stikieventorganizer.di.event.list.EventFragmentModule
 import id.shobrun.stikieventorganizer.di.event.list.EventFragmentViewModelModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationNetworkModule
@@ -29,6 +26,7 @@ import id.shobrun.stikieventorganizer.di.user.profile.ProfileViewModelModule
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsFragment
 import id.shobrun.stikieventorganizer.ui.myevents.MyEventsFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventSummaryFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantEventFragment
 import id.shobrun.stikieventorganizer.ui.myparticipants.MyParticipantsFragment
 import id.shobrun.stikieventorganizer.ui.profile.ProfileFragment
@@ -77,6 +75,16 @@ abstract class FragmentBuildersModule {
     )
     abstract fun injectEventDetailFragment() : EventDetailFragment
 
+    @ContributesAndroidInjector(
+        modules =[
+            EventSummaryModule::class,
+            EventSummaryViewModelModule::class,
+            EventNetworkModule::class,
+            EventPersistenceModule::class,
+            EventRepositoryModule::class
+        ]
+    )
+    abstract fun injectEventSummaryFragment() : EventSummaryFragment
     @ContributesAndroidInjector(
         modules =[
             ParticipantEventModule::class,

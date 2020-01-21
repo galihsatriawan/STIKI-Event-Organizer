@@ -34,6 +34,12 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository,val 
         }
         loading = updateInvitation.switchMap {
             var isLoading = it.status== Status.LOADING
+            if(!isLoading) {
+                if(it.status==Status.ERROR)
+                _snackbarText.value = "Failed to update data"
+                else
+                    _snackbarText.value = "Update data successfully"
+            }
             MutableLiveData(isLoading)
         }
         invitationDetail = invitationFromIntent.switchMap {
@@ -43,6 +49,9 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository,val 
         }
         loadingDetail = invitationDetail.switchMap {
             var isLoading = it.status == Status.LOADING
+            if(!isLoading) {
+                if(it.status==Status.ERROR) _snackbarText.value = "Failed to get data"
+            }
             MutableLiveData(isLoading)
         }
     }
@@ -55,6 +64,7 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository,val 
         invitation?.status = InvitationStatus.ATTENDED.toString()
         invitation?.let {
             invitationMutable.value = it
+            invitationFromIntent.value = it
         }
     }
 }

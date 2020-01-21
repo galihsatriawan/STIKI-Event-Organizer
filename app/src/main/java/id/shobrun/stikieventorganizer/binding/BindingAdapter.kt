@@ -118,28 +118,28 @@ fun bindParticipantName(view: TextInputEditText, resource: Resource<Participant,
 @BindingAdapter("eventName")
 fun bindEventName(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        view.setText(it.data?.event_name)
+        view.text = it.data?.event_name
     }
 }
 
 @BindingAdapter("eventDescription")
 fun bindEventDesc(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        view.setText(it.data?.event_description)
+        view.text = it.data?.event_description
     }
 }
 
 @BindingAdapter("eventDate")
 fun bindEventDate(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        view.setText(it.data?.event_date)
+        view.text = it.data?.event_date
     }
 }
 
 @BindingAdapter("eventLocation")
 fun bindEventLocation(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        view.setText(it.data?.event_location)
+        view.text = it.data?.event_location
     }
 }
 
@@ -147,7 +147,7 @@ fun bindEventLocation(view: TextView, resource: Resource<Event, Any>?) {
 @BindingAdapter("eventInviter")
 fun bindEventInviter(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        view.setText(it.data?.user_username)
+        view.text = it.data?.user_username
     }
 }
 
@@ -155,10 +155,34 @@ fun bindEventInviter(view: TextView, resource: Resource<Event, Any>?) {
 @BindingAdapter("eventCp")
 fun bindEventCp(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        view.setText(it.data?.event_cp)
+        view.text = it.data?.event_cp
+    }
+}
+@BindingAdapter("eventParticipant")
+fun bindEventParticipant(view: TextView, resource: Resource<Event, Any>?){
+    view.bindResource(resource){
+        var res = it.data?.participant_total?:0
+        if(res<0) res=0
+        view.text = "${res}"
+    }
+}
+@BindingAdapter("eventParticipantAttend")
+fun bindEventParticipantAttend(view: TextView, resource: Resource<Event, Any>?){
+    view.bindResource(resource){
+        var res = it.data?.participant_attend?:0
+        if(res<0) res=0
+        view.text = "${res}"
     }
 }
 
+@BindingAdapter("eventParticipantNotAttend")
+fun bindEventParticipantNotAttend(view: TextView, resource: Resource<Event, Any>?){
+    view.bindResource(resource){
+        var res = it.data?.participant_total?:0 - ((it.data?.participant_attend)?:0)
+        if(res<0) res=0
+        view.text = "${res}"
+    }
+}
 @BindingAdapter("invitationQr")
 fun bindEventLocation(view: ImageView, resource: Resource<Invitation, Any>?) {
     view.bindResource(resource) {
@@ -296,6 +320,31 @@ fun bindMessage(view: TextView, resource: Resource<List<Any>,Any>?) {
             view.text = view.context.getString(R.string.failed_load)
         } else {
             if (it.data.isNullOrEmpty()) {
+                view.text = view.context.getString(R.string.empty_data)
+            }
+        }
+    }
+}
+
+@BindingAdapter("visibleMessageItem")
+fun bindVisibleMessageItem(view: LinearLayout, resource: Resource<Any,Any>?) {
+    view.bindResource(resource) {
+        if (it.data==null) {
+            view.visible()
+        } else {
+            view.gone()
+        }
+    }
+}
+
+@BindingAdapter("messageItem")
+fun bindMessageItem(view: TextView, resource: Resource<Any,Any>?) {
+    view.bindResource(resource) {
+        if (it.status == Status.ERROR) {
+            view.text = it.message
+            view.text = view.context.getString(R.string.failed_load)
+        } else {
+            if (it.data == null) {
                 view.text = view.context.getString(R.string.empty_data)
             }
         }

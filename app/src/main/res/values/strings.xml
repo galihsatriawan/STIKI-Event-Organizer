@@ -51,7 +51,7 @@
     <string name="pref_header_about">About</string>
     <string name="url_faq">https://www.linkedin.com/in/galih-anggi-satriawan-143a69141/</string>
     <string name="creator_email">satriawan.galih99@gmail.com</string>
-    <string name="web_institution">stiki.ac.id</string>
+    <string name="web_institution">http://stiki.ac.id</string>
     <string name="app_version">Version 1.0.0 \u00a9 2019</string>
     <string name="title_version">Version</string>
     <string name="title_institution">Institution</string>
@@ -99,4 +99,15 @@
     <string name="seo_info_not_grant_validate">You don\'t have any permission to validate</string>
     <string name="txt_content_description">Content Description</string>
     <string name="empty_data">No data found</string>
+    <string name="tab_summary">Summary</string>
+    <string name="seo_event_detail">Event Detail</string>
+    <string name="seo_event_summary">Event Summary</string>
+    <string name="seo_description">Description</string>
+    <string name="seo_date">Date</string>
+    <string name="seo_location">Location</string>
+    <string name="seo_participants_total">Participants</string>
+    <string name="seo_hint_event_participant">Event Participant</string>
+    <string name="seo_participants_attend">Attendance</string>
+    <string name="seo_participants_not_attend">Absence</string>
+    <string name="seo_info_not_the_event">The Event is different</string>
 </resources>

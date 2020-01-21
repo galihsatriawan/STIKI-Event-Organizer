@@ -5,7 +5,7 @@ import id.shobrun.stikieventorganizer.models.entity.*
 object FakeData{
     fun fakeEvent() = Event("1",2,"galih","galih@gmail.com",
         "galih","Event","2019/10/19 3:29","Malang",
-        "gg.gg/maps",9.0,8.0,"085604044550", EventStatus.COMING_SOON.toString())
+        "gg.gg/maps",9.0,8.0,"085604044550", EventStatus.COMING_SOON.toString(),0,0)
 
     fun fakeEvents() = listOf<Event>(
         fakeEvent(),

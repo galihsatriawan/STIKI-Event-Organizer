@@ -27,4 +27,6 @@
     <dimen name="spacing_xmlarge">40dp</dimen>
     <dimen name="spacing_xxlarge">50dp</dimen>
     <dimen name="seo_size_ic_error">100dp</dimen>
+    <dimen name="size_min_width_title_row">110dp</dimen>
+    <dimen name="size_max_width_title_row">110dp</dimen>
 </resources>

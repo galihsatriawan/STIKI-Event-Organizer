@@ -93,7 +93,7 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
             val user_id =sharedPref.getValue(PREFS_USER_ID,-1)
             val user_username= sharedPref.getValue(PREFS_USER_USERNAME,"")
             val user_email =sharedPref.getValue(PREFS_USER_EMAIL,"")
-            val eventNew = Event(getUniqueID("$user_id"),user_id,user_username,user_email,currentName,currentDesc,currentDate,currentLocation,currentLink,currentLatitude,currentLongitude,currentCp,EventStatus.ON_HOLD.toString())
+            val eventNew = Event(getUniqueID("$user_id"),user_id,user_username,user_email,currentName,currentDesc,currentDate,currentLocation,currentLink,currentLatitude,currentLongitude,currentCp,EventStatus.ON_HOLD.toString(),0,0)
             insertEvent(eventNew)
         }else{
             val eventTemp = this.event.value?.data!!

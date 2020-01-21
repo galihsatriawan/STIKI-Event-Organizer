@@ -26,13 +26,7 @@ class Tools(private val activity:Activity) {
         context.startActivity(intent)
     }
 
-    fun openBrowser( url: String?) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        // Always use string resources for UI text. This says something like "Share this photo with"
-        val title: String = activity.getString(R.string.search_go)
-        activity.startActivity(intent)
-    }
+
 
     fun callPhone(context: Context, telp: String) {
         val intent = Intent(Intent.ACTION_DIAL)
@@ -40,18 +34,7 @@ class Tools(private val activity:Activity) {
         context.startActivity(intent)
     }
 
-    fun sendEmail(
-        to: String?,
-        subject: String?,
-        body: String?
-    ) {
-        val intent = Intent(Intent.ACTION_SENDTO)
-        intent.type = "text/html"
-        intent.putExtra(Intent.EXTRA_EMAIL, to)
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        intent.putExtra(Intent.EXTRA_TEXT, body)
-        activity.startActivity(Intent.createChooser(intent, "Send Email"))
-    }
+
 
     fun shareWA(context: Context, message: String?) {
         val whatsappIntent = Intent(Intent.ACTION_SEND)
