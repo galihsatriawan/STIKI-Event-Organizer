@@ -90,4 +90,6 @@
     <string name="seo_participants_not_attend">Absence</string>
     <string name="seo_info_not_the_event">The Event is different</string>
     <string name="seo_tap_to_show">Tap to show</string>
+    <string name="seo_success_login">Login Successfully</string>
+    <string name="seo_register_success">Register Successfully</string>
 </resources>

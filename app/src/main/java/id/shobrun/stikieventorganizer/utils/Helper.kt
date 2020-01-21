@@ -10,11 +10,17 @@ import com.google.zxing.common.BitMatrix
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.security.MessageDigest
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object Helper {
     fun getTimeStamp() = Timestamp(System.currentTimeMillis()).time
-
+    fun getCurrentDatetime() :String{
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val current = Calendar.getInstance().time
+        return formatter.format(current)
+    }
     /**
      * Hashing
      */

@@ -1,6 +1,7 @@
 package id.shobrun.stikieventorganizer.ui.user.login
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -36,6 +37,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         viewModel.isSuccess.observe(this, Observer {
             it?.let {
                 if (it) {
+                    Toast.makeText(this,getString(R.string.seo_success_login), Toast.LENGTH_SHORT).show()
                     val mainContent = intentFor<MainActivity>()
                     startActivity(mainContent)
                     finish()

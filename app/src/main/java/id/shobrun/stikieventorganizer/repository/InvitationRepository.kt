@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import id.shobrun.stikieventorganizer.AppExecutors
 import id.shobrun.stikieventorganizer.api.ApiResponse
 import id.shobrun.stikieventorganizer.api.InvitationApi
+import id.shobrun.stikieventorganizer.models.Status
 import id.shobrun.stikieventorganizer.models.entity.Invitation
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.room.InvitationDao
@@ -152,6 +153,8 @@ class InvitationRepository @Inject constructor(
         override fun saveFetchData(items: InvitationsResponse) {
             if (!items.result.isNullOrEmpty()) {
                 localDB.inserts(items.result)
+            }else{
+                localDB.insert(invitation)
             }
         }
 

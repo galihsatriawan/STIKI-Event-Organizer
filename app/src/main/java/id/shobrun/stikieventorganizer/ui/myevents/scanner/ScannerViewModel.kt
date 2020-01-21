@@ -11,7 +11,11 @@ import id.shobrun.stikieventorganizer.models.entity.InvitationStatus
 import id.shobrun.stikieventorganizer.models.network.InvitationsResponse
 import id.shobrun.stikieventorganizer.repository.InvitationRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
+import id.shobrun.stikieventorganizer.utils.Helper.getCurrentDatetime
 import id.shobrun.stikieventorganizer.utils.SharedPref
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
 
 class ScannerViewModel @Inject constructor(
@@ -32,7 +36,7 @@ class ScannerViewModel @Inject constructor(
         updateInvitation = invitationMutable.switchMap {
             invitationMutable.value?.let {
                 val data = repository.updateInvitation(it)
-                data.value?.let { postInvitation(data.value?.data) }
+                data.value?.let { postInvitation(invitationFromIntent.value) }
                 data
             } ?: AbsentLiveData.create()
         }
@@ -41,8 +45,10 @@ class ScannerViewModel @Inject constructor(
             if (!isLoading) {
                 if (it.status == Status.ERROR)
                     _snackbarText.value = "Failed to update data"
-                else
-                    _snackbarText.value = "Update data successfully"
+                else{
+                    _snackbarText.value = "Validate data successfully"
+                }
+
             }
             MutableLiveData(isLoading)
         }
@@ -68,9 +74,9 @@ class ScannerViewModel @Inject constructor(
     fun validateInvitation() {
         val invitation = invitationDetail.value?.data
         invitation?.status = InvitationStatus.ATTENDED.toString()
+        invitation?.arrived_time = getCurrentDatetime()
         invitation?.let {
             invitationMutable.value = it
-            invitationFromIntent.value = it
         }
     }
 }

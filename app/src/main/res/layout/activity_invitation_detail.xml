@@ -22,7 +22,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height_detail_invitation"
-            android:background="@android:color/transparent"
+            android:background="@color/mapbox_blue"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -237,7 +237,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/activity_vertical_margin"
+                        android:layout_margin="@dimen/activity_vertical_margin_small"
                         android:contentDescription="TODO"
                         android:src="@drawable/puppy" />
 

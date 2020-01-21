@@ -180,6 +180,8 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
             resDialog.show()
 
             viewModel.postInvitation(invitation)
+        }else{
+            mScannerView!!.resumeCameraPreview(this)
         }
 
 

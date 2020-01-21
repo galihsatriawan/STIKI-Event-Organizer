@@ -40,7 +40,8 @@
         <activity
             android:name=".ui.myevents.map.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ui.user.register.RegisterActivity" />
+        <activity android:name=".ui.user.register.RegisterActivity"
+            android:theme="@style/AppTheme.MaterialTheme.NoActionBar"/>
         <activity
             android:name=".ui.user.login.LoginActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />

@@ -1,6 +1,7 @@
 package id.shobrun.stikieventorganizer.ui.user.register
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -28,11 +29,13 @@ class RegisterActivity : DaggerAppCompatActivity() {
         viewModel.snackbarText.observe(this, Observer {
             it?.let {
                 binding.root.snackbar(it)
+
             }
         })
         viewModel.isSuccess.observe(this, Observer {
             it?.let {
                 if (it) {
+                    Toast.makeText(this,getString(R.string.seo_register_success),Toast.LENGTH_SHORT).show()
                     val login = intentFor<LoginActivity>()
                     startActivity(login)
                     finish()
