@@ -7,14 +7,11 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -32,18 +29,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.android.support.DaggerFragment
-
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentEventDetailBinding
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import id.shobrun.stikieventorganizer.ui.myevents.scanner.ScannerActivity
-import kotlinx.android.synthetic.main.fragment_event_detail.*
-import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.intentFor
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -56,10 +48,11 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         private const val REQUEST_CHECK_SETTINGS = 2
         private const val PLACE_PICKER_REQUEST = 3
     }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel : EventDetailViewModel by viewModels { viewModelFactory }
-    private lateinit var binding : FragmentEventDetailBinding
+    private val viewModel: EventDetailViewModel by viewModels { viewModelFactory }
+    private lateinit var binding: FragmentEventDetailBinding
     var event: Event? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,14 +65,13 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     ): View? {
 
 
-
-
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_event_detail,container,false)
-        if(arguments?.get(EXTRA_EVENT) !=null){
-            event = arguments!![EXTRA_EVENT]  as Event
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_event_detail, container, false)
+        if (arguments?.get(EXTRA_EVENT) != null) {
+            event = arguments!![EXTRA_EVENT] as Event
         }
 
-        with(binding){
+        with(binding) {
             lifecycleOwner = this@EventDetailFragment
             vm = viewModel
         }
@@ -92,7 +84,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         // TODO: Use the ViewModel
         viewModel.postEventId(event?.event_id)
         viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
-            if(!it.isNullOrEmpty())  binding.root.snackbar(it).show()
+            if (!it.isNullOrEmpty()) binding.root.snackbar(it).show()
         })
     }
 
@@ -125,9 +117,9 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
-        return when(item.itemId){
-            R.id.scan ->{
-                if(EventDetailActivity.isNewEvent){
+        return when (item.itemId) {
+            R.id.scan -> {
+                if (EventDetailActivity.isNewEvent) {
                     binding.root.snackbar(getString(R.string.seo_info_has_create_event))
                     return true
                 }
@@ -137,7 +129,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                 startActivity(scan)
                 true
             }
-            android.R.id.home ->{
+            android.R.id.home -> {
                 requireActivity().onBackPressed()
                 true
             }
@@ -153,7 +145,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -208,10 +199,16 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     override fun onMarkerClick(p0: Marker?) = false
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
 
@@ -233,8 +230,8 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         val markerOptions = MarkerOptions().position(location)
 
 //        val titleStr :String?= getAddress(location)  // add these two lines
-        val titleStr :String?= null
-        markerOptions.title(titleStr?:"Your Location")
+        val titleStr: String? = null
+        markerOptions.title(titleStr ?: "Your Location")
         map.clear()
         map.addMarker(markerOptions)
     }
@@ -256,7 +253,9 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                 address = addresses[0]
                 for (i in 0 until address.maxAddressLineIndex) {
                     // pada getAddressLine berisi tentang alamat, kota, negara, dimulai dari index 0
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
+                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(
+                        i
+                    )
                     viewModel.eventLocation.value = addressText
                 }
             }
@@ -268,14 +267,23 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     }
 
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            null /* Looper */
+        )
     }
 
     private fun createLocationRequest() {
@@ -300,8 +308,10 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    e.startResolutionForResult(requireActivity(),
-                        REQUEST_CHECK_SETTINGS)
+                    e.startResolutionForResult(
+                        requireActivity(),
+                        REQUEST_CHECK_SETTINGS
+                    )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }

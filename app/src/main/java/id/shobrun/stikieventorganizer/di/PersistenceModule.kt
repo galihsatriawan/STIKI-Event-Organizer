@@ -10,5 +10,6 @@ import javax.inject.Singleton
 class PersistenceModule {
     @Singleton
     @Provides
-    internal fun provideRoomInstance(application : Application) = AppDatabase.getInstance(application)
+    internal fun provideRoomInstance(application: Application) =
+        AppDatabase.getInstance(application)
 }

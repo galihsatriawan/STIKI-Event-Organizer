@@ -9,10 +9,10 @@ import id.shobrun.stikieventorganizer.ui.myevents.detail.EventSummaryViewModel
 
 
 @Module
-abstract class EventSummaryViewModelModule{
+abstract class EventSummaryViewModelModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(EventSummaryViewModel::class)
-    abstract fun bindEventSummaryVM(eventSummaryViewModel: EventSummaryViewModel) : ViewModel
+    abstract fun bindEventSummaryVM(eventSummaryViewModel: EventSummaryViewModel): ViewModel
 }

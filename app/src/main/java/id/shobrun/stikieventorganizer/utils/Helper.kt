@@ -77,8 +77,7 @@ object Helper {
     }
 
     fun openBrowser(url: String?): Intent {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        return intent
+        return Intent(Intent.ACTION_VIEW, Uri.parse(url))
     }
 
     fun sendEmail(

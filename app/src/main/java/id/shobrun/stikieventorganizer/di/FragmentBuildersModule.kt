@@ -42,7 +42,7 @@ abstract class FragmentBuildersModule {
             ParticipantRepositoryModule::class
         ]
     )
-    abstract fun injectParticipantFragment() : MyParticipantsFragment
+    abstract fun injectParticipantFragment(): MyParticipantsFragment
 
     @ContributesAndroidInjector(
         modules = [
@@ -53,7 +53,7 @@ abstract class FragmentBuildersModule {
             InvitationRepositoryModule::class
         ]
     )
-    abstract fun injectInvitationFragment() : InvitationsFragment
+    abstract fun injectInvitationFragment(): InvitationsFragment
 
     @ContributesAndroidInjector(
         modules = [
@@ -62,10 +62,12 @@ abstract class FragmentBuildersModule {
             EventNetworkModule::class,
             EventPersistenceModule::class,
             EventRepositoryModule::class
-    ])
-    abstract fun injectEventFragment() : MyEventsFragment
+        ]
+    )
+    abstract fun injectEventFragment(): MyEventsFragment
+
     @ContributesAndroidInjector(
-        modules =[
+        modules = [
             EventDetailModule::class,
             EventDetailViewModelModule::class,
             EventNetworkModule::class,
@@ -73,10 +75,10 @@ abstract class FragmentBuildersModule {
             EventRepositoryModule::class
         ]
     )
-    abstract fun injectEventDetailFragment() : EventDetailFragment
+    abstract fun injectEventDetailFragment(): EventDetailFragment
 
     @ContributesAndroidInjector(
-        modules =[
+        modules = [
             EventSummaryModule::class,
             EventSummaryViewModelModule::class,
             EventNetworkModule::class,
@@ -84,9 +86,10 @@ abstract class FragmentBuildersModule {
             EventRepositoryModule::class
         ]
     )
-    abstract fun injectEventSummaryFragment() : EventSummaryFragment
+    abstract fun injectEventSummaryFragment(): EventSummaryFragment
+
     @ContributesAndroidInjector(
-        modules =[
+        modules = [
             ParticipantEventModule::class,
             ParticipantEventViewModelModule::class,
             InvitationNetworkModule::class,
@@ -94,7 +97,7 @@ abstract class FragmentBuildersModule {
             InvitationRepositoryModule::class
         ]
     )
-    abstract fun injectParticipantEventFragment() : ParticipantEventFragment
+    abstract fun injectParticipantEventFragment(): ParticipantEventFragment
 
     @ContributesAndroidInjector(
         modules = [
@@ -105,6 +108,6 @@ abstract class FragmentBuildersModule {
             UserRepositoryModule::class
         ]
     )
-    abstract fun injectProfileFragment() : ProfileFragment
+    abstract fun injectProfileFragment(): ProfileFragment
 
 }

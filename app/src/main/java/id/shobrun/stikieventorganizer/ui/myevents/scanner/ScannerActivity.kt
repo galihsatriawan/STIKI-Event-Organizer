@@ -5,14 +5,12 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -20,20 +18,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
+import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
 import dagger.android.support.DaggerAppCompatActivity
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.DialogConfirmTicketBinding
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.models.entity.Invitation
-import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
-import id.shobrun.stikieventorganizer.utils.DialogTools
-import id.shobrun.stikieventorganizer.utils.DialogTools.CallbackDialog
-import id.shobrun.stikieventorganizer.utils.SharedPref
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import me.dm7.barcodescanner.zxing.ZXingScannerView
-import org.jetbrains.anko.design.snackbar
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,21 +35,21 @@ import javax.inject.Inject
 class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandler {
     private val TAG = javaClass.simpleName
     private var mScannerView: ZXingScannerView? = null
-    val REQUEST_CAMERA = 101
+    private val REQUEST_CAMERA = 101
     @Inject
-    lateinit var viewModelFactory : ViewModelProvider.Factory
-    val viewModel:ScannerViewModel by viewModels{viewModelFactory}
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    val viewModel: ScannerViewModel by viewModels { viewModelFactory }
     var event: Event? = null
     lateinit var binding: DialogConfirmTicketBinding
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         event = intent?.getParcelableExtra(EXTRA_EVENT)
         mScannerView = ZXingScannerView(this) // Programmatically initialize the scanner view
-
+        mScannerView!!.setFormats(mutableListOf(BarcodeFormat.QR_CODE))
         setContentView(mScannerView) // Set the scanner view as the content view
         viewModel.snackbarText.observe(this, Observer {
-            if(it!=null){
-                Toast.makeText(applicationContext,it,Toast.LENGTH_LONG)
+            if (it != null) {
+                Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
             }
 
         })
@@ -100,7 +94,8 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
                 AlertDialog.Builder(this)
                     .setTitle(R.string.title_camera_permission)
                     .setMessage(R.string.text_camera_permission)
-                    .setPositiveButton(R.string.OK
+                    .setPositiveButton(
+                        R.string.OK
                     ) { dialogInterface, i ->
                         //Prompt the user once explanation has been shown
                         ActivityCompat.requestPermissions(
@@ -136,38 +131,49 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
 
     override fun handleResult(rawResult: Result) { // Do something with the result here
         val data: String = rawResult.text
-        Timber.d("$data")
-        var invitation : Invitation? = null
+        Timber.d(data)
+        var invitation: Invitation? = null
         var valid = true
         try {
-            invitation= Gson().fromJson(data,Invitation::class.java)
-        }catch (e : Exception){
+            invitation = Gson().fromJson(data, Invitation::class.java)
+        } catch (e: Exception) {
             valid = false
-            Toast.makeText(this,getString(R.string.seo_info_check_camera),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.seo_info_check_camera), Toast.LENGTH_SHORT)
+                .show()
         }
-        val userId = viewModel.sharedPref.getValue(PREFS_USER_ID,-1)
-        if(invitation?.inviter_id != userId){
+        val userId = viewModel.sharedPref.getValue(PREFS_USER_ID, -1)
+        if (invitation?.inviter_id != userId) {
             valid = false
-            Toast.makeText(this,getString(R.string.seo_info_not_grant_validate),Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.seo_info_not_grant_validate),
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        if(invitation?.event_id != event?.event_id?:-1){
+        if (invitation?.event_id != event?.event_id ?: -1) {
             valid = false
-            Toast.makeText(this,getString(R.string.seo_info_not_the_event),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.seo_info_not_the_event), Toast.LENGTH_SHORT)
+                .show()
         }
-        if(valid){
+        if (valid) {
             val resDialog = Dialog(this as Activity)
             resDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            binding = DataBindingUtil.inflate(LayoutInflater.from(this as Activity),R.layout.dialog_confirm_ticket,null,false)
+            binding = DataBindingUtil.inflate(
+                LayoutInflater.from(this as Activity),
+                R.layout.dialog_confirm_ticket,
+                null,
+                false
+            )
 //            resDialog.setCancelable(true)
             resDialog.setContentView(binding.root)
-            val closeButton : MaterialButton = resDialog.findViewById(R.id.btn_negative)
-            closeButton.setOnClickListener{
+            val closeButton: MaterialButton = resDialog.findViewById(R.id.btn_negative)
+            closeButton.setOnClickListener {
                 mScannerView!!.resumeCameraPreview(this)
                 resDialog.dismiss()
                 // If you would like to resume scanning, call this method below:
 
             }
-            with(binding){
+            with(binding) {
                 vm = viewModel
                 lifecycleOwner = this@ScannerActivity
             }

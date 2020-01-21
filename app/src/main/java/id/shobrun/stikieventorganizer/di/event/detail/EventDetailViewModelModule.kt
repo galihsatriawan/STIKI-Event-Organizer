@@ -13,5 +13,5 @@ abstract class EventDetailViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(EventDetailViewModel::class)
-    abstract fun bindEventDetailVM(eventDetailViewModel: EventDetailViewModel) : ViewModel
+    abstract fun bindEventDetailVM(eventDetailViewModel: EventDetailViewModel): ViewModel
 }

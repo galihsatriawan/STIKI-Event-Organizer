@@ -8,9 +8,9 @@ import id.shobrun.stikieventorganizer.di.ViewModelKey
 import id.shobrun.stikieventorganizer.ui.myevents.scanner.ScannerViewModel
 
 @Module
-abstract class ScannerViewModelModule{
+abstract class ScannerViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ScannerViewModel::class)
-    abstract fun bindScannerVM(scannerViewModel: ScannerViewModel) : ViewModel
+    abstract fun bindScannerVM(scannerViewModel: ScannerViewModel): ViewModel
 }

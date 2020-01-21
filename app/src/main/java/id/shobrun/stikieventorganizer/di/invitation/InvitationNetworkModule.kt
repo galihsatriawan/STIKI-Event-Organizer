@@ -8,5 +8,6 @@ import retrofit2.Retrofit
 @Module
 class InvitationNetworkModule {
     @Provides
-    internal fun provideInvitationApi(retrofit: Retrofit) = retrofit.create(InvitationApi::class.java)
+    internal fun provideInvitationApi(retrofit: Retrofit) =
+        retrofit.create(InvitationApi::class.java)
 }

@@ -1,7 +1,5 @@
 package id.shobrun.stikieventorganizer.ui
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.ProgressBar
@@ -29,27 +27,29 @@ class SplashScreen : DaggerAppCompatActivity() {
         }).start()
 
     }
-    fun doProgress(){
+
+    fun doProgress() {
         var progress = 0
         Thread.sleep(1000)
         val max = 100
-        val cnt =90
+        val cnt = 90
 
         while (progress <= max) {
             try {
-                Thread.sleep(loadingTime/cnt)
+                Thread.sleep(loadingTime / cnt)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            progress += (max/cnt)
+            progress += (max / cnt)
         }
     }
-    private fun goToMain(){
-        if(sharedPref.getValue(PREFS_IS_LOGIN,false)){
+
+    private fun goToMain() {
+        if (sharedPref.getValue(PREFS_IS_LOGIN, false)) {
             val mainContent = intentFor<MainActivity>()
             startActivity(mainContent)
             finish()
-        }else{
+        } else {
             val mainContent = intentFor<LoginActivity>()
             startActivity(mainContent)
             finish()

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="id.shobrun.stikieventorganizer.ui.invitations.InvitationsViewModel" />
@@ -13,13 +15,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
-            />
+            android:layout_centerInParent="true"
+            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}" />
+
         <LinearLayout
             android:id="@+id/container_message"
             visibleMessage="@{vm.invitationsLiveData}"
@@ -41,17 +44,18 @@
                 android:layout_height="wrap_content"
                 tools:text="@string/failed_load" />
         </LinearLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvInvitations"
+                liveResourceList="@{vm.invitationsLiveData}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                liveResourceList="@{vm.invitationsLiveData}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_participant"
-                />
+                tools:listitem="@layout/item_participant" />
         </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>

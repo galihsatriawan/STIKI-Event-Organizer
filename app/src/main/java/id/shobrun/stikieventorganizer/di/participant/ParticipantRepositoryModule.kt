@@ -11,6 +11,9 @@ import id.shobrun.stikieventorganizer.room.ParticipantDao
 class ParticipantRepositoryModule {
 
     @Provides
-    fun provideParticipantRepository(appExecutors: AppExecutors,apiService : ParticipantApi,localDB : ParticipantDao)
-            = ParticipantRepository(appExecutors,apiService,localDB)
+    fun provideParticipantRepository(
+        appExecutors: AppExecutors,
+        apiService: ParticipantApi,
+        localDB: ParticipantDao
+    ) = ParticipantRepository(appExecutors, apiService, localDB)
 }

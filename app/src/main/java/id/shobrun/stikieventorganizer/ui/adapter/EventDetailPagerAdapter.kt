@@ -24,19 +24,23 @@ private val TAB_TITLES = arrayOf(
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class EventDetailPagerAdapter(private val context: Context, fm: FragmentManager, private val event: Event?) :
+class EventDetailPagerAdapter(
+    private val context: Context,
+    fm: FragmentManager,
+    private val event: Event?
+) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment
-        when(position){
-            0->{
+        when (position) {
+            0 -> {
                 fragment = EventDetailFragment.newInstance()
             }
-            1->{
+            1 -> {
                 fragment = ParticipantEventFragment.newInstance()
             }
-            else->{
+            else -> {
                 fragment = EventSummaryFragment.newInstance()
             }
         }

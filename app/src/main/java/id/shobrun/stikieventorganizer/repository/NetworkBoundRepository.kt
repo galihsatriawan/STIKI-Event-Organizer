@@ -16,7 +16,7 @@ abstract class NetworkBoundRepository<ResultType,
         Transporter : NetworkResponseTransporter<RequestType>>
 @MainThread constructor(private val appExecutors: AppExecutors) {
 
-    private val result: MediatorLiveData<Resource<ResultType,RequestType>> = MediatorLiveData()
+    private val result: MediatorLiveData<Resource<ResultType, RequestType>> = MediatorLiveData()
 
     init {
 
@@ -24,11 +24,11 @@ abstract class NetworkBoundRepository<ResultType,
         result.addSource(loadedFromDB) { data ->
             result.removeSource(loadedFromDB)
             if (shouldFetch(data)) {
-                result.postValue(Resource.loading(null,null))
+                result.postValue(Resource.loading(null, null))
                 fetchFromNetwork(loadedFromDB)
             } else {
                 result.addSource<ResultType>(loadedFromDB) { newData ->
-                    setValue(Resource.success(newData,null))
+                    setValue(Resource.success(newData, null))
                 }
             }
         }
@@ -40,30 +40,40 @@ abstract class NetworkBoundRepository<ResultType,
             response?.let {
                 when (response.isSuccessful) {
                     true -> {
-                        if(response.body != null){
+                        if (response.body != null) {
                             response.body.let {
-                                appExecutors.diskIO().execute{
+                                appExecutors.diskIO().execute {
                                     saveFetchData(it)
-                                    appExecutors.mainThread().execute{
+                                    appExecutors.mainThread().execute {
                                         // we specially request a new live data,
                                         // otherwise we will get immediately last cached value,
                                         // which may not be updated with latest results received from network.
                                         val loaded = loadFromDb()
                                         result.addSource(loaded) { newData ->
                                             newData?.let {
-                                                setValue(Resource.success(newData,transporter().additionalData(response.body)))
+                                                setValue(
+                                                    Resource.success(
+                                                        newData,
+                                                        transporter().additionalData(response.body)
+                                                    )
+                                                )
                                             }
                                         }
                                     }
 
                                 }
                             }
-                        }else{
-                            appExecutors.mainThread().execute{
+                        } else {
+                            appExecutors.mainThread().execute {
                                 // reload from disk whatever we had
                                 result.addSource(loadFromDb()) { newData ->
                                     newData?.let {
-                                        setValue(Resource.success(data = newData,additionalData = null))
+                                        setValue(
+                                            Resource.success(
+                                                data = newData,
+                                                additionalData = null
+                                            )
+                                        )
                                     }
                                 }
                             }
@@ -74,7 +84,7 @@ abstract class NetworkBoundRepository<ResultType,
                         onFetchFailed(response.message)
                         response.message?.let {
                             result.addSource<ResultType>(loadedFromDB) { newData ->
-                                setValue(Resource.error(it, data = newData,additionalData = null))
+                                setValue(Resource.error(it, data = newData, additionalData = null))
                             }
                         }
                     }
@@ -84,11 +94,11 @@ abstract class NetworkBoundRepository<ResultType,
     }
 
     @MainThread
-    private fun setValue(newValue: Resource<ResultType,RequestType>) {
+    private fun setValue(newValue: Resource<ResultType, RequestType>) {
         result.value = newValue
     }
 
-    fun asLiveData(): LiveData<Resource<ResultType,RequestType>> {
+    fun asLiveData(): LiveData<Resource<ResultType, RequestType>> {
         return result
     }
 
@@ -105,7 +115,7 @@ abstract class NetworkBoundRepository<ResultType,
     protected abstract fun fetchService(): LiveData<ApiResponse<RequestType>>
 
     @MainThread
-    protected abstract fun transporter() : Transporter
+    protected abstract fun transporter(): Transporter
 
     @MainThread
     protected abstract fun onFetchFailed(message: String?)

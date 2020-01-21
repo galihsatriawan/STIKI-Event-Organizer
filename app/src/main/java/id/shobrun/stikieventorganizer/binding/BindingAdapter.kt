@@ -69,6 +69,7 @@ fun <T> bindParticipantsList(view: RecyclerView, result: Resource<List<T>, Any>?
         }
     }
 }
+
 @BindingAdapter("liveResourceAdditionalList")
 fun <T> bindAdditionalList(view: RecyclerView, result: Resource<List<T>, Any>?) {
     view.bindResource(result) {
@@ -102,6 +103,7 @@ fun <T> bindAdditionalList(view: RecyclerView, result: Resource<List<T>, Any>?) 
         }
     }
 }
+
 /*
 Binding Participant Detail
  */
@@ -158,31 +160,34 @@ fun bindEventCp(view: TextView, resource: Resource<Event, Any>?) {
         view.text = it.data?.event_cp
     }
 }
+
 @BindingAdapter("eventParticipant")
-fun bindEventParticipant(view: TextView, resource: Resource<Event, Any>?){
-    view.bindResource(resource){
-        var res = it.data?.participant_total?:0
-        if(res<0) res=0
-        view.text = "${res}"
+fun bindEventParticipant(view: TextView, resource: Resource<Event, Any>?) {
+    view.bindResource(resource) {
+        var res = it.data?.participant_total ?: 0
+        if (res < 0) res = 0
+        view.text = "$res"
     }
 }
+
 @BindingAdapter("eventParticipantAttend")
-fun bindEventParticipantAttend(view: TextView, resource: Resource<Event, Any>?){
-    view.bindResource(resource){
-        var res = it.data?.participant_attend?:0
-        if(res<0) res=0
-        view.text = "${res}"
+fun bindEventParticipantAttend(view: TextView, resource: Resource<Event, Any>?) {
+    view.bindResource(resource) {
+        var res = it.data?.participant_attend ?: 0
+        if (res < 0) res = 0
+        view.text = "$res"
     }
 }
 
 @BindingAdapter("eventParticipantNotAttend")
-fun bindEventParticipantNotAttend(view: TextView, resource: Resource<Event, Any>?){
-    view.bindResource(resource){
-        var res = it.data?.participant_total?:0 - ((it.data?.participant_attend)?:0)
-        if(res<0) res=0
-        view.text = "${res}"
+fun bindEventParticipantNotAttend(view: TextView, resource: Resource<Event, Any>?) {
+    view.bindResource(resource) {
+        var res = it.data?.participant_total ?: 0 - ((it.data?.participant_attend) ?: 0)
+        if (res < 0) res = 0
+        view.text = "$res"
     }
 }
+
 @BindingAdapter("invitationQr")
 fun bindEventLocation(view: ImageView, resource: Resource<Invitation, Any>?) {
     view.bindResource(resource) {
@@ -275,7 +280,7 @@ fun selectDate(context: Context, date: MutableLiveData<String>) {
         context,
         DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             date.value = year.toString() + "-" + (month + 1) + "-" + dayOfMonth.toString()
-            selectTime(context,date)
+            selectTime(context, date)
         },
         year,
         month,
@@ -290,19 +295,19 @@ fun selectTime(context: Context, date: MutableLiveData<String>) {
     val minute = c.get(Calendar.MINUTE)
     val timePickerDialog =
         TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-            var sMinute ="$minute"
-            if(minute<10){
+            var sMinute = "$minute"
+            if (minute < 10) {
                 sMinute = "0$minute"
             }
 
-            date.value = date.value+" $hourOfDay:$sMinute"
+            date.value = date.value + " $hourOfDay:$sMinute"
         }, hour, minute, true)
     timePickerDialog.show()
 }
 
 
 @BindingAdapter("visibleMessage")
-fun bindVisibleMessage(view: LinearLayout, resource: Resource<List<Any>,Any>?) {
+fun bindVisibleMessage(view: LinearLayout, resource: Resource<List<Any>, Any>?) {
     view.bindResource(resource) {
         if (it.data.isNullOrEmpty()) {
             view.visible()
@@ -313,7 +318,7 @@ fun bindVisibleMessage(view: LinearLayout, resource: Resource<List<Any>,Any>?) {
 }
 
 @BindingAdapter("messageEvents")
-fun bindMessage(view: TextView, resource: Resource<List<Any>,Any>?) {
+fun bindMessage(view: TextView, resource: Resource<List<Any>, Any>?) {
     view.bindResource(resource) {
         if (it.status == Status.ERROR) {
             view.text = it.message
@@ -327,9 +332,9 @@ fun bindMessage(view: TextView, resource: Resource<List<Any>,Any>?) {
 }
 
 @BindingAdapter("visibleMessageItem")
-fun bindVisibleMessageItem(view: LinearLayout, resource: Resource<Any,Any>?) {
+fun bindVisibleMessageItem(view: LinearLayout, resource: Resource<Any, Any>?) {
     view.bindResource(resource) {
-        if (it.data==null) {
+        if (it.data == null) {
             view.visible()
         } else {
             view.gone()
@@ -338,7 +343,7 @@ fun bindVisibleMessageItem(view: LinearLayout, resource: Resource<Any,Any>?) {
 }
 
 @BindingAdapter("messageItem")
-fun bindMessageItem(view: TextView, resource: Resource<Any,Any>?) {
+fun bindMessageItem(view: TextView, resource: Resource<Any, Any>?) {
     view.bindResource(resource) {
         if (it.status == Status.ERROR) {
             view.text = it.message
@@ -353,10 +358,10 @@ fun bindMessageItem(view: TextView, resource: Resource<Any,Any>?) {
 
 
 @BindingAdapter("visibleMessageTransporter")
-fun bindVisibleMessageTransporter(view: LinearLayout, resource: Resource<List<Any>,Any>?) {
+fun bindVisibleMessageTransporter(view: LinearLayout, resource: Resource<List<Any>, Any>?) {
     view.bindResource(resource) {
-        if(it.additionalData==null) view.visible()
-        else{
+        if (it.additionalData == null) view.visible()
+        else {
             val data = it.additionalData as InvitationsResponse
             if (data.result.isNullOrEmpty()) {
                 view.visible()
@@ -368,13 +373,13 @@ fun bindVisibleMessageTransporter(view: LinearLayout, resource: Resource<List<An
 }
 
 @BindingAdapter("messageEventsTransporter")
-fun bindMessageTransporter(view: TextView, resource: Resource<List<Any>,Any>?) {
+fun bindMessageTransporter(view: TextView, resource: Resource<List<Any>, Any>?) {
     view.bindResource(resource) {
-        if (it.status ==Status.ERROR) {
+        if (it.status == Status.ERROR) {
             view.text = it.message
             view.text = view.context.getString(R.string.failed_load)
         } else {
-            if(it.additionalData ==null) view.text = view.context.getString(R.string.empty_data)
+            if (it.additionalData == null) view.text = view.context.getString(R.string.empty_data)
             else {
                 val data = it.additionalData as InvitationsResponse
                 if (data.result.isNullOrEmpty()) {

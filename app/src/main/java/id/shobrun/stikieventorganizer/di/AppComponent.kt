@@ -21,11 +21,12 @@ import javax.inject.Singleton
         ViewModelsFactoryModule::class
     ]
 )
-interface AppComponent : AndroidInjector<SEOApplication>{
+interface AppComponent : AndroidInjector<SEOApplication> {
     @Component.Builder
-    interface Builder{
+    interface Builder {
         @BindsInstance
-        fun application (app:Application) : Builder
-        fun build() : AppComponent
+        fun application(app: Application): Builder
+
+        fun build(): AppComponent
     }
 }

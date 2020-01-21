@@ -12,5 +12,5 @@ abstract class ParticipantFragmentViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MyParticipantsViewModel::class)
-    abstract fun bindParticipantsViewModel(myParticipantsViewModel: MyParticipantsViewModel) : ViewModel
+    abstract fun bindParticipantsViewModel(myParticipantsViewModel: MyParticipantsViewModel): ViewModel
 }

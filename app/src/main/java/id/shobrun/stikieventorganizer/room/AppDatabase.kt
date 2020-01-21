@@ -5,18 +5,25 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import id.shobrun.stikieventorganizer.models.entity.*
+import id.shobrun.stikieventorganizer.models.entity.Event
+import id.shobrun.stikieventorganizer.models.entity.Invitation
+import id.shobrun.stikieventorganizer.models.entity.Participant
+import id.shobrun.stikieventorganizer.models.entity.User
 import id.shobrun.stikieventorganizer.utils.DateConverter
 
-@Database(entities = [Event::class, Invitation::class, Participant::class, User::class],version = 15 , exportSchema = false)
+@Database(
+    entities = [Event::class, Invitation::class, Participant::class, User::class],
+    version = 15,
+    exportSchema = false
+)
 @TypeConverters(DateConverter::class)
-abstract class AppDatabase : RoomDatabase(){
-    abstract fun eventDao() : EventDao
-    abstract fun invitationDao() : InvitationDao
-    abstract fun participantDao() : ParticipantDao
-    abstract fun userDao() : UserDao
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun eventDao(): EventDao
+    abstract fun invitationDao(): InvitationDao
+    abstract fun participantDao(): ParticipantDao
+    abstract fun userDao(): UserDao
 
-    companion object{
+    companion object {
         private const val
                 DB_SEO = "SEO-db"
 
@@ -49,7 +56,8 @@ abstract class AppDatabase : RoomDatabase(){
 
         // Create and pre-populate the database.
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java,
+            return Room.databaseBuilder(
+                context, AppDatabase::class.java,
                 DB_SEO
             ).allowMainThreadQueries()
                 .fallbackToDestructiveMigration()

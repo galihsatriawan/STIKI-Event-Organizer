@@ -12,5 +12,5 @@ abstract class EventFragmentViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MyEventsViewModel::class)
-    abstract fun bindMyEventsViewModel(myEventsViewModel: MyEventsViewModel) : ViewModel
+    abstract fun bindMyEventsViewModel(myEventsViewModel: MyEventsViewModel): ViewModel
 }

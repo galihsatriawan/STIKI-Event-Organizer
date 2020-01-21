@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 @Module
 class ParticipantNetworkModule {
     @Provides
-    fun provideParticipantApi(retrofit: Retrofit) : ParticipantApi {
+    fun provideParticipantApi(retrofit: Retrofit): ParticipantApi {
         return retrofit.create(ParticipantApi::class.java)
     }
 }

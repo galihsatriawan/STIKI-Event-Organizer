@@ -8,7 +8,7 @@ import id.shobrun.stikieventorganizer.di.ViewModelKey
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsViewModel
 
 @Module
-abstract class InvitationFragmentViewModelModule{
+abstract class InvitationFragmentViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(InvitationsViewModel::class)

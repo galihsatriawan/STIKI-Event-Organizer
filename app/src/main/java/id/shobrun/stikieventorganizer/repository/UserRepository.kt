@@ -12,11 +12,16 @@ import id.shobrun.stikieventorganizer.utils.Helper.md5
 import timber.log.Timber
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(val apiService: UserApi, val localDB : UserDao,val appExecutors: AppExecutors) {
-    fun loginUser(username: String, password:String) = object : NetworkBoundRepository<List<User>,UsersResponse,UserResponseTransporter>(appExecutors){
+class UserRepository @Inject constructor(
+    val apiService: UserApi,
+    val localDB: UserDao,
+    val appExecutors: AppExecutors
+) {
+    fun loginUser(username: String, password: String) = object :
+        NetworkBoundRepository<List<User>, UsersResponse, UserResponseTransporter>(appExecutors) {
         override fun saveFetchData(items: UsersResponse) {
             Timber.d("${items.message} ${items.status}")
-            if(!items.result.isNullOrEmpty()){
+            if (!items.result.isNullOrEmpty()) {
                 localDB.insert(items.result[0])
             }
         }
@@ -26,7 +31,7 @@ class UserRepository @Inject constructor(val apiService: UserApi, val localDB : 
         }
 
         override fun loadFromDb(): LiveData<List<User>> {
-            return localDB.getDetailUserByUsername(username,md5(md5(password)))
+            return localDB.getDetailUserByUsername(username, md5(md5(password)))
         }
 
         override fun fetchService(): LiveData<ApiResponse<UsersResponse>> {
@@ -47,10 +52,11 @@ class UserRepository @Inject constructor(val apiService: UserApi, val localDB : 
 
     }.asLiveData()
 
-    fun registerUser(user:User ) = object : NetworkBoundRepository<List<User>,UsersResponse,UserResponseTransporter>(appExecutors){
+    fun registerUser(user: User) = object :
+        NetworkBoundRepository<List<User>, UsersResponse, UserResponseTransporter>(appExecutors) {
         override fun saveFetchData(items: UsersResponse) {
-            if(!items.result.isNullOrEmpty()){
-                Timber.d("${items.result[0].toString()}")
+            if (!items.result.isNullOrEmpty()) {
+                Timber.d("${items.result[0]}")
                 localDB.insert(items.result[0])
             }
         }
@@ -60,7 +66,7 @@ class UserRepository @Inject constructor(val apiService: UserApi, val localDB : 
         }
 
         override fun loadFromDb(): LiveData<List<User>> {
-            return localDB.getDetailUserByUsername(user.user_username,md5(md5(user.user_password)))
+            return localDB.getDetailUserByUsername(user.user_username, md5(md5(user.user_password)))
         }
 
         override fun fetchService(): LiveData<ApiResponse<UsersResponse>> {

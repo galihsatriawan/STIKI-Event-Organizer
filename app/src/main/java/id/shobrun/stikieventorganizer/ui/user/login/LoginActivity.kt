@@ -1,6 +1,5 @@
 package id.shobrun.stikieventorganizer.ui.user.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -11,35 +10,32 @@ import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.ActivityLoginBinding
 import id.shobrun.stikieventorganizer.ui.MainActivity
 import id.shobrun.stikieventorganizer.ui.user.register.RegisterActivity
-import id.shobrun.stikieventorganizer.utils.SharedPref
-import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class LoginActivity : DaggerAppCompatActivity() {
 
     @Inject
-    lateinit var viewModelFactory : ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    val viewModel: LoginViewModel by viewModels{viewModelFactory }
-    lateinit var binding : ActivityLoginBinding
+    val viewModel: LoginViewModel by viewModels { viewModelFactory }
+    lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
-        with(binding){
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        with(binding) {
             lifecycleOwner = this@LoginActivity
             vm = viewModel
         }
         viewModel.snackbarText.observe(this, Observer {
-            if(it!=null)
+            if (it != null)
                 binding.root.snackbar(it)
         })
         viewModel.isSuccess.observe(this, Observer {
             it?.let {
-                if(it) {
+                if (it) {
                     val mainContent = intentFor<MainActivity>()
                     startActivity(mainContent)
                     finish()

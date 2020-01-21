@@ -14,29 +14,33 @@ import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import id.shobrun.stikieventorganizer.utils.SharedPref
 import javax.inject.Inject
 
-class ScannerViewModel @Inject constructor(repository: InvitationRepository,val sharedPref: SharedPref) : ViewModel(){
-    val loading : LiveData<Boolean>
+class ScannerViewModel @Inject constructor(
+    repository: InvitationRepository,
+    val sharedPref: SharedPref
+) : ViewModel() {
+    val loading: LiveData<Boolean>
 
-    val updateInvitation : LiveData<Resource<Invitation,InvitationsResponse>>
+    val updateInvitation: LiveData<Resource<Invitation, InvitationsResponse>>
     val invitationMutable = MutableLiveData<Invitation>()
     val invitationFromIntent = MutableLiveData<Invitation>()
-    val loadingDetail : LiveData<Boolean>
-    val invitationDetail : LiveData<Resource<Invitation,InvitationsResponse>>
+    val loadingDetail: LiveData<Boolean>
+    val invitationDetail: LiveData<Resource<Invitation, InvitationsResponse>>
     private val _snackbarText = MutableLiveData<String>()
     val snackbarText = _snackbarText
+
     init {
         updateInvitation = invitationMutable.switchMap {
             invitationMutable.value?.let {
                 val data = repository.updateInvitation(it)
                 data.value?.let { postInvitation(data.value?.data) }
                 data
-            }?:AbsentLiveData.create()
+            } ?: AbsentLiveData.create()
         }
         loading = updateInvitation.switchMap {
-            var isLoading = it.status== Status.LOADING
-            if(!isLoading) {
-                if(it.status==Status.ERROR)
-                _snackbarText.value = "Failed to update data"
+            var isLoading = it.status == Status.LOADING
+            if (!isLoading) {
+                if (it.status == Status.ERROR)
+                    _snackbarText.value = "Failed to update data"
                 else
                     _snackbarText.value = "Update data successfully"
             }
@@ -44,22 +48,24 @@ class ScannerViewModel @Inject constructor(repository: InvitationRepository,val 
         }
         invitationDetail = invitationFromIntent.switchMap {
             invitationFromIntent.value?.let {
-                repository.getInvitationDetail(it.invitation_id?:-1)
-            }?: AbsentLiveData.create()
+                repository.getInvitationDetail(it.invitation_id ?: -1)
+            } ?: AbsentLiveData.create()
         }
         loadingDetail = invitationDetail.switchMap {
             var isLoading = it.status == Status.LOADING
-            if(!isLoading) {
-                if(it.status==Status.ERROR) _snackbarText.value = "Failed to get data"
+            if (!isLoading) {
+                if (it.status == Status.ERROR) _snackbarText.value = "Failed to get data"
             }
             MutableLiveData(isLoading)
         }
     }
-    fun postInvitation(invitation: Invitation?){
+
+    fun postInvitation(invitation: Invitation?) {
         invitationFromIntent.value = invitation
 
     }
-    fun validateInvitation(){
+
+    fun validateInvitation() {
         val invitation = invitationDetail.value?.data
         invitation?.status = InvitationStatus.ATTENDED.toString()
         invitation?.let {

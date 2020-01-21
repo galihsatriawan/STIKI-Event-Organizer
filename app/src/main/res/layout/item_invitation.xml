@@ -3,64 +3,69 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="id.shobrun.stikieventorganizer.ui.adapter.RecyclerInvitationAdapter.InvitationViewModel" />
     </data>
 
     <RelativeLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="90dp">
+        android:layout_height="90dp"
+        android:orientation="vertical">
+
         <ImageView
             android:id="@+id/imgInvitation"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_invitation"
-            />
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_invitation" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/imgInvitation">
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/imgInvitation"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tvEventName"
+                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{vm.tvEventName}"
-                tools:text="@string/title_profile"
-                style="@style/TextAppearance.AppCompat.Title"
-                />
+                tools:text="@string/title_profile" />
+
             <TextView
                 android:id="@+id/tvEventDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{vm.tvEventDate}"
-                tools:text="@string/title_profile"/>
+                tools:text="@string/title_profile" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_arrow_right"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:contentDescription="TODO"
 
-            />
+            android:src="@drawable/ic_arrow_right" />
+
         <TextView
             android:id="@+id/tvInviter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="@{vm.tvEventFrom}"
-            tools:text="Invited by : galihsatriawan"
-            />
+            tools:text="Invited by : galihsatriawan" />
     </RelativeLayout>
 
 </layout>

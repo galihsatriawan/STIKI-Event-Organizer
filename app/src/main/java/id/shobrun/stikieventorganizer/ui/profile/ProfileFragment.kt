@@ -1,19 +1,15 @@
 package id.shobrun.stikieventorganizer.ui.profile
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import dagger.android.support.DaggerFragment
-
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
 import id.shobrun.stikieventorganizer.utils.Helper.openBrowser
@@ -30,6 +26,7 @@ class ProfileFragment : DaggerFragment() {
     companion object {
         fun newInstance() = ProfileFragment()
     }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel: ProfileViewModel by viewModels { viewModelFactory }
@@ -49,18 +46,20 @@ class ProfileFragment : DaggerFragment() {
             .commit()
         // TODO: Use the ViewModel
     }
+
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
         }
+
         lateinit var sharedPref: SharedPref
-        lateinit var tools : Tools
-        lateinit var username : Preference
-        lateinit var email : Preference
-        lateinit var signoutPreference : Preference
-        lateinit var helpPreference : Preference
-        lateinit var creator : Preference
-        lateinit var institution : Preference
+        lateinit var tools: Tools
+        lateinit var username: Preference
+        lateinit var email: Preference
+        lateinit var signoutPreference: Preference
+        lateinit var helpPreference: Preference
+        lateinit var creator: Preference
+        lateinit var institution: Preference
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -68,10 +67,10 @@ class ProfileFragment : DaggerFragment() {
         ): View? {
             sharedPref = SharedPref(requireActivity().application)
             tools = Tools(requireActivity())
-            username= preferenceManager.findPreference("username")!!
-            username.summary = sharedPref.getValue(PREFS_USER_USERNAME,"username")
-            email= preferenceManager.findPreference("email")!!
-            email.summary = sharedPref.getValue(PREFS_USER_EMAIL,"email")
+            username = preferenceManager.findPreference("username")!!
+            username.summary = sharedPref.getValue(PREFS_USER_USERNAME, "username")
+            email = preferenceManager.findPreference("email")!!
+            email.summary = sharedPref.getValue(PREFS_USER_EMAIL, "email")
 
             signoutPreference = preferenceManager.findPreference<Preference>("signout")!!
             signoutPreference.setOnPreferenceClickListener {
@@ -83,14 +82,14 @@ class ProfileFragment : DaggerFragment() {
 
             helpPreference = preferenceManager.findPreference("help")!!
             helpPreference.setOnPreferenceClickListener {
-                val help = Intent(requireContext(),HelpActivity::class.java)
+                val help = Intent(requireContext(), HelpActivity::class.java)
                 requireContext().startActivity(help)
                 true
             }
 
-            creator= preferenceManager.findPreference("email_creator")!!
+            creator = preferenceManager.findPreference("email_creator")!!
             creator.setOnPreferenceClickListener {
-                val intent = sendEmail(getString(R.string.creator_email),"Your Subject")
+                val intent = sendEmail(getString(R.string.creator_email), "Your Subject")
                 requireActivity().startActivity(Intent.createChooser(intent, "Send Email"))
                 true
             }

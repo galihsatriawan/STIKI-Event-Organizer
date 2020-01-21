@@ -5,6 +5,7 @@ import id.shobrun.stikieventorganizer.repository.UserRepository
 import id.shobrun.stikieventorganizer.utils.SharedPref
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(val repository: UserRepository,sharedPref: SharedPref): ViewModel() {
+class ProfileViewModel @Inject constructor(val repository: UserRepository, sharedPref: SharedPref) :
+    ViewModel() {
     // TODO: Implement the ViewModel
 }

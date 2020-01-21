@@ -1,31 +1,30 @@
 package id.shobrun.stikieventorganizer.ui.myevents.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import id.shobrun.stikieventorganizer.R
-
 import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithHome
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.adapter.EventDetailPagerAdapter
 import kotlinx.android.synthetic.main.activity_event_detail.*
 
 class EventDetailActivity : AppCompatActivity() {
-    companion object{
+    companion object {
         val EXTRA_EVENT = "extra_event"
-        var currentEventId :String? = null
-        var isNewEvent : Boolean = false
+        var currentEventId: String? = null
+        var isNewEvent: Boolean = false
     }
 
-    var event: Event? =null
+    var event: Event? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_detail)
 
         simpleToolbarWithHome(toolbar, "Event")
         event = intent?.getParcelableExtra(EXTRA_EVENT)
-        isNewEvent = event==null
+        isNewEvent = event == null
         currentEventId = event?.event_id
         val sectionsPagerAdapter =
             EventDetailPagerAdapter(

@@ -13,27 +13,30 @@ import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantSelectionAda
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import id.shobrun.stikieventorganizer.utils.SharedPref
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
-import timber.log.Timber
 import javax.inject.Inject
 
-class ParticipantSelectionViewModel @Inject constructor(val repository: InvitationRepository, val sharedPref: SharedPref) : ViewModel() {
+class ParticipantSelectionViewModel @Inject constructor(
+    val repository: InvitationRepository,
+    val sharedPref: SharedPref
+) : ViewModel() {
     // TODO: Implement the ViewModel
-    private var eventId : MutableLiveData<String> = MutableLiveData()
-    val participantsLiveData : LiveData<Resource<List<Invitation>, InvitationsResponse>>
-    val participantMutable : MutableLiveData<List<Invitation>> = MutableLiveData()
-    val participantResAction : LiveData<Resource<List<Invitation>,InvitationsResponse>>
-    lateinit var recyclerAdapter : RecyclerParticipantSelectionAdapter
-    val loading : LiveData<Boolean>
-    val loadingAction : LiveData<Boolean>
+    private var eventId: MutableLiveData<String> = MutableLiveData()
+    val participantsLiveData: LiveData<Resource<List<Invitation>, InvitationsResponse>>
+    val participantMutable: MutableLiveData<List<Invitation>> = MutableLiveData()
+    val participantResAction: LiveData<Resource<List<Invitation>, InvitationsResponse>>
+    lateinit var recyclerAdapter: RecyclerParticipantSelectionAdapter
+    val loading: LiveData<Boolean>
+    val loadingAction: LiveData<Boolean>
     val isSuccess = MutableLiveData<Boolean>()
     val _snackbarText = MutableLiveData<String>()
-    val snackbarText : LiveData<String> = _snackbarText
+    val snackbarText: LiveData<String> = _snackbarText
+
     init {
         participantsLiveData = eventId.switchMap {
             eventId.value?.let {
-                val data = repository.getAllParticipants(sharedPref.getValue(PREFS_USER_ID,-1),it)
+                val data = repository.getAllParticipants(sharedPref.getValue(PREFS_USER_ID, -1), it)
                 data
-            }?: AbsentLiveData.create()
+            } ?: AbsentLiveData.create()
         }
         loading = participantsLiveData.switchMap {
             var isLoading = it.status == Status.LOADING
@@ -41,27 +44,33 @@ class ParticipantSelectionViewModel @Inject constructor(val repository: Invitati
         }
         participantResAction = participantMutable.switchMap {
             participantMutable.value?.let {
-                repository.updateEventParticipant(sharedPref.getValue(PREFS_USER_ID,-1),eventId.value!!,it)
-            }?:AbsentLiveData.create()
+                repository.updateEventParticipant(
+                    sharedPref.getValue(PREFS_USER_ID, -1),
+                    eventId.value!!,
+                    it
+                )
+            } ?: AbsentLiveData.create()
         }
         loadingAction = participantResAction.switchMap {
             val isLoading = it.status == Status.LOADING
-            if(!isLoading){
-                if(it.status==Status.SUCCESS) isSuccess.value = true
-                _snackbarText.value = it.message ?:it.additionalData?.status
+            if (!isLoading) {
+                if (it.status == Status.SUCCESS) isSuccess.value = true
+                _snackbarText.value = it.message ?: it.additionalData?.status
             }
             MutableLiveData(isLoading)
         }
     }
-    fun postEventId(id : String?){
-        eventId.postValue(id?:"-1")
+
+    fun postEventId(id: String?) {
+        eventId.postValue(id ?: "-1")
     }
-    fun addParticipantSelection(){
+
+    fun addParticipantSelection() {
 
         val selection = ArrayList<Invitation>()
-        for(i in recyclerAdapter.items){
+        for (i in recyclerAdapter.items) {
 //            Timber.d("Selection -${i.participant_id}- ${i.is_invited}")
-            if(i.is_invited?:false) selection.add(i)
+            if (i.is_invited ?: false) selection.add(i)
         }
         participantMutable.value = selection
     }

@@ -1,6 +1,5 @@
 package id.shobrun.stikieventorganizer.utils
 
-import android.R
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -9,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import timber.log.Timber
@@ -17,7 +15,7 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 
-class Tools(private val activity:Activity) {
+class Tools(private val activity: Activity) {
     private val TAG = javaClass.simpleName
 
     fun openMap(context: Context, latitude: Double, longitude: Double) {
@@ -27,13 +25,11 @@ class Tools(private val activity:Activity) {
     }
 
 
-
     fun callPhone(context: Context, telp: String) {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:$telp")
         context.startActivity(intent)
     }
-
 
 
     fun shareWA(context: Context, message: String?) {
@@ -129,7 +125,7 @@ class Tools(private val activity:Activity) {
             this.second = second
         }
 
-        internal constructor() {}
+        internal constructor()
     }
 
     fun matcherQRData(data: String): Pair<String, String> {

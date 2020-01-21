@@ -12,5 +12,5 @@ abstract class ParticipantDetailViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ParticipantDetailViewModel::class)
-    abstract fun bindParticipantDetailVM(participantDetailViewModel: ParticipantDetailViewModel) : ViewModel
+    abstract fun bindParticipantDetailVM(participantDetailViewModel: ParticipantDetailViewModel): ViewModel
 }

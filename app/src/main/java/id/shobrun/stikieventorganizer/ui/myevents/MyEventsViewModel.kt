@@ -14,26 +14,28 @@ import id.shobrun.stikieventorganizer.utils.SharedPref
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import javax.inject.Inject
 
-class MyEventsViewModel @Inject constructor(repository: EventRepository,sharedPref: SharedPref) : ViewModel() {
+class MyEventsViewModel @Inject constructor(repository: EventRepository, sharedPref: SharedPref) :
+    ViewModel() {
 
     private val userId = MutableLiveData<Int>()
-    val eventsLiveData : LiveData<Resource<List<Event>,EventsResponse>>
-    val loading : LiveData<Boolean>
+    val eventsLiveData: LiveData<Resource<List<Event>, EventsResponse>>
+    val loading: LiveData<Boolean>
+
     init {
 
         eventsLiveData = userId.switchMap {
             userId.value?.let {
                 repository.getMyEvents(it)
-            }?:AbsentLiveData.create()
+            } ?: AbsentLiveData.create()
         }
         loading = eventsLiveData.switchMap {
             var isLoading = it.status == Status.LOADING
             MutableLiveData(isLoading)
         }
-        postUserId(sharedPref.getValue(PREFS_USER_ID,-1))
+        postUserId(sharedPref.getValue(PREFS_USER_ID, -1))
     }
 
-    fun postUserId(id : Int){
+    fun postUserId(id: Int) {
         userId.value = id
     }
 }

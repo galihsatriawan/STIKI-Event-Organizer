@@ -3,15 +3,9 @@ package id.shobrun.stikieventorganizer.ui
 import android.os.Bundle
 import android.util.SparseArray
 import androidx.annotation.IdRes
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import id.shobrun.stikieventorganizer.R
-import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithHome
 import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithoutHome
 import id.shobrun.stikieventorganizer.ui.invitations.InvitationsFragment
 import id.shobrun.stikieventorganizer.ui.myevents.MyEventsFragment
@@ -24,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         const val SAVED_STATE_CONTAINER_KEY = "ContainerKey"
         const val SAVED_STATE_CURRENT_TAB_KEY = "CurrentTabKey"
     }
+
     private var savedStateSparseArray = SparseArray<Fragment.SavedState>()
     private var currentSelectItemId = R.id.navigation_invitations
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     fragment = MyEventsFragment.newInstance()
                     swapFragments(R.id.navigation_events, fragment)
                 }
-                R.id.navigation_participants-> {
+                R.id.navigation_participants -> {
                     fragment = MyParticipantsFragment.newInstance()
                     swapFragments(R.id.navigation_participants, fragment)
                 }
@@ -63,11 +58,13 @@ class MainActivity : AppCompatActivity() {
         bottom_navigation.selectedItemId = currentSelectItemId
         simpleToolbarWithoutHome(toolbar, "STIKI EVENT ORGANIZER")
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSparseParcelableArray(SAVED_STATE_CONTAINER_KEY, savedStateSparseArray)
         outState.putInt(SAVED_STATE_CURRENT_TAB_KEY, currentSelectItemId)
     }
+
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach { fragment ->
             if (fragment != null && fragment.isVisible) {
@@ -81,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
         super.onBackPressed()
     }
+
     private fun swapFragments(@IdRes actionId: Int, fragment: Fragment) {
         if (supportFragmentManager.findFragmentByTag(fragment.javaClass.simpleName) == null) {
             savedFragmentState(actionId)

@@ -5,7 +5,8 @@ import dagger.android.ContributesAndroidInjector
 import id.shobrun.stikieventorganizer.di.event.EventNetworkModule
 import id.shobrun.stikieventorganizer.di.event.EventPersistenceModule
 import id.shobrun.stikieventorganizer.di.event.EventRepositoryModule
-import id.shobrun.stikieventorganizer.di.event.detail.*
+import id.shobrun.stikieventorganizer.di.event.detail.ParticipantSelectionModule
+import id.shobrun.stikieventorganizer.di.event.detail.ParticipantSelectionViewModelModule
 import id.shobrun.stikieventorganizer.di.event.scanner.ScannerModule
 import id.shobrun.stikieventorganizer.di.event.scanner.ScannerViewModelModule
 import id.shobrun.stikieventorganizer.di.invitation.InvitationNetworkModule
@@ -25,16 +26,11 @@ import id.shobrun.stikieventorganizer.di.user.login.LoginModule
 import id.shobrun.stikieventorganizer.di.user.login.LoginViewModelModule
 import id.shobrun.stikieventorganizer.di.user.register.RegisterModule
 import id.shobrun.stikieventorganizer.di.user.register.RegisterViewModelModule
-import id.shobrun.stikieventorganizer.models.entity.Participant
 import id.shobrun.stikieventorganizer.ui.SplashScreen
 import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity
-import id.shobrun.stikieventorganizer.ui.invitations.detail.InvitationDetailViewModel
-import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity
-import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantSelectionActivity
 import id.shobrun.stikieventorganizer.ui.myevents.scanner.ScannerActivity
 import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
-import id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailViewModel
 import id.shobrun.stikieventorganizer.ui.user.login.LoginActivity
 import id.shobrun.stikieventorganizer.ui.user.register.RegisterActivity
 
@@ -42,7 +38,7 @@ import id.shobrun.stikieventorganizer.ui.user.register.RegisterActivity
 @Module
 abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(
-        modules =[
+        modules = [
             InvitationDetailModule::class,
             InvitationDetailViewModelModule::class,
             InvitationNetworkModule::class,
@@ -53,9 +49,10 @@ abstract class ActivityBuildersModule {
             EventRepositoryModule::class
         ]
     )
-    abstract fun injectInvitationDetailActivity() : InvitationDetailActivity
+    abstract fun injectInvitationDetailActivity(): InvitationDetailActivity
+
     @ContributesAndroidInjector(
-        modules =[
+        modules = [
             ParticipantSelectionModule::class,
             ParticipantSelectionViewModelModule::class,
             InvitationNetworkModule::class,
@@ -63,10 +60,10 @@ abstract class ActivityBuildersModule {
             InvitationRepositoryModule::class
         ]
     )
-    abstract fun injectParticipantSelectionActivity() : ParticipantSelectionActivity
+    abstract fun injectParticipantSelectionActivity(): ParticipantSelectionActivity
 
     @ContributesAndroidInjector(
-        modules =[
+        modules = [
             ScannerModule::class,
             ScannerViewModelModule::class,
             InvitationNetworkModule::class,
@@ -74,7 +71,7 @@ abstract class ActivityBuildersModule {
             InvitationRepositoryModule::class
         ]
     )
-    abstract fun injectScannerActivity() : ScannerActivity
+    abstract fun injectScannerActivity(): ScannerActivity
 
     @ContributesAndroidInjector(
         modules = [
@@ -85,7 +82,7 @@ abstract class ActivityBuildersModule {
             ParticipantRepositoryModule::class
         ]
     )
-    abstract fun injectParticipantDetailActivity() : ParticipantDetailActivity
+    abstract fun injectParticipantDetailActivity(): ParticipantDetailActivity
 
     @ContributesAndroidInjector(
         modules = [
@@ -110,5 +107,5 @@ abstract class ActivityBuildersModule {
     abstract fun injectRegisterActivity(): RegisterActivity
 
     @ContributesAndroidInjector
-    abstract fun injectSplashScreenActivity() : SplashScreen
+    abstract fun injectSplashScreenActivity(): SplashScreen
 }

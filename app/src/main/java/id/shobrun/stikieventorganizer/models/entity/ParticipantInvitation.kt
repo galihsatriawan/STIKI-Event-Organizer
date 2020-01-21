@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_PARTICIPANT_INVITATION)
 data class ParticipantInvitation(
     @Embedded
-    val participant:Participant,
+    val participant: Participant,
     @Embedded
     val invitation: Invitation
-):Parcelable
+) : Parcelable

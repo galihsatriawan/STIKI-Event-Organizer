@@ -12,7 +12,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.cardview.widget.CardView
-import com.google.android.material.button.MaterialButton
 import com.google.zxing.BarcodeFormat
 import de.hdodenhof.circleimageview.CircleImageView
 import id.shobrun.stikieventorganizer.R
@@ -74,14 +73,14 @@ class DialogTools(private val activity: Activity) {
             (dialog.findViewById<View>(R.id.btn_negative) as TextView).text = "Close"
             (dialog.findViewById<View>(R.id.btn_positive) as TextView).visibility = View.GONE
             (dialog.findViewById<View>(R.id.cont_share) as CardView).visibility = View.VISIBLE
-            (dialog.findViewById<View>(R.id.fb_image) as CircleImageView).setOnClickListener{
+            (dialog.findViewById<View>(R.id.fb_image) as CircleImageView).setOnClickListener {
                 callbackShare.onFacebook(dialog)
             }
 
-            (dialog.findViewById<View>(R.id.twitter_image) as CircleImageView).setOnClickListener{
+            (dialog.findViewById<View>(R.id.twitter_image) as CircleImageView).setOnClickListener {
                 callbackShare.onTwitter(dialog)
             }
-            (dialog.findViewById<View>(R.id.whatsapp) as CircleImageView).setOnClickListener{
+            (dialog.findViewById<View>(R.id.whatsapp) as CircleImageView).setOnClickListener {
                 callbackShare.onWhatsapp(dialog)
             }
 
@@ -91,18 +90,19 @@ class DialogTools(private val activity: Activity) {
         }
         if (callback != null) {
             (dialog.findViewById<View>(R.id.cont_share) as CardView).visibility = View.VISIBLE
-            (dialog.findViewById<View>(R.id.btn_positive) as Button).setOnClickListener{
+            (dialog.findViewById<View>(R.id.btn_positive) as Button).setOnClickListener {
                 callback.onPositiveClick(dialog)
             }
-            (dialog.findViewById<View>(R.id.btn_negative) as Button).setOnClickListener{
+            (dialog.findViewById<View>(R.id.btn_negative) as Button).setOnClickListener {
                 callback.onNegativeClick(dialog)
             }
-            (dialog.findViewById<View>(R.id.btn_search_web) as Button).setOnClickListener{
+            (dialog.findViewById<View>(R.id.btn_search_web) as Button).setOnClickListener {
                 callback.onSearchClick(dialog)
             }
         }
         return dialog
     }
+
     fun buildDialogCode(
         @StringRes title: Int, @StringRes content: Int, @StringRes data: Int, callbackDialog: CallbackDialog?
     ): Dialog? {
@@ -135,6 +135,7 @@ class DialogTools(private val activity: Activity) {
         }
         return dialog
     }
+
     fun buildDialogValidateTicket(
         myTicket: Invitation,
         callback: CallbackDialog?
@@ -148,11 +149,14 @@ class DialogTools(private val activity: Activity) {
         callback: CallbackDialog?
     ): Dialog {
         val dialog = buildDialogView(R.layout.dialog_confirm_ticket)
-        (dialog.findViewById<View>(R.id.tvIdTicket) as TextView).setText(myTicket.invitation_id?:-1)
+        (dialog.findViewById<View>(R.id.tvIdTicket) as TextView).setText(
+            myTicket.invitation_id ?: -1
+        )
         (dialog.findViewById<View>(R.id.tvParticipantName) as TextView).setText(myTicket.participant_name)
         (dialog.findViewById<View>(R.id.tvParticipantEmail) as TextView).setText(myTicket.participant_email)
-        val valid:Boolean = myTicket.status?.equals(InvitationStatus.WAITING_FOR_COMING.toString())?:false
-        var contentStatus =  ""
+        val valid: Boolean =
+            myTicket.status?.equals(InvitationStatus.WAITING_FOR_COMING.toString()) ?: false
+        var contentStatus = ""
 
         if (!valid) {
             contentStatus = "Not Valid (${myTicket.status})"

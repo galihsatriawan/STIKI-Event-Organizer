@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import id.shobrun.stikieventorganizer.databinding.ItemInvitationBinding
 import id.shobrun.stikieventorganizer.models.entity.Invitation
 
-class RecyclerInvitationAdapter(private var items: List<Invitation>) : RecyclerView.Adapter<RecyclerInvitationAdapter.InvitationViewHolder>(){
-    class InvitationViewHolder (private val binding : ItemInvitationBinding): RecyclerView.ViewHolder(binding.root){
+class RecyclerInvitationAdapter(private var items: List<Invitation>) :
+    RecyclerView.Adapter<RecyclerInvitationAdapter.InvitationViewHolder>() {
+    class InvitationViewHolder(private val binding: ItemInvitationBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private val viewModel = InvitationViewModel()
-        fun bind(invitation: Invitation){
-            with(binding){
+        fun bind(invitation: Invitation) {
+            with(binding) {
                 vm = viewModel
                 viewModel.bind(invitation)
                 executePendingBindings()
@@ -21,19 +23,22 @@ class RecyclerInvitationAdapter(private var items: List<Invitation>) : RecyclerV
         }
 
     }
-    private lateinit var itemListener : (Invitation)->Unit
-    fun setItemListener(listener : (Invitation)->Unit){
+
+    private lateinit var itemListener: (Invitation) -> Unit
+    fun setItemListener(listener: (Invitation) -> Unit) {
         this.itemListener = listener
     }
-    fun setItems(items : List<Invitation>?){
-        if(items!=null){
+
+    fun setItems(items: List<Invitation>?) {
+        if (items != null) {
             this.items = items
             notifyDataSetChanged()
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvitationViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val itemBinding =  ItemInvitationBinding.inflate(layoutInflater,parent,false)
+        val itemBinding = ItemInvitationBinding.inflate(layoutInflater, parent, false)
         val view = InvitationViewHolder(itemBinding)
 
         view.listen {
@@ -41,7 +46,8 @@ class RecyclerInvitationAdapter(private var items: List<Invitation>) : RecyclerV
         }
         return view
     }
-    private fun <T : RecyclerView.ViewHolder> T.listen(participant: (position:Int) -> Unit) : T {
+
+    private fun <T : RecyclerView.ViewHolder> T.listen(participant: (position: Int) -> Unit): T {
         itemView.setOnClickListener {
             participant.invoke(adapterPosition)
         }
@@ -55,17 +61,17 @@ class RecyclerInvitationAdapter(private var items: List<Invitation>) : RecyclerV
         holder.bind(items[position])
     }
 
-    class InvitationViewModel : ViewModel(){
+    class InvitationViewModel : ViewModel() {
         private val _tvEventName = MutableLiveData<String>()
-        val tvEventName : LiveData<String> = _tvEventName
+        val tvEventName: LiveData<String> = _tvEventName
 
         private val _tvEventDate = MutableLiveData<String>()
-        val tvEventDate : LiveData<String> = _tvEventDate
+        val tvEventDate: LiveData<String> = _tvEventDate
 
         private val _tvEventFrom = MutableLiveData<String>()
-        val tvEventFrom : LiveData<String> = _tvEventFrom
+        val tvEventFrom: LiveData<String> = _tvEventFrom
 
-        fun bind(invitation : Invitation){
+        fun bind(invitation: Invitation) {
             _tvEventName.value = invitation.event_name
             _tvEventFrom.value = "Invited by ${invitation.inviter}"
             _tvEventDate.value = invitation.event_date

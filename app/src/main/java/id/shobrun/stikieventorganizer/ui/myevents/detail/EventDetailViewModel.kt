@@ -18,13 +18,16 @@ import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
 import javax.inject.Inject
 
-class EventDetailViewModel @Inject constructor(repository: EventRepository,val sharedPref: SharedPref): ViewModel(){
+class EventDetailViewModel @Inject constructor(
+    repository: EventRepository,
+    val sharedPref: SharedPref
+) : ViewModel() {
     private val eventId = MutableLiveData<String>()
-    private val event : LiveData<Resource<Event,EventsResponse>>
-    private var isNewEvent : Boolean = false
+    private val event: LiveData<Resource<Event, EventsResponse>>
+    private var isNewEvent: Boolean = false
 
-    val loading : LiveData<Boolean>
-    val loadingUpdate : LiveData<Boolean>
+    val loading: LiveData<Boolean>
+    val loadingUpdate: LiveData<Boolean>
 
     /**
      * Text Input
@@ -40,35 +43,37 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
     val eventLongitude = MutableLiveData<Double>()
 
     private val _snackbarText = MutableLiveData<String>()
-    val snackbarText :LiveData<String> = _snackbarText
+    val snackbarText: LiveData<String> = _snackbarText
     val eventMutable = MutableLiveData<Event>()
-    val eventAction :LiveData<Resource<Event,EventsResponse>>
+    val eventAction: LiveData<Resource<Event, EventsResponse>>
+
     init {
         event = eventId.switchMap {
             eventId.value?.let {
                 repository.getEventDetail(it)
-            }?: AbsentLiveData.create()
+            } ?: AbsentLiveData.create()
         }
         loading = event.switchMap {
             val isLoading = it.status == Status.LOADING && !isNewEvent
-            if(!isLoading) onEventLoaded(it.data)
+            if (!isLoading) onEventLoaded(it.data)
             MutableLiveData(isLoading)
         }
         eventAction = eventMutable.switchMap {
             eventMutable.value?.let {
-                if(isNewEvent)
+                if (isNewEvent)
                     repository.insertEvent(it)
                 else
                     repository.updateEvent(it)
-            }?:AbsentLiveData.create()
+            } ?: AbsentLiveData.create()
         }
         loadingUpdate = eventAction.switchMap {
             val isLoading = it.status == Status.LOADING
-            if(!isLoading) _snackbarText.value = it.message ?: it.additionalData?.message
+            if (!isLoading) _snackbarText.value = it.message ?: it.additionalData?.message
             MutableLiveData(isLoading)
         }
     }
-    private fun onEventLoaded(event:Event?){
+
+    private fun onEventLoaded(event: Event?) {
         eventName.value = event?.event_name
         eventDescription.value = event?.event_description
         eventDate.value = event?.event_date
@@ -76,7 +81,8 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
         eventLocation.value = event?.event_location
         eventCp.value = event?.event_cp
     }
-    fun saveEvent(){
+
+    fun saveEvent() {
         val currentName = eventName.value
         val currentDesc = eventDescription.value
         val currentDate = eventDate.value
@@ -85,17 +91,33 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
         val currentCp = eventCp.value
         val currentLatitude = eventLatitude.value
         val currentLongitude = eventLongitude.value
-        if(currentName.isNullOrEmpty() || currentDesc.isNullOrEmpty() || currentDate.isNullOrEmpty()|| currentLocation .isNullOrEmpty()|| currentCp .isNullOrEmpty()){
+        if (currentName.isNullOrEmpty() || currentDesc.isNullOrEmpty() || currentDate.isNullOrEmpty() || currentLocation.isNullOrEmpty() || currentCp.isNullOrEmpty()) {
             _snackbarText.value = "Please fill completely"
             return
         }
-        if(isNewEvent){
-            val user_id =sharedPref.getValue(PREFS_USER_ID,-1)
-            val user_username= sharedPref.getValue(PREFS_USER_USERNAME,"")
-            val user_email =sharedPref.getValue(PREFS_USER_EMAIL,"")
-            val eventNew = Event(getUniqueID("$user_id"),user_id,user_username,user_email,currentName,currentDesc,currentDate,currentLocation,currentLink,currentLatitude,currentLongitude,currentCp,EventStatus.ON_HOLD.toString(),0,0)
+        if (isNewEvent) {
+            val user_id = sharedPref.getValue(PREFS_USER_ID, -1)
+            val user_username = sharedPref.getValue(PREFS_USER_USERNAME, "")
+            val user_email = sharedPref.getValue(PREFS_USER_EMAIL, "")
+            val eventNew = Event(
+                getUniqueID("$user_id"),
+                user_id,
+                user_username,
+                user_email,
+                currentName,
+                currentDesc,
+                currentDate,
+                currentLocation,
+                currentLink,
+                currentLatitude,
+                currentLongitude,
+                currentCp,
+                EventStatus.ON_HOLD.toString(),
+                0,
+                0
+            )
             insertEvent(eventNew)
-        }else{
+        } else {
             val eventTemp = this.event.value?.data!!
             eventTemp.event_name = currentName
             eventTemp.event_description = currentDesc
@@ -108,14 +130,17 @@ class EventDetailViewModel @Inject constructor(repository: EventRepository,val s
             updateEvent(eventTemp)
         }
     }
-    fun postEventId(id : String?){
-        isNewEvent = id==null
-        this.eventId.value = id?:"-1"
+
+    fun postEventId(id: String?) {
+        isNewEvent = id == null
+        this.eventId.value = id ?: "-1"
     }
-    private fun insertEvent(event: Event){
+
+    private fun insertEvent(event: Event) {
         eventMutable.value = event
     }
-    private fun updateEvent(event: Event){
+
+    private fun updateEvent(event: Event) {
         eventMutable.value = event
     }
 

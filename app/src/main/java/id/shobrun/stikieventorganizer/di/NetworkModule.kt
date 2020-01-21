@@ -13,24 +13,26 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetworkModule{
+class NetworkModule {
     @Singleton
     @Provides
-    internal fun provideOkHttpClient() : OkHttpClient{
+    internal fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient().newBuilder()
             .addInterceptor(RequestInterceptor())
             .build()
     }
+
     @Singleton
     @Provides
-    internal fun provideGson() : Gson{
+    internal fun provideGson(): Gson {
         return GsonBuilder()
             .setLenient()
             .create()
     }
+
     @Singleton
     @Provides
-    internal fun provideRetrofit(okHttpClient: OkHttpClient,gson : Gson) : Retrofit{
+    internal fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))

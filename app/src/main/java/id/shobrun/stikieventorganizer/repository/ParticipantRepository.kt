@@ -13,11 +13,18 @@ import id.shobrun.stikieventorganizer.transporter.ParticipantResponseTransporter
 import timber.log.Timber
 import javax.inject.Inject
 
-class ParticipantRepository @Inject constructor(private val appExecutors: AppExecutors, private val apiService : ParticipantApi,private val localDB : ParticipantDao) : ILocalSource{
-    fun getParticipantDetail(id : String) : LiveData<Resource<Participant,ParticipantsResponse>>{
-        return object : NetworkBoundRepository<Participant,ParticipantsResponse,ParticipantResponseTransporter>(appExecutors){
+class ParticipantRepository @Inject constructor(
+    private val appExecutors: AppExecutors,
+    private val apiService: ParticipantApi,
+    private val localDB: ParticipantDao
+) : ILocalSource {
+    fun getParticipantDetail(id: String): LiveData<Resource<Participant, ParticipantsResponse>> {
+        return object :
+            NetworkBoundRepository<Participant, ParticipantsResponse, ParticipantResponseTransporter>(
+                appExecutors
+            ) {
             override fun saveFetchData(items: ParticipantsResponse) {
-                if(items.result.isNotEmpty()){
+                if (items.result.isNotEmpty()) {
                     val item = items.result[0]
                     Timber.d("Service ${item.participant_name}")
                     localDB.insert(item)
@@ -45,16 +52,21 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
                 return ParticipantResponseTransporter()
             }
 
-        } .asLiveData()
+        }.asLiveData()
     }
-    fun getMyParticipants(id : Int) : LiveData<Resource<List<Participant>,ParticipantsResponse>> {
-        return object : NetworkBoundRepository<List<Participant>,ParticipantsResponse,ParticipantResponseTransporter>(appExecutors) {
+
+    fun getMyParticipants(id: Int): LiveData<Resource<List<Participant>, ParticipantsResponse>> {
+        return object :
+            NetworkBoundRepository<List<Participant>, ParticipantsResponse, ParticipantResponseTransporter>(
+                appExecutors
+            ) {
             override fun saveFetchData(items: ParticipantsResponse) {
                 val participants = items.result
-                if(participants.isNotEmpty()){
+                if (participants.isNotEmpty()) {
                     localDB.inserts(items.result)
                 }
             }
+
             override fun shouldFetch(data: List<Participant>?): Boolean {
                 return true
             }
@@ -77,11 +89,15 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
 
         }.asLiveData()
     }
-    fun insertObj(participant: Participant) = object: NetworkBoundRepository<Participant,ParticipantsResponse,ParticipantResponseTransporter>(appExecutors){
+
+    fun insertObj(participant: Participant) = object :
+        NetworkBoundRepository<Participant, ParticipantsResponse, ParticipantResponseTransporter>(
+            appExecutors
+        ) {
         override fun saveFetchData(items: ParticipantsResponse) {
-            if(!items.result.isNullOrEmpty()){
+            if (!items.result.isNullOrEmpty()) {
                 localDB.insert(items.result[0])
-            }else{
+            } else {
                 localDB.insert(participant)
             }
         }
@@ -95,7 +111,7 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
         }
 
         override fun fetchService(): LiveData<ApiResponse<ParticipantsResponse>> {
-            val data = HashMap<String,Participant>()
+            val data = HashMap<String, Participant>()
             data["participant"] = participant
             return apiService.addParticipant(data)
         }
@@ -108,11 +124,15 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
             return ParticipantResponseTransporter()
         }
     }.asLiveData()
-    fun updateObj(participant: Participant)= object: NetworkBoundRepository<Participant,ParticipantsResponse,ParticipantResponseTransporter>(appExecutors){
+
+    fun updateObj(participant: Participant) = object :
+        NetworkBoundRepository<Participant, ParticipantsResponse, ParticipantResponseTransporter>(
+            appExecutors
+        ) {
         override fun saveFetchData(items: ParticipantsResponse) {
-            if(!items.result.isNullOrEmpty()){
+            if (!items.result.isNullOrEmpty()) {
                 localDB.update(items.result[0])
-            }else{
+            } else {
                 localDB.update(participant)
             }
         }
@@ -126,7 +146,7 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
         }
 
         override fun fetchService(): LiveData<ApiResponse<ParticipantsResponse>> {
-            val data = HashMap<String,Participant>()
+            val data = HashMap<String, Participant>()
             data["participant"] = participant
             return apiService.updateParticipant(data)
         }
@@ -140,6 +160,7 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
         }
 
     }.asLiveData()
+
     override fun <T> insertsLocal(obj: List<T>) {
         val participants = obj as List<Participant>
         localDB.inserts(participants)
@@ -147,7 +168,7 @@ class ParticipantRepository @Inject constructor(private val appExecutors: AppExe
 
     override fun <T> insertLocal(obj: T) {
         val participant = obj as Participant
-        Timber.d("${participant.participant_name}")
+        Timber.d(participant.participant_name)
         localDB.insert(participant)
     }
 

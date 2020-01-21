@@ -12,5 +12,5 @@ abstract class InvitationDetailViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(InvitationDetailViewModel::class)
-    abstract fun bindInvitationDetailVM(invitationDetailViewModel: InvitationDetailViewModel) : ViewModel
+    abstract fun bindInvitationDetailVM(invitationDetailViewModel: InvitationDetailViewModel): ViewModel
 }

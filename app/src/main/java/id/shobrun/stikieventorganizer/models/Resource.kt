@@ -9,8 +9,18 @@ import id.shobrun.stikieventorganizer.models.network.ErrorEnvelope
  * A generic class that holds a value with its loading status.
  * @param <T>
 </T> */
-@Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE", "LiftReturnOrAssignment", "RedundantOverride", "SpellCheckingInspection")
-data class Resource<out T, out S>(val status: Status, val data: T?, val additionalData: S?, val message: String?) {
+@Suppress(
+    "PARAMETER_NAME_CHANGED_ON_OVERRIDE",
+    "LiftReturnOrAssignment",
+    "RedundantOverride",
+    "SpellCheckingInspection"
+)
+data class Resource<out T, out S>(
+    val status: Status,
+    val data: T?,
+    val additionalData: S?,
+    val message: String?
+) {
 
     var errorEnvelope: ErrorEnvelope? = null
 
@@ -26,18 +36,34 @@ data class Resource<out T, out S>(val status: Status, val data: T?, val addition
     }
 
     companion object {
-        fun <T,S> success(data: T?,additionalData : S?): Resource<T,S> {
-            return Resource(status = Status.SUCCESS, data = data,additionalData = additionalData, message = null)
+        fun <T, S> success(data: T?, additionalData: S?): Resource<T, S> {
+            return Resource(
+                status = Status.SUCCESS,
+                data = data,
+                additionalData = additionalData,
+                message = null
+            )
         }
 
-        fun <T,S> error(msg: String, data: T?,additionalData: S?): Resource<T,S> {
-            return Resource(status = Status.ERROR, data = data,additionalData = additionalData, message = msg)
+        fun <T, S> error(msg: String, data: T?, additionalData: S?): Resource<T, S> {
+            return Resource(
+                status = Status.ERROR,
+                data = data,
+                additionalData = additionalData,
+                message = msg
+            )
         }
 
-        fun <T,S> loading(data: T?,additionalData:S?): Resource<T,S> {
-            return Resource(status = Status.LOADING, data = data,additionalData = additionalData, message = null)
+        fun <T, S> loading(data: T?, additionalData: S?): Resource<T, S> {
+            return Resource(
+                status = Status.LOADING,
+                data = data,
+                additionalData = additionalData,
+                message = null
+            )
         }
     }
+
     override fun equals(o: Any?): Boolean {
         if (this === o) {
             return true
@@ -46,7 +72,7 @@ data class Resource<out T, out S>(val status: Status, val data: T?, val addition
             return false
         }
 
-        val resource = o as Resource<*,*>
+        val resource = o as Resource<*, *>
 
         if (status !== resource.status) {
             return false
@@ -65,8 +91,8 @@ data class Resource<out T, out S>(val status: Status, val data: T?, val addition
         return "Resource[" +
                 "status=" + status + '\'' +
                 ",message='" + message + '\'' +
-                ",data=" + data +'\''+
-                ",additional= "+additionalData+
+                ",data=" + data + '\'' +
+                ",additional= " + additionalData +
                 ']'
     }
 

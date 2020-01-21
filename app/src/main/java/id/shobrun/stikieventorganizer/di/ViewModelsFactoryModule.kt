@@ -6,7 +6,7 @@ import dagger.Module
 import id.shobrun.stikieventorganizer.factory.AppViewModelsFactory
 
 @Module
-abstract class ViewModelsFactoryModule{
+abstract class ViewModelsFactoryModule {
     @Binds
-    internal abstract fun bindViewModelFactory(factory : AppViewModelsFactory) : ViewModelProvider.Factory
+    internal abstract fun bindViewModelFactory(factory: AppViewModelsFactory): ViewModelProvider.Factory
 }

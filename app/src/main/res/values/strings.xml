@@ -1,16 +1,11 @@
 <resources>
     <string name="app_name">STIKI Event Organizer</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_participants">Participants</string>
     <string name="title_events">My Events</string>
     <string name="title_invitations">Invitations</string>
     <string name="title_profile">Profile</string>
     <string name="failed_load">Failed to load data</string>
     <string name="seo_hint_participant_name">Participant Name</string>
-    <string name="seo_btn_add">Add</string>
-    <string name="seo_btn_cancel">Cancel</string>
     <string name="seo_btn_save">Save</string>
     <string name="seo_hint_participant_email">Participant Email</string>
     <string name="seo_hint_participant_telp">Participant Telp</string>
@@ -20,7 +15,6 @@
     <string name="seo_hint_event_name">Event Name</string>
     <string name="seo_hint_event_description">Event Description</string>
     <string name="seo_hint_event_date">Event Date</string>
-    <string name="seo_hint_event_link_maps">Link Maps</string>
     <string name="seo_hint_event_location">Event Location</string>
     <string name="seo_hint_event_cp">Contact Person</string>
     <string name="seo_hint_username">Your Username</string>
@@ -32,24 +26,13 @@
     <string name="seo_hint_name">Your Name</string>
     <string name="seo_hint_email">Your Email</string>
     <string name="seo_hint_telp">Your Phone Number</string>
-    <string name="title_activity_profile">Profile</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="pref_header_about">About</string>
-    <string name="url_faq">https://www.linkedin.com/in/galih-anggi-satriawan-143a69141/</string>
     <string name="creator_email">satriawan.galih99@gmail.com</string>
     <string name="web_institution">http://stiki.ac.id</string>
     <string name="app_version">Version 1.0.0 \u00a9 2019</string>
@@ -80,7 +63,6 @@
     <string name="data">Data</string>
     <string name="seo_scan">Scan</string>
     <string name="VALIDATE">Validate</string>
-    <string name="valid">Valid</string>
     <string name="status">Status</string>
     <string name="ticket_detail">Ticket Detail</string>
     <string name="id_ticket">ID Ticket</string>
@@ -90,8 +72,6 @@
     <string name="seo_name">Name</string>
     <string name="seo_email">Email</string>
     <string name="title_activity_maps">Map</string>
-    <string name="SEARCH_LOCATION">Search Location</string>
-    <string name="go_to_picker_activity">Go to picker</string>
     <string name="seo_hint_your_location">Your Location</string>
     <string name="seo_hint_detail_location">Detail Location</string>
     <string name="seo_info_has_create_event">Please create th event first</string>
@@ -100,7 +80,6 @@
     <string name="txt_content_description">Content Description</string>
     <string name="empty_data">No data found</string>
     <string name="tab_summary">Summary</string>
-    <string name="seo_event_detail">Event Detail</string>
     <string name="seo_event_summary">Event Summary</string>
     <string name="seo_description">Description</string>
     <string name="seo_date">Date</string>
@@ -110,4 +89,5 @@
     <string name="seo_participants_attend">Attendance</string>
     <string name="seo_participants_not_attend">Absence</string>
     <string name="seo_info_not_the_event">The Event is different</string>
+    <string name="seo_tap_to_show">Tap to show</string>
 </resources>

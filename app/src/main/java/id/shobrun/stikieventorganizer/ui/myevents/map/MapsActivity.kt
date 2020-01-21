@@ -1,19 +1,16 @@
 package id.shobrun.stikieventorganizer.ui.myevents.map
 
+
 import android.app.Activity
 import android.content.Intent
-import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.RelativeLayout
-
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-
-
+import android.location.Location
+import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
@@ -27,9 +24,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.io.IOException
-
 import id.shobrun.stikieventorganizer.R
+import java.io.IOException
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
@@ -125,10 +121,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     override fun onMarkerClick(p0: Marker?) = false
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
 
@@ -170,7 +172,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                 address = addresses[0]
                 for (i in 0 until address.maxAddressLineIndex) {
                     // pada getAddressLine berisi tentang alamat, kota, negara, dimulai dari index 0
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
+                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(
+                        i
+                    )
                 }
             }
         } catch (e: IOException) {
@@ -181,14 +185,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            null /* Looper */
+        )
     }
 
     private fun createLocationRequest() {
@@ -213,8 +226,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    e.startResolutionForResult(this,
-                        REQUEST_CHECK_SETTINGS)
+                    e.startResolutionForResult(
+                        this,
+                        REQUEST_CHECK_SETTINGS
+                    )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }

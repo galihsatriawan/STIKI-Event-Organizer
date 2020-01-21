@@ -10,5 +10,9 @@ import id.shobrun.stikieventorganizer.room.EventDao
 @Module
 class EventRepositoryModule {
     @Provides
-    fun provideEventRepository(appExecutors: AppExecutors,apiService : EventApi,localDB : EventDao) = EventRepository(appExecutors,apiService,localDB)
+    fun provideEventRepository(
+        appExecutors: AppExecutors,
+        apiService: EventApi,
+        localDB: EventDao
+    ) = EventRepository(appExecutors, apiService, localDB)
 }

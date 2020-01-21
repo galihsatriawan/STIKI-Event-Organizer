@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import id.shobrun.stikieventorganizer.databinding.ItemParticipantSelectionBinding
 import id.shobrun.stikieventorganizer.models.entity.Invitation
-import kotlinx.android.synthetic.main.item_participant_selection.view.*
-import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
 import timber.log.Timber
 
 class RecyclerParticipantSelectionAdapter(var items: List<Invitation>) :
@@ -29,9 +27,9 @@ class RecyclerParticipantSelectionAdapter(var items: List<Invitation>) :
     class ParticipantsViewHolder(private val binding: ItemParticipantSelectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val viewModel = ParticipantSelectionViewModel()
-        fun bind(invitation: Invitation){
-            with(binding){
-                vm =  viewModel
+        fun bind(invitation: Invitation) {
+            with(binding) {
+                vm = viewModel
                 viewModel.bind(invitation)
                 executePendingBindings()
             }
@@ -40,7 +38,7 @@ class RecyclerParticipantSelectionAdapter(var items: List<Invitation>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipantsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val itemBinding = ItemParticipantSelectionBinding.inflate(layoutInflater,parent,false)
+        val itemBinding = ItemParticipantSelectionBinding.inflate(layoutInflater, parent, false)
         val view = ParticipantsViewHolder(itemBinding)
 
         view.listen {

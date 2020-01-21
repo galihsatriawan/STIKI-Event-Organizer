@@ -19,19 +19,21 @@ import javax.inject.Inject
 
 class InvitationDetailActivity : DaggerAppCompatActivity() {
     @Inject
-    lateinit var viewModelFactory : ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by viewModels<InvitationDetailViewModel> {viewModelFactory}
-    companion object{
+    private val viewModel by viewModels<InvitationDetailViewModel> { viewModelFactory }
+
+    companion object {
         const val EXTRA_INVITATION = "extra_invitation"
     }
-    var invitation : Invitation? = null
-    lateinit var binding : ActivityInvitationDetailBinding
+
+    var invitation: Invitation? = null
+    lateinit var binding: ActivityInvitationDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_invitation_detail)
         simpleToolbarWithHome(toolbar, "Invitation Detail")
-        with(binding){
+        with(binding) {
             lifecycleOwner = this@InvitationDetailActivity
             vm = viewModel
         }
@@ -40,8 +42,8 @@ class InvitationDetailActivity : DaggerAppCompatActivity() {
         viewModel.postInvitationId(invitation?.invitation_id)
         viewModel.actionQrCode.observe(this, Observer {
             it?.let {
-               val buildDialog = DialogTools(this)
-                val callbackDialog =  object : DialogTools.CallbackDialog{
+                val buildDialog = DialogTools(this)
+                val callbackDialog = object : DialogTools.CallbackDialog {
                     override fun onPositiveClick(dialog: Dialog?) {
                         dialog?.dismiss()
                     }
@@ -58,13 +60,15 @@ class InvitationDetailActivity : DaggerAppCompatActivity() {
                 val data = Gson().toJson(viewModel.invitation.value?.data)
                 val title = "Tickets QR Code"
                 val content = "Please show to the ticket keeper"
-                val dialog: Dialog = buildDialog.buildDialogCode(title,content,data,callbackDialog)
+                val dialog: Dialog =
+                    buildDialog.buildDialogCode(title, content, data, callbackDialog)
                 dialog.show()
             }
 
         })
 
     }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
