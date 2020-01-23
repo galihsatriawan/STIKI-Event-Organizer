@@ -25,10 +25,11 @@ class EventDetailViewModel @Inject constructor(
     private val eventId = MutableLiveData<String>()
     private val event: LiveData<Resource<Event, EventsResponse>>
     private var isNewEvent: Boolean = false
-
+    var isUpdateLocation = MutableLiveData(false)
     val loading: LiveData<Boolean>
     val loadingUpdate: LiveData<Boolean>
-
+    val isSuccess= MutableLiveData<Boolean>()
+    val eventIdNew = MutableLiveData<String>()
     /**
      * Text Input
      */
@@ -68,9 +69,17 @@ class EventDetailViewModel @Inject constructor(
         }
         loadingUpdate = eventAction.switchMap {
             val isLoading = it.status == Status.LOADING
-            if (!isLoading) _snackbarText.value = it.message ?: it.additionalData?.message
+            if (!isLoading){
+                if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
+                else {
+                    _snackbarText.value = it.message ?: it.additionalData?.message
+                    isSuccess.value = true
+                    eventId.value = eventMutable.value?.event_id
+                }
+            }
             MutableLiveData(isLoading)
         }
+
     }
 
     private fun onEventLoaded(event: Event?) {
@@ -80,6 +89,8 @@ class EventDetailViewModel @Inject constructor(
         eventLinkMaps.value = event?.event_map_location
         eventLocation.value = event?.event_location
         eventCp.value = event?.event_cp
+        eventLatitude.value = event?.event_latitude
+        eventLongitude.value = event?.event_longitude
     }
 
     fun saveEvent() {
@@ -112,7 +123,7 @@ class EventDetailViewModel @Inject constructor(
                 currentLatitude,
                 currentLongitude,
                 currentCp,
-                EventStatus.ON_HOLD.toString(),
+                EventStatus.ACTIVE.toString(),
                 0,
                 0
             )
@@ -133,6 +144,7 @@ class EventDetailViewModel @Inject constructor(
 
     fun postEventId(id: String?) {
         isNewEvent = id == null
+        isUpdateLocation.value = isNewEvent
         this.eventId.value = id ?: "-1"
     }
 
@@ -142,6 +154,9 @@ class EventDetailViewModel @Inject constructor(
 
     private fun updateEvent(event: Event) {
         eventMutable.value = event
+    }
+    fun actionUpdateLocation(){
+        isUpdateLocation.value = true
     }
 
 }

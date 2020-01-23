@@ -56,6 +56,7 @@
                         android:id="@+id/edt_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textAutoComplete"
                         android:text="@={vm.username}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +67,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/container_username"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin_small"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:enabled="@{!vm.loading}"
                     android:hint="@string/seo_hint_password"
@@ -80,15 +80,33 @@
                         android:inputType="textPassword"
                         android:text="@={vm.password}" />
                 </com.google.android.material.textfield.TextInputLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/container_name"
+                    android:id="@+id/container_confirm_password"
                     style="@style/Widget.SEO.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/container_password"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin_small"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:enabled="@{!vm.loading}"
+                    android:hint="@string/seo_hint_confirm_password"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_confirm_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:text="@={vm.confirmPassword}" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/container_name"
+                    style="@style/Widget.SEO.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/container_confirm_password"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:enabled="@{!vm.loading}"
                     android:hint="@string/seo_hint_name"
@@ -98,6 +116,7 @@
                         android:id="@+id/edt_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textAutoComplete"
                         android:text="@={vm.name}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +127,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/container_name"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin_small"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:enabled="@{!vm.loading}"
                     android:hint="@string/seo_hint_email"
@@ -129,7 +147,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/container_email"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin_small"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:enabled="@{!vm.loading}"
                     android:hint="@string/seo_hint_telp"

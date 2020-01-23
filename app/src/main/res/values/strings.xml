@@ -92,4 +92,5 @@
     <string name="seo_tap_to_show">Tap to show</string>
     <string name="seo_success_login">Login Successfully</string>
     <string name="seo_register_success">Register Successfully</string>
+    <string name="seo_hint_confirm_password">Confirm Password</string>
 </resources>

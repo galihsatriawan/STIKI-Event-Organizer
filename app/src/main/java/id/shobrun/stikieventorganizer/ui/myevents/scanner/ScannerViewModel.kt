@@ -60,7 +60,7 @@ class ScannerViewModel @Inject constructor(
         loadingDetail = invitationDetail.switchMap {
             var isLoading = it.status == Status.LOADING
             if (!isLoading) {
-                if (it.status == Status.ERROR) _snackbarText.value = "Failed to get data"
+                if (it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
             }
             MutableLiveData(isLoading)
         }

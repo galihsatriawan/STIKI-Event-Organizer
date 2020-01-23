@@ -26,4 +26,10 @@ interface UserDao {
     @Query("DELETE FROM $TABLE_USER WHERE ${ID_USER}= :id")
     fun delete(id: Int)
 
+    @Query("DELETE FROM $TABLE_USER")
+    fun delete()
+
+    @Query("DELETE FROM $TABLE_USER WHERE USER_USERNAME = :username")
+    fun deleteByEmail(username: String)
+
 }

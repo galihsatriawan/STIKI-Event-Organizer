@@ -1,11 +1,14 @@
 package id.shobrun.stikieventorganizer.utils
 
 import android.app.Activity
+import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Patterns
@@ -15,9 +18,14 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 
-class Tools(private val activity: Activity) {
+class Tools(private val application: Application) {
     private val TAG = javaClass.simpleName
-
+    fun isConnect() : Boolean {
+        val connectivityManager = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        val isConnected : Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnect()
+    }
     fun openMap(context: Context, latitude: Double, longitude: Double) {
         val uri = "geo:$latitude,$longitude"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))

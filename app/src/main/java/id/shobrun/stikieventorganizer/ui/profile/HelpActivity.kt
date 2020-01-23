@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import id.shobrun.stikieventorganizer.R
+import id.shobrun.stikieventorganizer.utils.Constants.Companion.HELP_URL
 
 class HelpActivity : AppCompatActivity() {
 
@@ -11,7 +12,6 @@ class HelpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help)
         var web: WebView = findViewById(R.id.webView)
-        web.loadUrl("file:///android_asset/Help.html")
-
+        web.loadUrl(HELP_URL)
     }
 }

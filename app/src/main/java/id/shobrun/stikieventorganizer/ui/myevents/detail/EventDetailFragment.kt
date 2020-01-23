@@ -86,6 +86,15 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) binding.root.snackbar(it).show()
         })
+        viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
+            EventDetailActivity.isNewEvent = false
+            EventDetailActivity.currentEventId = viewModel.eventIdNew.value
+        })
+        viewModel.isUpdateLocation.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it) startLocationUpdates()
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,8 +110,10 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+                if(viewModel.isUpdateLocation.value?:true)
+                    placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+                else
+                    placeMarkerOnMap(LatLng(viewModel.eventLatitude.value!!, viewModel.eventLongitude.value!!))
             }
         }
 
@@ -153,15 +164,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             if (resultCode == Activity.RESULT_OK) {
                 locationUpdateState = true
                 startLocationUpdates()
-            }
-        }
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == AppCompatActivity.RESULT_OK) {
-                val place = PlacePicker.getPlace(context, data)
-                var addressText = place.name.toString()
-                addressText += "\n" + place.address.toString()
-
-                placeMarkerOnMap(place.latLng)
             }
         }
     }
@@ -228,62 +230,37 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
-
+        viewModel.eventLatitude.value = location.latitude
+        viewModel.eventLongitude.value = location.longitude
 //        val titleStr :String?= getAddress(location)  // add these two lines
         val titleStr: String? = null
         markerOptions.title(titleStr ?: "Your Location")
         map.clear()
         map.addMarker(markerOptions)
     }
-
-    private fun getAddress(latLng: LatLng): String {
-        // 1
-        val geocoder = Geocoder(requireContext())
-        val addresses: List<Address>?
-        val address: Address?
-        var addressText = ""
-
-        try {
-            // 2
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            viewModel.eventLatitude.value = latLng.latitude
-            viewModel.eventLongitude.value = latLng.longitude
-            // 3
-            if (null != addresses && !addresses.isEmpty()) {
-                address = addresses[0]
-                for (i in 0 until address.maxAddressLineIndex) {
-                    // pada getAddressLine berisi tentang alamat, kota, negara, dimulai dari index 0
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(
-                        i
-                    )
-                    viewModel.eventLocation.value = addressText
-                }
-            }
-        } catch (e: IOException) {
-            Log.e("MapsActivity", e.localizedMessage)
-        }
-
-        return addressText
-    }
-
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
+        try{
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                return
+            }
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                null /* Looper */
             )
-            return
+        }catch (t: Throwable){
+            t.printStackTrace()
         }
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            null /* Looper */
-        )
+
     }
 
     private fun createLocationRequest() {

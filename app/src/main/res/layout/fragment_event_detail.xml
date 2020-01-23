@@ -109,20 +109,50 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:visibility="@{(vm.loading || vm.loadingUpdate)? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        android:id="@+id/title_eventLocation"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:text="@string/seo_hint_your_location" />
+                        android:id="@+id/container_your_location"
+                        >
+                        <TextView
+                            android:id="@+id/title_eventLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:layout_marginStart="@dimen/activity_horizontal_margin"
+                            android:text="@string/seo_hint_your_location"
+                            android:layout_centerVertical="true"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/container_btn_update_map"
+                            android:layout_alignParentRight="true"
+
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_map"
+                                android:layout_gravity="center"
+                                />
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{()->vm.actionUpdateLocation()}"
+                                android:text="Update "
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
+                                />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
 
                     <include
                         android:id="@+id/lyt_map"
                         layout="@layout/activity_order_with_map"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/title_eventLocation"
+                        android:layout_below="@+id/container_your_location"
                         android:visibility="visible" />
                 </RelativeLayout>
 

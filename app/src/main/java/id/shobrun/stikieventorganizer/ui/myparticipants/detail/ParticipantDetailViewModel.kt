@@ -11,6 +11,7 @@ import id.shobrun.stikieventorganizer.models.network.ParticipantsResponse
 import id.shobrun.stikieventorganizer.repository.ParticipantRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
 import id.shobrun.stikieventorganizer.utils.Helper.getUniqueID
+import id.shobrun.stikieventorganizer.utils.Helper.isValidEmail
 import id.shobrun.stikieventorganizer.utils.SharedPref
 import timber.log.Timber
 import javax.inject.Inject
@@ -55,7 +56,10 @@ class ParticipantDetailViewModel @Inject constructor(
         }
         loadingUpdate = participantAction.switchMap {
             val isLoading = it.status == Status.LOADING
-            if (!isLoading) _snackbarText.value = it.message ?: it.additionalData?.message
+            if (!isLoading){
+                if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
+                else _snackbarText.value = it.message ?: it.additionalData?.message
+            }
             MutableLiveData(isLoading)
         }
 
@@ -84,6 +88,10 @@ class ParticipantDetailViewModel @Inject constructor(
              */
             Timber.d("$currentName - $currentAddress - $currentEmail - $currentTelp null edittext")
             _snackbarText.value = "Please fill completely"
+            return
+        }
+        if(isValidEmail(currentEmail).isNullOrEmpty()) {
+            _snackbarText.value = "The email is not valid"
             return
         }
         if (isNewParticipant) {

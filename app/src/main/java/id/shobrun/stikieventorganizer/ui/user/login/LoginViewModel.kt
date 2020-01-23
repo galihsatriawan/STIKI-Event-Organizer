@@ -50,7 +50,7 @@ class LoginViewModel @Inject constructor(repository: UserRepository, sharedPref:
             Timber.d("${it.status}")
             val isLoading = it.status == Status.LOADING
             if (!isLoading) {
-                if (it.status == Status.ERROR) _snackbarText.value = "Failed to get data"
+                if (it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
                 else _snackbarText.value = it.message ?: it.additionalData?.message
                 if (!it.data.isNullOrEmpty()) {
                     isSuccess.value = true
@@ -59,12 +59,16 @@ class LoginViewModel @Inject constructor(repository: UserRepository, sharedPref:
                      */
                     sharedPref.setValue(PREFS_IS_LOGIN, true)
                     sharedPref.setValue(PREFS_USER_ID, it.data[0].user_id)
-                    sharedPref.setValue(PREFS_USER_USERNAME, it.data[0].user_name)
+                    sharedPref.setValue(PREFS_USER_USERNAME, it.data[0].user_username)
                     sharedPref.setValue(PREFS_USER_EMAIL, it.data[0].user_email)
                 }
             }
             MutableLiveData(isLoading)
         }
+        /**
+         * Delete All User
+         */
+        repository.localDB.delete()
     }
 
     fun clickLogin() {

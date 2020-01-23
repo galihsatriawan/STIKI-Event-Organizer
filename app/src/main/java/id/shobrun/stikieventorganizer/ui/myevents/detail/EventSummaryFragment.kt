@@ -45,4 +45,9 @@ class EventSummaryFragment : DaggerFragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.postEventId(event?.event_id ?: EventDetailActivity.currentEventId)
+    }
+
 }

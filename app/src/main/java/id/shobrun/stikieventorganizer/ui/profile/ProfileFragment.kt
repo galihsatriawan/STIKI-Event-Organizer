@@ -66,7 +66,6 @@ class ProfileFragment : DaggerFragment() {
             savedInstanceState: Bundle?
         ): View? {
             sharedPref = SharedPref(requireActivity().application)
-            tools = Tools(requireActivity())
             username = preferenceManager.findPreference("username")!!
             username.summary = sharedPref.getValue(PREFS_USER_USERNAME, "username")
             email = preferenceManager.findPreference("email")!!

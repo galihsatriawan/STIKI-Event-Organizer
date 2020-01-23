@@ -10,6 +10,8 @@ import id.shobrun.stikieventorganizer.models.entity.User
 import id.shobrun.stikieventorganizer.models.network.UsersResponse
 import id.shobrun.stikieventorganizer.repository.UserRepository
 import id.shobrun.stikieventorganizer.utils.AbsentLiveData
+import id.shobrun.stikieventorganizer.utils.Helper
+import id.shobrun.stikieventorganizer.utils.Helper.isValidEmail
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,6 +19,7 @@ class RegisterViewModel @Inject constructor(repository: UserRepository) : ViewMo
     val name = MutableLiveData<String>()
     val username = MutableLiveData<String>()
     val password = MutableLiveData<String>()
+    val confirmPassword = MutableLiveData<String>()
     val email = MutableLiveData<String>()
     val telp = MutableLiveData<String>()
     val address = MutableLiveData<String>()
@@ -39,7 +42,7 @@ class RegisterViewModel @Inject constructor(repository: UserRepository) : ViewMo
             var isLoading = it.status == Status.LOADING
             if (!isLoading) {
                 Timber.d("${it.message ?: it.additionalData?.message}")
-                if (it.status == Status.ERROR) _snackbarText.value = "Failed to get data"
+                if (it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
                 else _snackbarText.value = it.message ?: it.additionalData?.message
                 if (!it.data.isNullOrEmpty()) isSuccess.value = true
                 Timber.d("${it.data?.size}")
@@ -54,10 +57,19 @@ class RegisterViewModel @Inject constructor(repository: UserRepository) : ViewMo
         val currentPassword = password.value
         val currentEmail = email.value
         val currentTelp = telp.value
+        val currentConfirmPassword = confirmPassword.value
 //        val currentAddress = address.value
 
-        if (currentName.isNullOrEmpty() || currentPassword.isNullOrEmpty() || currentUsername.isNullOrEmpty() || currentEmail.isNullOrEmpty() || currentTelp.isNullOrEmpty()) {
+        if (currentName.isNullOrEmpty() || currentPassword.isNullOrEmpty() || currentUsername.isNullOrEmpty() || currentEmail.isNullOrEmpty() || currentTelp.isNullOrEmpty() || currentConfirmPassword.isNullOrEmpty()) {
             _snackbarText.value = "Please fill completely"
+            return
+        }
+        if(currentPassword!=currentConfirmPassword){
+            _snackbarText.value = "Your password must be match"
+            return
+        }
+        if(isValidEmail(currentEmail).isNullOrEmpty()) {
+            _snackbarText.value = "Your email is not valid"
             return
         }
         if (registerAction.value == null) registerAction.value = true

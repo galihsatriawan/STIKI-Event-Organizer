@@ -55,7 +55,10 @@ class ParticipantSelectionViewModel @Inject constructor(
             val isLoading = it.status == Status.LOADING
             if (!isLoading) {
                 if (it.status == Status.SUCCESS) isSuccess.value = true
-                _snackbarText.value = it.message ?: it.additionalData?.status
+                if (!isLoading){
+                    if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
+                    else _snackbarText.value = it.message ?: it.additionalData?.message
+                }
             }
             MutableLiveData(isLoading)
         }
