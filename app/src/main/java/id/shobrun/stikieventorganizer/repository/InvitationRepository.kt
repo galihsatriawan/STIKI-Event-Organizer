@@ -195,8 +195,8 @@ class InvitationRepository @Inject constructor(
                  * Remove the data before
                  * then save it
                  */
+                localDB.deleteByEventId(userId, eventId)
                 if (!items.result.isNullOrEmpty()) {
-                    localDB.deleteByEventId(userId, eventId)
                     localDB.inserts(items.result)
                 }
             }
