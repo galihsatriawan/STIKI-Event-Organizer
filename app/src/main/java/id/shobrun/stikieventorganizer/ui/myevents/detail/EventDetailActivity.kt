@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_event_detail.*
 class EventDetailActivity : AppCompatActivity() {
     companion object {
         val EXTRA_EVENT = "extra_event"
+        val EXTRA_ID_EVENT = "extra_id_event"
         var currentEventId: String? = null
         var isNewEvent: Boolean = false
     }
@@ -29,8 +30,7 @@ class EventDetailActivity : AppCompatActivity() {
         val sectionsPagerAdapter =
             EventDetailPagerAdapter(
                 applicationContext,
-                supportFragmentManager,
-                event
+                supportFragmentManager
             )
         val viewPager: ViewPager = findViewById(R.id.view_pager)
 

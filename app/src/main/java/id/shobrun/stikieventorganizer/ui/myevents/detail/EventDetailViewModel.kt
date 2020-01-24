@@ -16,6 +16,7 @@ import id.shobrun.stikieventorganizer.utils.SharedPref
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import id.shobrun.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
+import timber.log.Timber
 import javax.inject.Inject
 
 class EventDetailViewModel @Inject constructor(
@@ -79,6 +80,8 @@ class EventDetailViewModel @Inject constructor(
                     _snackbarText.value = it.message ?: it.additionalData?.message
                     isSuccess.value = true
                     eventId.value = eventMutable.value?.event_id
+                    eventIdNew.value = eventId.value
+                    isNewEvent = false
                 }
             }
             MutableLiveData(isLoading)
@@ -115,8 +118,9 @@ class EventDetailViewModel @Inject constructor(
             val user_id = sharedPref.getValue(PREFS_USER_ID, -1)
             val user_username = sharedPref.getValue(PREFS_USER_USERNAME, "")
             val user_email = sharedPref.getValue(PREFS_USER_EMAIL, "")
+            val eventId = getUniqueID("$user_id")
             val eventNew = Event(
-                getUniqueID("$user_id"),
+                eventId,
                 user_id,
                 user_username,
                 user_email,

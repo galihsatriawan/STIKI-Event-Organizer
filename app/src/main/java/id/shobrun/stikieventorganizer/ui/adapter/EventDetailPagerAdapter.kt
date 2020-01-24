@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.currentEventId
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventSummaryFragment
 import id.shobrun.stikieventorganizer.ui.myevents.detail.ParticipantEventFragment
@@ -26,8 +28,7 @@ private val TAB_TITLES = arrayOf(
  */
 class EventDetailPagerAdapter(
     private val context: Context,
-    fm: FragmentManager,
-    private val event: Event?
+    fm: FragmentManager
 ) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -45,7 +46,7 @@ class EventDetailPagerAdapter(
             }
         }
 
-        fragment.arguments = bundleOf(EXTRA_EVENT to event)
+        fragment.arguments = bundleOf(EXTRA_ID_EVENT to currentEventId)
         return fragment
 
     }

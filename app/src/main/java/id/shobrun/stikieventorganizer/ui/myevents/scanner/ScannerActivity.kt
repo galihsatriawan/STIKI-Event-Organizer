@@ -39,11 +39,11 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel: ScannerViewModel by viewModels { viewModelFactory }
-    var event: Event? = null
+    var eventId: String? = null
     lateinit var binding: DialogConfirmTicketBinding
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        event = intent?.getParcelableExtra(EXTRA_EVENT)
+        eventId = intent?.getStringExtra(EXTRA_EVENT)
         mScannerView = ZXingScannerView(this) // Programmatically initialize the scanner view
         mScannerView!!.setFormats(mutableListOf(BarcodeFormat.QR_CODE))
         setContentView(mScannerView) // Set the scanner view as the content view
@@ -150,7 +150,7 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
                 Toast.LENGTH_SHORT
             ).show()
         }
-        if (invitation?.event_id != event?.event_id ?: -1) {
+        if (invitation?.event_id != eventId ?: -1) {
             valid = false
             Toast.makeText(this, getString(R.string.seo_info_not_the_event), Toast.LENGTH_SHORT)
                 .show()

@@ -24,14 +24,14 @@ class EventSummaryFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel: EventSummaryViewModel by viewModels { viewModelFactory }
     lateinit var binding: FragmentEventSummaryBinding
-    private var event: Event? = null
+    private var eventId: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_event_summary, container, false)
-        event = arguments?.getParcelable(EXTRA_EVENT)
+        eventId = arguments?.getString(EXTRA_EVENT)
         with(binding) {
             lifecycleOwner = this@EventSummaryFragment
             vm = viewModel
@@ -41,13 +41,13 @@ class EventSummaryFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.postEventId(event?.event_id ?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
 
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.postEventId(event?.event_id ?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
     }
 
 }

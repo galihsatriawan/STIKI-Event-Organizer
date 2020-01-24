@@ -26,6 +26,8 @@ import id.shobrun.stikieventorganizer.R
 import id.shobrun.stikieventorganizer.databinding.FragmentEventDetailBinding
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.currentEventId
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.isNewEvent
 import id.shobrun.stikieventorganizer.ui.myevents.scanner.ScannerActivity
 import org.jetbrains.anko.design.snackbar
@@ -39,15 +41,13 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     companion object {
         fun newInstance() = EventDetailFragment()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
-        private const val REQUEST_CHECK_SETTINGS = 2
-        private const val PLACE_PICKER_REQUEST = 3
     }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: EventDetailViewModel by viewModels { viewModelFactory }
     private lateinit var binding: FragmentEventDetailBinding
-    var event: Event? = null
+    private var eventId : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -61,15 +61,17 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_event_detail, container, false)
-        if (arguments?.get(EXTRA_EVENT) != null) {
-            event = arguments!![EXTRA_EVENT] as Event
+        if (arguments?.getString(EXTRA_EVENT) != null) {
+            eventId = arguments?.getString(EXTRA_EVENT)
         }
 
         with(binding) {
             lifecycleOwner = this@EventDetailFragment
             vm = viewModel
         }
-
+        viewModel.eventMutable.observe(viewLifecycleOwner, Observer {
+            Timber.d("Check Event Detail ${it?.toString()}")
+        })
         return binding.root
     }
 
@@ -81,8 +83,8 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             if (!it.isNullOrEmpty()) binding.root.snackbar(it).show()
         })
         viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
-            EventDetailActivity.isNewEvent = false
-            EventDetailActivity.currentEventId = viewModel.eventIdNew.value
+            isNewEvent = false
+            currentEventId = viewModel.eventIdNew.value
         })
         viewModel.isSuccessLoad.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -101,12 +103,11 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                  * When Ready
                  */
                 if (it && !isNewEvent) {
-                    Timber.d("Update Cuy")
                     setUpMap()
                 }
             }
         })
-        viewModel.postEventId(event?.event_id ?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(eventId ?: currentEventId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,13 +118,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
-            }
-        }
 
     }
 
@@ -137,12 +131,12 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         super.onOptionsItemSelected(item)
         return when (item.itemId) {
             R.id.scan -> {
-                if (EventDetailActivity.isNewEvent) {
+                if (isNewEvent) {
                     binding.root.snackbar(getString(R.string.seo_info_has_create_event))
                     return true
                 }
                 val scan = intentFor<ScannerActivity>(
-                    EXTRA_EVENT to event
+                    EXTRA_ID_EVENT to eventId
                 )
                 startActivity(scan)
                 true
@@ -160,32 +154,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
 
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var locationRequest: LocationRequest
-    private var locationUpdateState = false
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            if (resultCode == Activity.RESULT_OK) {
-                locationUpdateState = true
-                startLocationUpdates()
-            }
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!locationUpdateState) {
-            startLocationUpdates()
-        }
-    }
 
     /**
      * Manipulates the map once available.
@@ -255,62 +223,5 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14f))
     }
 
-    private fun startLocationUpdates() {
-        try {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    android.Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_REQUEST_CODE
-                )
-                return
-            }
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                null /* Looper */
-            )
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        }
-
-    }
-
-    private fun createLocationRequest() {
-        locationRequest = LocationRequest()
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 5000
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-        val client = LocationServices.getSettingsClient(requireActivity())
-        val task = client.checkLocationSettings(builder.build())
-
-        task.addOnSuccessListener {
-            locationUpdateState = true
-            startLocationUpdates()
-        }
-        task.addOnFailureListener { e ->
-            if (e is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
-                try {
-                    // Show the dialog by calling startResolutionForResult(),
-                    // and check the result in onActivityResult().
-                    e.startResolutionForResult(
-                        requireActivity(),
-                        REQUEST_CHECK_SETTINGS
-                    )
-                } catch (sendEx: IntentSender.SendIntentException) {
-                    // Ignore the error.
-                }
-            }
-        }
-    }
 
 }

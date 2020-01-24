@@ -15,6 +15,7 @@ import id.shobrun.stikieventorganizer.extensions.simpleToolbarWithHome
 import id.shobrun.stikieventorganizer.models.entity.Event
 import id.shobrun.stikieventorganizer.ui.adapter.RecyclerParticipantSelectionAdapter
 import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
+import id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
 import kotlinx.android.synthetic.main.activity_participant_selection.*
 import javax.inject.Inject
 
@@ -29,7 +30,7 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
     val viewModel: ParticipantSelectionViewModel by viewModels { viewModelFactory }
     private lateinit var participantsAdapter: RecyclerParticipantSelectionAdapter
     lateinit var binding: ActivityParticipantSelectionBinding
-    var event: Event? = null
+    var eventId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_participant_selection)
@@ -39,7 +40,7 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
             vm = viewModel
             lifecycleOwner = this@ParticipantSelectionActivity
         }
-        event = intent?.getParcelableExtra(EXTRA_EVENT)
+        eventId = intent?.getStringExtra(EXTRA_ID_EVENT)
 
         participantsAdapter = RecyclerParticipantSelectionAdapter(ArrayList())
 
@@ -48,7 +49,7 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
         viewModel.recyclerAdapter = participantsAdapter
-        viewModel.postEventId(event?.event_id ?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(eventId?: EventDetailActivity.currentEventId)
         viewModel.snackbarText.observe(this, Observer {
             if (it != null) Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
         })
