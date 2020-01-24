@@ -28,6 +28,7 @@ class EventDetailViewModel @Inject constructor(
     var isUpdateLocation = MutableLiveData(false)
     val loading: LiveData<Boolean>
     val loadingUpdate: LiveData<Boolean>
+    val isSuccessLoad = MutableLiveData<Boolean>()
     val isSuccess= MutableLiveData<Boolean>()
     val eventIdNew = MutableLiveData<String>()
     /**
@@ -56,7 +57,10 @@ class EventDetailViewModel @Inject constructor(
         }
         loading = event.switchMap {
             val isLoading = it.status == Status.LOADING && !isNewEvent
-            if (!isLoading) onEventLoaded(it.data)
+            if (!isLoading) {
+                if(!isNewEvent)
+                    onEventLoaded(it.data)
+            }
             MutableLiveData(isLoading)
         }
         eventAction = eventMutable.switchMap {
@@ -91,6 +95,7 @@ class EventDetailViewModel @Inject constructor(
         eventCp.value = event?.event_cp
         eventLatitude.value = event?.event_latitude
         eventLongitude.value = event?.event_longitude
+        isSuccessLoad.value = true
     }
 
     fun saveEvent() {

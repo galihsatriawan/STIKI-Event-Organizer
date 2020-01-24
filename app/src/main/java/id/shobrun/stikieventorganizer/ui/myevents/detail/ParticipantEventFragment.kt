@@ -70,4 +70,9 @@ class ParticipantEventFragment : DaggerFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
 }
