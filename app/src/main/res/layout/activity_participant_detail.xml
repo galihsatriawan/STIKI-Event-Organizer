@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="id.shobrun.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailViewModel" />
+            type="id.ac.stiki.doleno.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

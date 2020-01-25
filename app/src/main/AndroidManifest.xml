@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="id.shobrun.stikieventorganizer">
+    package="id.ac.stiki.doleno.stikieventorganizer">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <dist:module dist:instant="true" />
@@ -15,7 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".SEOApplication"
+        android:name="id.ac.stiki.doleno.stikieventorganizer.SEOApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.MaterialTheme">
-        <activity android:name=".ui.profile.HelpActivity"></activity>
+        <activity android:name="id.ac.stiki.doleno.stikieventorganizer.ui.profile.HelpActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -37,15 +38,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.myevents.map.MapsActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.myevents.map.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ui.user.register.RegisterActivity"
+        <activity android:name="id.ac.stiki.doleno.stikieventorganizer.ui.user.register.RegisterActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar"/>
         <activity
-            android:name=".ui.user.login.LoginActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.user.login.LoginActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
-            android:name=".ui.SplashScreen"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.SplashScreen"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,26 +55,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.myparticipants.detail.ParticipantDetailActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
-            android:name=".ui.myevents.detail.ParticipantSelectionActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.ParticipantSelectionActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
-            android:name=".ui.myevents.scanner.ScannerActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.myevents.scanner.ScannerActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
-            android:name=".ui.myevents.detail.EventDetailActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
-            android:name=".ui.invitations.detail.InvitationDetailActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name="id.ac.stiki.doleno.stikieventorganizer.ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.MaterialTheme.NoActionBar">
             <intent-filter>
-                <action android:name="id.shobrun.stikieventorganizer.ui.MainActivity" />
+                <action android:name="id.shobrun.stiki.doleno.stikieventorganizer.ui.MainActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

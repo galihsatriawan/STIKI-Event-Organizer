@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="id.shobrun.stikieventorganizer.ui.myevents.detail.EventDetailViewModel" />
+            type="id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailViewModel" />
     </data>
 
     <RelativeLayout
