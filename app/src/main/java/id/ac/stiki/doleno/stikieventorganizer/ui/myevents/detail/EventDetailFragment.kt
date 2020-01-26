@@ -10,7 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -43,8 +44,9 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: EventDetailViewModel by viewModels { viewModelFactory }
+    private val viewModelMain: EventDetailMainViewModel by viewModels { viewModelFactory }
     private lateinit var binding: FragmentEventDetailBinding
-    private var eventId : String? = null
+    private var eventId: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,6 +66,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.d("$TAG Destroy View")
+        viewModel.postSnackbarText("")
     }
 
     override fun onStart() {
@@ -75,10 +78,16 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         super.onStop()
         Timber.d("$TAG Stop")
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        Timber.d("$TAG OnCreate")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("$TAG OnResume")
     }
 
     override fun onCreateView(
@@ -97,16 +106,15 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             lifecycleOwner = this@EventDetailFragment
             vm = viewModel
         }
-        viewModel.eventMutable.observe(viewLifecycleOwner, Observer {
-            Timber.d("Check Event Detail ${it?.toString()}")
-        })
+
+        Timber.d("$TAG MainVM EventDetail ${viewModelMain.hashCode()} - ${viewModel.hashCode()}")
         return binding.root
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
-        Timber.d("$TAG OnActivityCreated")
         viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) binding.root.snackbar(it).show()
         })
@@ -114,12 +122,14 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             isNewEvent = false
             currentEventId = viewModel.eventIdNew.value
         })
+        Timber.d("$TAG OnCreate")
         viewModel.isSuccessLoad.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if(it){
-                    val location = LatLng(viewModel.eventLatitude.value!!,viewModel.eventLongitude.value!!)
+                if (it) {
+                    val location =
+                        LatLng(viewModel.eventLatitude.value!!, viewModel.eventLongitude.value!!)
                     val markerOptions = MarkerOptions().position(location)
-                    cameraLocation(markerOptions,location)
+                    cameraLocation(markerOptions, location)
                 }
 
             }
@@ -236,7 +246,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
          * Location Set Up
          */
         var markerOptions: MarkerOptions
-        if (EventDetailActivity.isNewEvent || viewModel.isUpdateLocation.value?:false) {
+        if (EventDetailActivity.isNewEvent || viewModel.isUpdateLocation.value ?: false) {
             viewModel.eventLatitude.value = location.latitude
             viewModel.eventLongitude.value = location.longitude
             markerOptions = MarkerOptions().position(location)

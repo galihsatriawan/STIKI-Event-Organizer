@@ -65,6 +65,7 @@ class EventRepository @Inject constructor(
         }
 
         override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {
+            Timber.d("Get Event")
             return apiService.getMyEvents(id)
         }
 
@@ -96,6 +97,7 @@ class EventRepository @Inject constructor(
         }
 
         override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {
+            Timber.d("Insert Event")
             val data = hashMapOf(
                 "event" to event
             )
@@ -130,6 +132,7 @@ class EventRepository @Inject constructor(
         }
 
         override fun fetchService(): LiveData<ApiResponse<EventsResponse>> {
+            Timber.d("Update Event")
             val data = hashMapOf(
                 "event" to event
             )

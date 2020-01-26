@@ -18,6 +18,7 @@ import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActi
 import kotlinx.android.synthetic.main.fragment_participants.*
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.intentFor
+import timber.log.Timber
 import javax.inject.Inject
 
 class ParticipantEventFragment : DaggerFragment() {
@@ -29,6 +30,7 @@ class ParticipantEventFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: ParticipantEventViewModel by viewModels { viewModelFactory }
+    private val viewModelMain : EventDetailMainViewModel by viewModels{viewModelFactory}
     private lateinit var binding: FragmentParticipantEventBinding
     private lateinit var participantsAdapter: RecyclerParticipantEventAdapter
     private var eventId: String? = null
@@ -43,11 +45,13 @@ class ParticipantEventFragment : DaggerFragment() {
             lifecycleOwner = this@ParticipantEventFragment
             vm = viewModel
         }
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Timber.d("${EventDetailFragment.TAG} MainVM Participant ${viewModelMain.hashCode()}- ${viewModel.hashCode()}")
         viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
     }
 

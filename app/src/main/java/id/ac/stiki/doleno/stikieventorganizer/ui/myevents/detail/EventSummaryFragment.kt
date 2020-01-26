@@ -11,6 +11,7 @@ import dagger.android.support.DaggerFragment
 import id.ac.stiki.doleno.stikieventorganizer.R
 import id.ac.stiki.doleno.stikieventorganizer.databinding.FragmentEventSummaryBinding
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
+import timber.log.Timber
 import javax.inject.Inject
 
 class EventSummaryFragment : DaggerFragment() {
@@ -22,6 +23,7 @@ class EventSummaryFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel: EventSummaryViewModel by viewModels { viewModelFactory }
+    val viewModelMain : EventDetailMainViewModel by viewModels { viewModelFactory }
     lateinit var binding: FragmentEventSummaryBinding
     private var eventId: String? = null
     override fun onCreateView(
@@ -35,13 +37,14 @@ class EventSummaryFragment : DaggerFragment() {
             lifecycleOwner = this@EventSummaryFragment
             vm = viewModel
         }
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
-
+        Timber.d("${EventDetailFragment.TAG} MainVM EventSummary ${viewModelMain.hashCode()} - ${viewModel.hashCode()}")
     }
 
     override fun onResume() {

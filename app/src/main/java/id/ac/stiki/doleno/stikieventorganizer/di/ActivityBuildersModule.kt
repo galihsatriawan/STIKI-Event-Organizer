@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import id.ac.stiki.doleno.stikieventorganizer.di.event.EventNetworkModule
 import id.ac.stiki.doleno.stikieventorganizer.di.event.EventPersistenceModule
 import id.ac.stiki.doleno.stikieventorganizer.di.event.EventRepositoryModule
+import id.ac.stiki.doleno.stikieventorganizer.di.event.detail.EventMainViewModelModule
 import id.ac.stiki.doleno.stikieventorganizer.di.event.detail.ParticipantSelectionModule
 import id.ac.stiki.doleno.stikieventorganizer.di.event.detail.ParticipantSelectionViewModelModule
 import id.ac.stiki.doleno.stikieventorganizer.di.event.scanner.ScannerModule
@@ -28,6 +29,8 @@ import id.ac.stiki.doleno.stikieventorganizer.di.user.register.RegisterModule
 import id.ac.stiki.doleno.stikieventorganizer.di.user.register.RegisterViewModelModule
 import id.ac.stiki.doleno.stikieventorganizer.ui.SplashScreen
 import id.ac.stiki.doleno.stikieventorganizer.ui.invitations.detail.InvitationDetailActivity
+import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity
+import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailMainViewModel
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.ParticipantSelectionActivity
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.scanner.ScannerActivity
 import id.ac.stiki.doleno.stikieventorganizer.ui.myparticipants.detail.ParticipantDetailActivity
@@ -37,6 +40,18 @@ import id.ac.stiki.doleno.stikieventorganizer.ui.user.register.RegisterActivity
 
 @Module
 abstract class ActivityBuildersModule {
+    @ContributesAndroidInjector(
+        modules = [
+            EventMainViewModelModule::class,
+            EventNetworkModule::class,
+            EventPersistenceModule::class,
+            EventRepositoryModule::class,
+            InvitationNetworkModule::class,
+            InvitationPersistenceModule::class,
+            InvitationRepositoryModule::class
+        ]
+    )
+    abstract fun injectEventDetailActivity() : EventDetailActivity
     @ContributesAndroidInjector(
         modules = [
             InvitationDetailModule::class,

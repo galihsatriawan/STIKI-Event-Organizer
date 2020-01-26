@@ -68,22 +68,31 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector(
         modules = [
+
             EventDetailModule::class,
             EventDetailViewModelModule::class,
             EventNetworkModule::class,
             EventPersistenceModule::class,
-            EventRepositoryModule::class
+            EventRepositoryModule::class,
+            EventMainViewModelModule::class,
+            InvitationNetworkModule::class,
+            InvitationPersistenceModule::class,
+            InvitationRepositoryModule::class
         ]
     )
     abstract fun injectEventDetailFragment(): EventDetailFragment
 
     @ContributesAndroidInjector(
         modules = [
+            EventMainViewModelModule::class,
             EventSummaryModule::class,
             EventSummaryViewModelModule::class,
             EventNetworkModule::class,
             EventPersistenceModule::class,
-            EventRepositoryModule::class
+            EventRepositoryModule::class,
+            InvitationNetworkModule::class,
+            InvitationPersistenceModule::class,
+            InvitationRepositoryModule::class
         ]
     )
     abstract fun injectEventSummaryFragment(): EventSummaryFragment
@@ -94,7 +103,11 @@ abstract class FragmentBuildersModule {
             ParticipantEventViewModelModule::class,
             InvitationNetworkModule::class,
             InvitationPersistenceModule::class,
-            InvitationRepositoryModule::class
+            InvitationRepositoryModule::class,
+            EventNetworkModule::class,
+            EventPersistenceModule::class,
+            EventRepositoryModule::class,
+            EventMainViewModelModule::class
         ]
     )
     abstract fun injectParticipantEventFragment(): ParticipantEventFragment

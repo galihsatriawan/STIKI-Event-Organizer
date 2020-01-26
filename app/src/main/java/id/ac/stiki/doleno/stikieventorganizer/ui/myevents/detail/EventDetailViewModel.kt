@@ -16,12 +16,14 @@ import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
+import timber.log.Timber
 import javax.inject.Inject
 
 class EventDetailViewModel @Inject constructor(
     repository: EventRepository,
     val sharedPref: SharedPref
 ) : ViewModel() {
+    private val TAG = "EventDetailViewModel"
     private val eventId = MutableLiveData<String>()
     private val event: LiveData<Resource<Event, EventsResponse>>
     private var isNewEvent: Boolean = false
@@ -46,7 +48,7 @@ class EventDetailViewModel @Inject constructor(
 
     private val _snackbarText = MutableLiveData<String>()
     val snackbarText: LiveData<String> = _snackbarText
-    val eventMutable = MutableLiveData<Event>()
+    val eventSend = MutableLiveData<Event>()
     val eventAction: LiveData<Resource<Event, EventsResponse>>
 
     init {
@@ -63,8 +65,8 @@ class EventDetailViewModel @Inject constructor(
             }
             MutableLiveData(isLoading)
         }
-        eventAction = eventMutable.switchMap {
-            eventMutable.value?.let {
+        eventAction = eventSend.switchMap {
+            eventSend.value?.let {
                 if (isNewEvent)
                     repository.insertEvent(it)
                 else
@@ -78,7 +80,6 @@ class EventDetailViewModel @Inject constructor(
                 else {
                     _snackbarText.value = it.message ?: it.additionalData?.message
                     isSuccess.value = true
-                    eventId.value = eventMutable.value?.event_id
                     eventIdNew.value = eventId.value
                     isNewEvent = false
                 }
@@ -89,6 +90,7 @@ class EventDetailViewModel @Inject constructor(
     }
 
     private fun onEventLoaded(event: Event?) {
+        Timber.d("$TAG eventLoad")
         eventName.value = event?.event_name
         eventDescription.value = event?.event_description
         eventDate.value = event?.event_date
@@ -101,6 +103,7 @@ class EventDetailViewModel @Inject constructor(
     }
 
     fun saveEvent() {
+        Timber.d("$TAG Save")
         val currentName = eventName.value
         val currentDesc = eventDescription.value
         val currentDate = eventDate.value
@@ -137,34 +140,51 @@ class EventDetailViewModel @Inject constructor(
             )
             insertEvent(eventNew)
         } else {
-            val eventTemp = this.event.value?.data!!
-            eventTemp.event_name = currentName
-            eventTemp.event_description = currentDesc
-            eventTemp.event_date = currentDate
-            eventTemp.event_cp = currentCp
-            eventTemp.event_map_location = currentLink
-            eventTemp.event_location = currentLocation
-            eventTemp.event_latitude = currentLatitude
-            eventTemp.event_longitude = currentLongitude
+            val eventTemp= Event(
+                event.value?.data!!.event_id,
+                event.value?.data!!.user_id,
+                event.value?.data!!.user_username,
+                event.value?.data!!.user_email,
+                currentName,
+                currentDesc,
+                currentDate,
+                currentLocation,
+                currentLink,
+                currentLatitude,
+                currentLongitude,
+                currentCp,
+                event.value?.data!!.event_status,
+                event.value?.data!!.participant_total,
+                event.value?.data!!.participant_total
+            )
+            Timber.d("$TAG ${eventTemp.hashCode()} - ${event.value?.data!!.hashCode()}")
+
             updateEvent(eventTemp)
         }
     }
-
+    private fun insertEvent(e: Event){
+        this.eventSend.value = e
+    }
+    private fun updateEvent(e:Event){
+        this.eventSend.value = e
+    }
     fun postEventId(id: String?) {
+        Timber.d("$TAG postEvent")
         isNewEvent = id == null
         isUpdateLocation.value = isNewEvent
         this.eventId.value = id ?: "-1"
     }
 
-    private fun insertEvent(event: Event) {
-        eventMutable.value = event
-    }
-
-    private fun updateEvent(event: Event) {
-        eventMutable.value = event
-    }
     fun actionUpdateLocation(){
         isUpdateLocation.value = true
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("$TAG onCleared")
+    }
+    fun postSnackbarText(message : String){
+        this._snackbarText.value = message
     }
 
 }

@@ -58,7 +58,10 @@ class ParticipantDetailViewModel @Inject constructor(
             val isLoading = it.status == Status.LOADING
             if (!isLoading){
                 if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
-                else _snackbarText.value = it.message ?: it.additionalData?.message
+                else{
+                    isNewParticipant = false
+                    _snackbarText.value = it.message ?: it.additionalData?.message
+                }
             }
             MutableLiveData(isLoading)
         }
