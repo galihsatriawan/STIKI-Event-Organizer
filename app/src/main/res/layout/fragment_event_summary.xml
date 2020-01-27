@@ -11,7 +11,9 @@
             name="vm"
             type="id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventSummaryViewModel" />
     </data>
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -290,7 +292,9 @@
                         android:text="@string/seo_info_has_create_event" />
                 </LinearLayout>
             </RelativeLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
 </layout>

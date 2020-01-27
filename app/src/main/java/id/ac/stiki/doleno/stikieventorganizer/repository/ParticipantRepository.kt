@@ -97,8 +97,6 @@ class ParticipantRepository @Inject constructor(
         override fun saveFetchData(items: ParticipantsResponse) {
             if (!items.result.isNullOrEmpty()) {
                 localDB.insert(items.result[0])
-            } else {
-                localDB.insert(participant)
             }
         }
 
@@ -107,7 +105,7 @@ class ParticipantRepository @Inject constructor(
         }
 
         override fun loadFromDb(): LiveData<Participant> {
-            return localDB.getDetailParticipant(participant.participant_id)
+            return localDB.getDetailParticipantByEmail(participant.participant_email)
         }
 
         override fun fetchService(): LiveData<ApiResponse<ParticipantsResponse>> {

@@ -12,11 +12,13 @@ import id.ac.stiki.doleno.stikieventorganizer.models.network.EventsResponse
 import id.ac.stiki.doleno.stikieventorganizer.repository.EventRepository
 import id.ac.stiki.doleno.stikieventorganizer.utils.AbsentLiveData
 import id.ac.stiki.doleno.stikieventorganizer.utils.Helper.getUniqueID
+import id.ac.stiki.doleno.stikieventorganizer.utils.Helper.isValidDate
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_EMAIL
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_USERNAME
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class EventDetailViewModel @Inject constructor(
@@ -80,7 +82,6 @@ class EventDetailViewModel @Inject constructor(
                 else {
                     _snackbarText.value = it.message ?: it.additionalData?.message
                     isSuccess.value = true
-                    eventIdNew.value = eventId.value
                     isNewEvent = false
                 }
             }
@@ -116,11 +117,19 @@ class EventDetailViewModel @Inject constructor(
             _snackbarText.value = "Please fill completely"
             return
         }
+        /**
+         * Validate date
+         */
+        if(isValidDate(currentDate).isNullOrEmpty()){
+            _snackbarText.value = "Your date is not valid, please check again"
+            return
+        }
         if (isNewEvent) {
             val user_id = sharedPref.getValue(PREFS_USER_ID, -1)
             val user_username = sharedPref.getValue(PREFS_USER_USERNAME, "")
             val user_email = sharedPref.getValue(PREFS_USER_EMAIL, "")
             val eventId = getUniqueID("$user_id")
+            eventIdNew.value = eventId
             val eventNew = Event(
                 eventId,
                 user_id,
@@ -157,6 +166,7 @@ class EventDetailViewModel @Inject constructor(
                 event.value?.data!!.participant_total,
                 event.value?.data!!.participant_total
             )
+            eventIdNew.value = event.value?.data!!.event_id
             Timber.d("$TAG ${eventTemp.hashCode()} - ${event.value?.data!!.hashCode()}")
 
             updateEvent(eventTemp)

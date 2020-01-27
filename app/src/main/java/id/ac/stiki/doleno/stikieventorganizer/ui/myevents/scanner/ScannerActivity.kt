@@ -23,6 +23,7 @@ import com.google.zxing.Result
 import dagger.android.support.DaggerAppCompatActivity
 import id.ac.stiki.doleno.stikieventorganizer.R
 import id.ac.stiki.doleno.stikieventorganizer.databinding.DialogConfirmTicketBinding
+import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
 import id.ac.stiki.doleno.stikieventorganizer.models.entity.Invitation
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import id.ac.stiki.doleno.stikieventorganizer.utils.SharedPref.Companion.PREFS_USER_ID
@@ -38,11 +39,11 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel: ScannerViewModel by viewModels { viewModelFactory }
-    var eventId: String? = null
+    var event: Event? = null
     lateinit var binding: DialogConfirmTicketBinding
     public override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        eventId = intent?.getStringExtra(EXTRA_EVENT)
+        event = intent?.getParcelableExtra(EXTRA_EVENT)
         mScannerView = ZXingScannerView(this) // Programmatically initialize the scanner view
         mScannerView!!.setFormats(mutableListOf(BarcodeFormat.QR_CODE))
         setContentView(mScannerView) // Set the scanner view as the content view
@@ -149,7 +150,7 @@ class ScannerActivity : DaggerAppCompatActivity(), ZXingScannerView.ResultHandle
                 Toast.LENGTH_SHORT
             ).show()
         }
-        if (invitation?.event_id != eventId ?: -1) {
+        if (invitation?.event_id != event?.event_id ?: -1) {
             valid = false
             Toast.makeText(this, getString(R.string.seo_info_not_the_event), Toast.LENGTH_SHORT)
                 .show()

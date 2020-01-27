@@ -14,6 +14,9 @@ interface ParticipantDao {
     @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE $ID_PARTICIPANT = :id")
     fun getDetailParticipant(id: String): LiveData<Participant>
 
+    @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE PARTICIPANT_EMAIL = :email")
+    fun getDetailParticipantByEmail(email: String): LiveData<Participant>
+
     @Query("SELECT * FROM $TABLE_PARTICIPANT WHERE USER_ID = :id")
     fun getMyParticipants(id: Int): LiveData<List<Participant>>
 

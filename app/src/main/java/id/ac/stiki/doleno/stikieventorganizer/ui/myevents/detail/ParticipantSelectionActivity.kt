@@ -12,8 +12,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import id.ac.stiki.doleno.stikieventorganizer.R
 import id.ac.stiki.doleno.stikieventorganizer.databinding.ActivityParticipantSelectionBinding
 import id.ac.stiki.doleno.stikieventorganizer.extensions.simpleToolbarWithHome
+import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
 import id.ac.stiki.doleno.stikieventorganizer.ui.adapter.RecyclerParticipantSelectionAdapter
-import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
+import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import kotlinx.android.synthetic.main.activity_participant_selection.*
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
     val viewModel: ParticipantSelectionViewModel by viewModels { viewModelFactory }
     private lateinit var participantsAdapter: RecyclerParticipantSelectionAdapter
     lateinit var binding: ActivityParticipantSelectionBinding
-    var eventId: String? = null
+    var event: Event? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_participant_selection)
@@ -38,7 +39,7 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
             vm = viewModel
             lifecycleOwner = this@ParticipantSelectionActivity
         }
-        eventId = intent?.getStringExtra(EXTRA_ID_EVENT)
+        event = intent?.getParcelableExtra(EXTRA_EVENT)
 
         participantsAdapter = RecyclerParticipantSelectionAdapter(ArrayList())
 
@@ -47,7 +48,7 @@ class ParticipantSelectionActivity : DaggerAppCompatActivity() {
         binding.rvParticipants.addItemDecoration(dividerItemDecoration)
         binding.rvParticipants.adapter = participantsAdapter
         viewModel.recyclerAdapter = participantsAdapter
-        viewModel.postEventId(eventId?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(event?.event_id?: EventDetailActivity.currentEventId)
         viewModel.snackbarText.observe(this, Observer {
             if (it != null) Toast.makeText(applicationContext, it, Toast.LENGTH_LONG).show()
         })

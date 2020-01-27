@@ -29,6 +29,7 @@ class ParticipantDetailViewModel @Inject constructor(
     val participantEmail = MutableLiveData<String>()
     val participantAddress = MutableLiveData<String>()
     private val participantMutable = MutableLiveData<Participant>()
+    private val participantForUpdate = MutableLiveData<Participant>()
     private val participantAction: LiveData<Resource<Participant, ParticipantsResponse>>
     val loading: LiveData<Boolean>
     val loadingUpdate: LiveData<Boolean>
@@ -45,6 +46,7 @@ class ParticipantDetailViewModel @Inject constructor(
             val state = it.status == Status.LOADING && !isNewParticipant
             val mutable: MutableLiveData<Boolean> = MutableLiveData()
             onParticipantLoaded(it.data)
+            participantForUpdate.postValue(it.data)
             mutable.postValue(state)
             mutable
         }
@@ -60,6 +62,7 @@ class ParticipantDetailViewModel @Inject constructor(
                 if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
                 else{
                     isNewParticipant = false
+                    participantForUpdate.postValue(it.data)
                     _snackbarText.value = it.message ?: it.additionalData?.message
                 }
             }
@@ -113,7 +116,7 @@ class ParticipantDetailViewModel @Inject constructor(
             )
             insertParticipant(participant)
         } else {
-            val participant = this.participant.value?.data!!
+            val participant = participantForUpdate.value!!
             participant.participant_name = currentName
             participant.participant_address = currentAddress
             participant.participant_email = currentEmail

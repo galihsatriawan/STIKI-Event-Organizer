@@ -15,6 +15,7 @@ import android.widget.Toast
 import timber.log.Timber
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
 
 
 class Tools(private val application: Application) {

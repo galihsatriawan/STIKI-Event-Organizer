@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerFragment
 import id.ac.stiki.doleno.stikieventorganizer.R
 import id.ac.stiki.doleno.stikieventorganizer.databinding.FragmentEventSummaryBinding
+import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,14 +26,14 @@ class EventSummaryFragment : DaggerFragment() {
     val viewModel: EventSummaryViewModel by viewModels { viewModelFactory }
     val viewModelMain : EventDetailMainViewModel by viewModels { viewModelFactory }
     lateinit var binding: FragmentEventSummaryBinding
-    private var eventId: String? = null
+    private var event: Event? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_event_summary, container, false)
-        eventId = arguments?.getString(EXTRA_EVENT)
+        event = arguments?.getParcelable(EXTRA_EVENT)
         with(binding) {
             lifecycleOwner = this@EventSummaryFragment
             vm = viewModel
@@ -43,13 +44,12 @@ class EventSummaryFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
-        Timber.d("${EventDetailFragment.TAG} MainVM EventSummary ${viewModelMain.hashCode()} - ${viewModel.hashCode()}")
+        viewModel.postEventId(EventDetailActivity.currentEventId)
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(EventDetailActivity.currentEventId)
     }
 
 }

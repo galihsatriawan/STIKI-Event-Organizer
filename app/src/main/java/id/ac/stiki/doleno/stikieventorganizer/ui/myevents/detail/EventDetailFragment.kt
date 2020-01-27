@@ -22,8 +22,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import dagger.android.support.DaggerFragment
 import id.ac.stiki.doleno.stikieventorganizer.R
 import id.ac.stiki.doleno.stikieventorganizer.databinding.FragmentEventDetailBinding
+import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
-import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.currentEventId
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.isNewEvent
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.scanner.ScannerActivity
@@ -46,37 +46,32 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     private val viewModel: EventDetailViewModel by viewModels { viewModelFactory }
     private val viewModelMain: EventDetailMainViewModel by viewModels { viewModelFactory }
     private lateinit var binding: FragmentEventDetailBinding
-    private var eventId: String? = null
+    private var event: Event? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Timber.d("$TAG Attach")
     }
 
     override fun onPause() {
         super.onPause()
-        Timber.d("$TAG Pause")
+        viewModel.postSnackbarText("")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Timber.d("$TAG Detach")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.d("$TAG Destroy View")
         viewModel.postSnackbarText("")
     }
 
     override fun onStart() {
         super.onStart()
-        Timber.d("$TAG Start")
     }
 
     override fun onStop() {
         super.onStop()
-        Timber.d("$TAG Stop")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,27 +82,21 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     override fun onResume() {
         super.onResume()
-        Timber.d("$TAG OnResume")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("$TAG OnCreateView")
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_event_detail, container, false)
-        if (arguments?.getString(EXTRA_EVENT) != null) {
-            eventId = arguments?.getString(EXTRA_EVENT)
-        }
+            event= arguments?.getParcelable(EXTRA_EVENT)
 
         with(binding) {
             lifecycleOwner = this@EventDetailFragment
             vm = viewModel
         }
-
-        Timber.d("$TAG MainVM EventDetail ${viewModelMain.hashCode()} - ${viewModel.hashCode()}")
         return binding.root
     }
 
@@ -119,10 +108,14 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             if (!it.isNullOrEmpty()) binding.root.snackbar(it).show()
         })
         viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
-            isNewEvent = false
-            currentEventId = viewModel.eventIdNew.value
+            it?.let {
+                if(it){
+                    isNewEvent = false
+                    currentEventId = viewModel.eventIdNew.value
+                }
+            }
+
         })
-        Timber.d("$TAG OnCreate")
         viewModel.isSuccessLoad.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
@@ -145,12 +138,11 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                 }
             }
         })
-        viewModel.postEventId(eventId ?: currentEventId)
+        viewModel.postEventId(event?.event_id ?: currentEventId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("$TAG OnViewCreated")
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -175,7 +167,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
                     return true
                 }
                 val scan = intentFor<ScannerActivity>(
-                    EXTRA_ID_EVENT to eventId
+                    EXTRA_EVENT to event
                 )
                 startActivity(scan)
                 true
@@ -264,7 +256,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.d("$TAG OnDestroy")
     }
 
 }

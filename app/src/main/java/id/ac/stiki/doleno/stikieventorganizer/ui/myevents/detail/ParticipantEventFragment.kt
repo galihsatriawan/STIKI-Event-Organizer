@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import id.ac.stiki.doleno.stikieventorganizer.R
 import id.ac.stiki.doleno.stikieventorganizer.databinding.FragmentParticipantEventBinding
+import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
 import id.ac.stiki.doleno.stikieventorganizer.ui.adapter.RecyclerParticipantEventAdapter
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
-import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
 import kotlinx.android.synthetic.main.fragment_participants.*
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.intentFor
@@ -33,14 +33,14 @@ class ParticipantEventFragment : DaggerFragment() {
     private val viewModelMain : EventDetailMainViewModel by viewModels{viewModelFactory}
     private lateinit var binding: FragmentParticipantEventBinding
     private lateinit var participantsAdapter: RecyclerParticipantEventAdapter
-    private var eventId: String? = null
+    private var event: Event? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_participant_event, container, false)
-        eventId = arguments?.getString(EXTRA_EVENT)
+        event= arguments?.getParcelable(EXTRA_EVENT)
         with(binding) {
             lifecycleOwner = this@ParticipantEventFragment
             vm = viewModel
@@ -51,8 +51,7 @@ class ParticipantEventFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.d("${EventDetailFragment.TAG} MainVM Participant ${viewModelMain.hashCode()}- ${viewModel.hashCode()}")
-        viewModel.postEventId(eventId ?: EventDetailActivity.currentEventId)
+        viewModel.postEventId(event?.event_id ?: EventDetailActivity.currentEventId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +67,7 @@ class ParticipantEventFragment : DaggerFragment() {
                 return@setOnClickListener
             }
             var add = intentFor<ParticipantSelectionActivity>(
-                EXTRA_ID_EVENT to eventId
+                EXTRA_EVENT to event
             )
             startActivity(add)
         }
@@ -76,7 +75,7 @@ class ParticipantEventFragment : DaggerFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.postEventId(eventId?:EventDetailActivity.currentEventId)
+        viewModel.postEventId(event?.event_id?:EventDetailActivity.currentEventId)
 
     }
 

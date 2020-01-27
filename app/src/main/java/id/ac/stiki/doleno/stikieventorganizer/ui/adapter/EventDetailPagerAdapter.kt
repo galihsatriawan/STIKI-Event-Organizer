@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import id.ac.stiki.doleno.stikieventorganizer.R
-import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_ID_EVENT
+import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
+import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.EXTRA_EVENT
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailActivity.Companion.currentEventId
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventDetailFragment
 import id.ac.stiki.doleno.stikieventorganizer.ui.myevents.detail.EventSummaryFragment
@@ -26,7 +27,7 @@ private val TAB_TITLES = arrayOf(
  */
 class EventDetailPagerAdapter(
     private val context: Context,
-    fm: FragmentManager
+    fm: FragmentManager, private val event: Event?
 ) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -44,7 +45,7 @@ class EventDetailPagerAdapter(
             }
         }
 
-        fragment.arguments = bundleOf(EXTRA_ID_EVENT to currentEventId)
+        fragment.arguments = bundleOf(EXTRA_EVENT to event)
         return fragment
 
     }

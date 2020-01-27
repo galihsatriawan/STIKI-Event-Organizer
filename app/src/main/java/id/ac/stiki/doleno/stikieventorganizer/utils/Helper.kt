@@ -25,7 +25,7 @@ object Helper {
 
     fun getTimeStamp() = Timestamp(System.currentTimeMillis()).time
     fun getCurrentDatetime() :String{
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val current = Calendar.getInstance().time
         return formatter.format(current)
     }
@@ -116,7 +116,16 @@ object Helper {
             )
         ) TELP else ""
     }
-
+    fun isValidDate(target: String) : String{
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        formatter.isLenient = false
+        try {
+            formatter.parse(target)
+        }catch (t: Throwable){
+            return ""
+        }
+        return target
+    }
     fun isValidLoc(target: CharSequence): String {
         return if (!TextUtils.isEmpty(target) && target.toString().contains("geo")) LOC else ""
     }
