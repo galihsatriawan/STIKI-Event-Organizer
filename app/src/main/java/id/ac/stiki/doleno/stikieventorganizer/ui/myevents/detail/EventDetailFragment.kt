@@ -54,7 +54,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     override fun onPause() {
         super.onPause()
-        viewModel.postSnackbarText("")
     }
 
     override fun onDetach() {
@@ -63,7 +62,6 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.postSnackbarText("")
     }
 
     override fun onStart() {
@@ -105,7 +103,10 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
         viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
-            if (!it.isNullOrEmpty()) binding.root.snackbar(it).show()
+            if (!it.isNullOrEmpty()) {
+                binding.root.snackbar(it).show()
+                viewModel.postSnackbarText("")
+            }
         })
         viewModel.isSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -181,7 +182,7 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
         }
     }
 
-    private lateinit var map: GoogleMap
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
 
@@ -196,10 +197,10 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
+        viewModel.postMap(googleMap)
 
-        map.uiSettings.isZoomControlsEnabled = true
-        map.setOnMarkerClickListener(this)
+        viewModel.map.value?.uiSettings?.isZoomControlsEnabled = true
+        viewModel.map.value?.setOnMarkerClickListener(this)
 
         setUpMap()
     }
@@ -220,8 +221,8 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
             return
         }
 
-        map.isMyLocationEnabled = true
-        map.mapType = GoogleMap.MAP_TYPE_NORMAL
+        viewModel.map.value?.isMyLocationEnabled = true
+        viewModel.map.value?.mapType = GoogleMap.MAP_TYPE_NORMAL
 
         fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
             // Got last known location. In some rare situations this can be null.
@@ -249,9 +250,9 @@ class EventDetailFragment : DaggerFragment(), OnMapReadyCallback,
     private fun cameraLocation(markerOptions: MarkerOptions, location: LatLng) {
         val titleStr: String? = null
         markerOptions.title(titleStr ?: "Event Location")
-        map.clear()
-        map.addMarker(markerOptions)
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14f))
+        viewModel.map.value?.clear()
+        viewModel.map.value?.addMarker(markerOptions)
+        viewModel.map.value?.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 17f))
     }
 
     override fun onDestroy() {

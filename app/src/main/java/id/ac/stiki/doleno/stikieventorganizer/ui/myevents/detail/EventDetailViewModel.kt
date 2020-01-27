@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import com.google.android.gms.maps.GoogleMap
 import id.ac.stiki.doleno.stikieventorganizer.models.Resource
 import id.ac.stiki.doleno.stikieventorganizer.models.Status
 import id.ac.stiki.doleno.stikieventorganizer.models.entity.Event
@@ -35,6 +36,8 @@ class EventDetailViewModel @Inject constructor(
     val isSuccessLoad = MutableLiveData<Boolean>()
     val isSuccess= MutableLiveData<Boolean>()
     val eventIdNew = MutableLiveData<String>()
+    private val _map: MutableLiveData<GoogleMap> = MutableLiveData()
+    val map : LiveData<GoogleMap> = _map
     /**
      * Text Input
      */
@@ -51,6 +54,8 @@ class EventDetailViewModel @Inject constructor(
     private val _snackbarText = MutableLiveData<String>()
     val snackbarText: LiveData<String> = _snackbarText
     val eventSend = MutableLiveData<Event>()
+    val eventForUpdate = MutableLiveData<Event>()
+    var action = false
     val eventAction: LiveData<Resource<Event, EventsResponse>>
 
     init {
@@ -61,10 +66,7 @@ class EventDetailViewModel @Inject constructor(
         }
         loading = event.switchMap {
             val isLoading = it.status == Status.LOADING && !isNewEvent
-            if (!isLoading) {
-                if(!isNewEvent)
-                    onEventLoaded(it.data)
-            }
+            if(!isLoading)onEventLoaded(it.data)
             MutableLiveData(isLoading)
         }
         eventAction = eventSend.switchMap {
@@ -77,12 +79,15 @@ class EventDetailViewModel @Inject constructor(
         }
         loadingUpdate = eventAction.switchMap {
             val isLoading = it.status == Status.LOADING
+
             if (!isLoading){
                 if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
-                else {
-                    _snackbarText.value = it.message ?: it.additionalData?.message
+                else{
+                    Timber.d("Masuk Update ${eventAction.hashCode()}- ${eventSend.hashCode()} - ${event.hashCode()}")
+                    if(action) _snackbarText.value = it.message ?: it.additionalData?.message
                     isSuccess.value = true
                     isNewEvent = false
+                    action = false
                 }
             }
             MutableLiveData(isLoading)
@@ -98,6 +103,7 @@ class EventDetailViewModel @Inject constructor(
         eventLinkMaps.value = event?.event_map_location
         eventLocation.value = event?.event_location
         eventCp.value = event?.event_cp
+
         eventLatitude.value = event?.event_latitude
         eventLongitude.value = event?.event_longitude
         isSuccessLoad.value = true
@@ -174,15 +180,18 @@ class EventDetailViewModel @Inject constructor(
     }
     private fun insertEvent(e: Event){
         this.eventSend.value = e
+        action = true
     }
     private fun updateEvent(e:Event){
         this.eventSend.value = e
+        action = true
     }
     fun postEventId(id: String?) {
         Timber.d("$TAG postEvent")
         isNewEvent = id == null
         isUpdateLocation.value = isNewEvent
-        this.eventId.value = id ?: "-1"
+        if(id!=null)
+            this.eventId.value = id
     }
 
     fun actionUpdateLocation(){
@@ -196,5 +205,7 @@ class EventDetailViewModel @Inject constructor(
     fun postSnackbarText(message : String){
         this._snackbarText.value = message
     }
-
+    fun postMap(map : GoogleMap){
+        this._map.value = map
+    }
 }

@@ -182,7 +182,11 @@ fun bindEventParticipantAttend(view: TextView, resource: Resource<Event, Any>?) 
 @BindingAdapter("eventParticipantNotAttend")
 fun bindEventParticipantNotAttend(view: TextView, resource: Resource<Event, Any>?) {
     view.bindResource(resource) {
-        var res = it.data?.participant_total ?: 0 - ((it.data?.participant_attend) ?: 0)
+
+        val tot = it.data?.participant_total ?: 0
+        val notAtt = (it.data?.participant_attend) ?: 0
+        Timber.d("-- Not Attend ${tot} - ${notAtt}")
+        var res = tot - notAtt
         if (res < 0) res = 0
         view.text = "$res"
     }
