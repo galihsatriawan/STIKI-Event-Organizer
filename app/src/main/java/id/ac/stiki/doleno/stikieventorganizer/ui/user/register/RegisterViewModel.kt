@@ -42,7 +42,7 @@ class RegisterViewModel @Inject constructor(repository: UserRepository) : ViewMo
             if (!isLoading) {
                 Timber.d("${it.message ?: it.additionalData?.message}")
                 if (it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
-                else _snackbarText.value = it.message ?: it.additionalData?.message
+                else _snackbarText.value = it.additionalData?.message
                 if (!it.data.isNullOrEmpty()) isSuccess.value = true
                 Timber.d("${it.data?.size}")
             }

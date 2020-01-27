@@ -29,6 +29,7 @@ class ParticipantSelectionViewModel @Inject constructor(
     val loadingAction: LiveData<Boolean>
     val isSuccess = MutableLiveData<Boolean>()
     val _snackbarText = MutableLiveData<String>()
+    var action = false
     val snackbarText: LiveData<String> = _snackbarText
 
     init {
@@ -57,7 +58,10 @@ class ParticipantSelectionViewModel @Inject constructor(
                 if (it.status == Status.SUCCESS) isSuccess.value = true
                 if (!isLoading){
                     if(it.status == Status.ERROR) _snackbarText.value = "Please Check Your Connection"
-                    else _snackbarText.value = it.message ?: it.additionalData?.message
+                    else if(action){
+                        _snackbarText.value = it.message ?: it.additionalData?.message
+                        action = false
+                    }
                 }
             }
             MutableLiveData(isLoading)
@@ -69,7 +73,7 @@ class ParticipantSelectionViewModel @Inject constructor(
     }
 
     fun addParticipantSelection() {
-
+        action = true
         val selection = ArrayList<Invitation>()
         for (i in recyclerAdapter.items) {
 //            Timber.d("Selection -${i.participant_id}- ${i.is_invited}")
